@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HablaYa! - AI Language Chatbot</title>
+    <meta name="description" content="Practice conversational English or Spanish 24/7 with our advanced AI chatbot">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <a href="https://wa.me/525533355687" class="fab whatsapp" target="_blank" aria-label="WhatsApp">
+            <center><i class="fab fa-whatsapp"></i></center>
+        </a>
+    </div>
+
+    <!-- Modals -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-building"></i></div>
+            <h3 data-i18n="aboutTitle">About LearnWG</h3>
+            <p data-i18n="aboutText">LearnWG is an innovative edtech company creating AI-powered language learning solutions that make mastering new languages accessible, effective, and enjoyable for everyone.</p>
+            <div class="modal-footer">
+                <a href="https://learnwg.vercel.app" class="btn primary" target="_blank">Visit LearnWG</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3 data-i18n="privacyTitle">Privacy Policy</h3>
+            <p data-i18n="privacyText">We prioritize your privacy. Your data is encrypted and used solely to enhance your learning experience. We never sell or share your information with third parties without explicit consent.</p>
+        </div>
+    </div>
+
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-file-contract"></i></div>
+            <h3 data-i18n="termsTitle">Terms of Service</h3>
+            <p data-i18n="termsText">By accessing HablaYa!, you agree to our terms. Subscriptions auto-renew but can be canceled anytime. We offer a 30-day money-back guarantee if you're not satisfied.</p>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-sign-in-alt"></i></div>
+            <h3 data-i18n="loginTitle">Log In</h3>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email" data-i18n="emailLabel">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" data-i18n="passwordLabel">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn primary" data-i18n="loginButton">Log In</button>
+                <div class="auth-footer">
+                    <p class="auth-link" data-i18n="noAccount">Don't have an account?</p>
+                    <button type="button" class="btn secondary switch-auth" data-target="signup-modal" data-i18n="signupButton">Sign Up</button>
+                </div>
+                <div id="login-error" class="auth-error"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-user-plus"></i></div>
+            <h3 data-i18n="signupTitle">Create Account</h3>
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name" data-i18n="nameLabel">Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email" data-i18n="emailLabel">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password" data-i18n="passwordLabel">Password (min 6 characters)</label>
+                    <input type="password" id="signup-password" minlength="6" required>
+                </div>
+                <button type="submit" class="btn primary" data-i18n="signupButton">Sign Up</button>
+                <div class="auth-footer">
+                    <p class="auth-link" data-i18n="haveAccount">Already have an account?</p>
+                    <button type="button" class="btn secondary switch-auth" data-target="login-modal" data-i18n="loginButton">Log In</button>
+                </div>
+                <div id="signup-error" class="auth-error"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="dashboard-container" style="display: none;">
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h2 data-i18n="dashboardTitle">Your Learning Dashboard</h2>
+                <button id="logout-btn" class="btn secondary" data-i18n="logoutButton">Log Out</button>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="user-name">User Name</h3>
+                    <p id="user-email">user@example.com</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h3 data-i18n="englishSessions">English Sessions</h3>
+                    <div class="stat-value" id="english-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-comments"></i></div>
+                    <h3 data-i18n="spanishSessions">Spanish Sessions</h3>
+                    <div class="stat-value" id="spanish-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <h3 data-i18n="totalSessions">Total Sessions</h3>
+                    <div class="stat-value" id="total-count">0</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <h3 data-i18n="startSession">Start a New Session</h3>
+                <div class="action-buttons">
+                    <button id="start-english" class="btn primary">
+                        <i class="fas fa-language"></i> <span data-i18n="englishVersion">English Version</span>
+                    </button>
+                    <button id="start-spanish" class="btn secondary">
+                        <i class="fas fa-language"></i> <span data-i18n="spanishVersion">Spanish Version</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container" id="app-container">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    <span class="logo-icon"><i class="fa-solid fa-comment-dots"></i></span>
+                    <span>HablaYa!</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link" data-i18n="features">Features</a>
+                    <a href="#pricing" class="nav-link" data-i18n="pricing">Pricing</a>
+                    <a href="#testimonials" class="nav-link" data-i18n="testimonials">Testimonials</a>
+                    <button id="auth-btn" class="btn secondary" data-i18n="loginButton">Log In</button>
+                    <button id="lang-toggle" class="lang-toggle" aria-label="Toggle language">
+                        <span class="lang-flag">🇲🇽</span>
+                        <span class="lang-text">ES</span>
+                    </button>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+                    <span class="menu-icon"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content animate__animated animate__fadeIn">
+                <div class="hero-text">
+                    <h1 data-i18n="heroTitle">Fluency at Your Fingertips</h1>
+                    <p class="subtitle" data-i18n="heroSubtitle">Master English or Spanish through natural conversations with our advanced AI chatbot</p>
+                    <div class="cta-buttons">
+                        <a href="#pricing" class="btn primary pulse" data-i18n="getAccess">Get Started</a>
+                        <a href="#demo" class="btn secondary" data-i18n="tryNow">Try Now</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://i.imgur.com/4ei6ZmR.jpeg" alt="AI Chatbot Interface" class="chat-preview">
+                    <div class="hero-badge animate__animated animate__pulse animate__infinite">
+                        <span data-i18n="liveChat">Live Conversation</span>
+                        <div class="pulse-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section id="demo" class="demo">
+            <div class="section-header">
+                <h2 data-i18n="demoTitle">Speak with HablaYa!</h2>
+                <p class="section-description" data-i18n="demoSubtitle">Try our AI chatbot in both languages</p>
+            </div>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <div class="demo-icon"><i class="fas fa-language"></i></div>
+                    <h3 data-i18n="englishVersion">English Version</h3>
+                    <p data-i18n="englishDesc">Practice your English with our AI tutor</p>
+                    <button class="btn secondary try-chatbot" data-language="english" data-i18n="tryEnglish">Try English Version</button>
+                </div>
+                <div class="demo-card">
+                    <div class="demo-icon"><i class="fas fa-language"></i></div>
+                    <h3 data-i18n="spanishVersion">Spanish Version</h3>
+                    <p data-i18n="spanishDesc">Practice your Spanish with our AI tutor</p>
+                    <button class="btn secondary try-chatbot" data-language="spanish" data-i18n="trySpanish">Try Spanish Version</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="section-header">
+                <span class="section-subtitle" data-i18n="featuresSubtitle">WHY HABLAYA</span>
+                <h2 data-i18n="featuresTitle">Your Personal AI Language Partner</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <h3 data-i18n="feature1Title">Smart AI Tutor</h3>
+                    <p data-i18n="feature1Desc">Adaptive AI that learns your level and personalizes conversations</p>
+                    <div class="feature-decoration"></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                    <h3 data-i18n="feature2Title">Real Dialogues</h3>
+                    <p data-i18n="feature2Desc">Practice practical conversations you'll actually use</p>
+                    <div class="feature-decoration"></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-laptop"></i></div>
+                    <h3 data-i18n="feature3Title">Always Available</h3>
+                    <p data-i18n="feature3Desc">Practice whenever inspiration strikes, day or night</p>
+                    <div class="feature-decoration"></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3 data-i18n="feature4Title">Instant Feedback</h3>
+                    <p data-i18n="feature4Desc">Real-time corrections on pronunciation and grammar</p>
+                    <div class="feature-decoration"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing">
+            <div class="section-header">
+                <span class="section-subtitle" data-i18n="pricingSubtitle">AFFORDABLE PLANS</span>
+                <h2 data-i18n="pricingTitle">Simple Pricing, Maximum Value</h2>
+            </div>
+            
+            <div class="currency-selector">
+                <button class="currency-btn active" data-currency="mxn">MXN</button>
+                <button class="currency-btn" data-currency="usd">USD</button>
+            </div>
+            
+            <div class="pricing-grid">
+                <!-- MXN Pricing -->
+                <div class="pricing-card mxn active">
+                    <div class="pricing-badge" data-i18n="popularChoice">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 data-i18n="annualPlan">Annual Plan</h3>
+                        <div class="price">
+                            <span class="current-price">$1,799</span>
+                            <span class="original-price">$2,000</span>
+                        </div>
+                        <p class="price-subtitle" data-i18n="perYear">per year <span class="discount" data-i18n="save10">Save 10%</span></p>
+                    </div>
+                    <ul class="price-features">
+                        <li data-i18n="priceFeature1"><i class="fas fa-check"></i> Unlimited conversations</li>
+                        <li data-i18n="priceFeature2"><i class="fas fa-check"></i> Advanced AI responses</li>
+                        <li data-i18n="priceFeature3"><i class="fas fa-check"></i> Pronunciation analysis</li>
+                        <li data-i18n="priceFeature4"><i class="fas fa-check"></i> Priority support</li>
+                        <li data-i18n="priceFeature5"><i class="fas fa-check"></i> Progress tracking</li>
+                    </ul>
+                    <div class="paypal-form-container">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                            <input type="hidden" name="cmd" value="_xclick">
+                            <input type="hidden" name="business" value="gascagtz@gmail.com">
+                            <input type="hidden" name="lc" value="MX">
+                            <input type="hidden" name="item_name" value="Suscripción Anual HablaYa!">
+                            <input type="hidden" name="amount" value="1799.00">
+                            <input type="hidden" name="currency_code" value="MXN">
+                            <input type="hidden" name="button_subtype" value="services">
+                            <input type="hidden" name="no_note" value="0">
+                            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+                            <button type="submit" class="btn primary" data-i18n="buyNow">Get Annual Plan</button>
+                        </form>
+                    </div>
+                    <p class="money-back" data-i18n="moneyBack">30-day money back guarantee</p>
+                </div>
+
+                <div class="pricing-card mxn active">
+                    <div class="pricing-header">
+                        <h3 data-i18n="monthlyPlan">Monthly Plan</h3>
+                        <div class="price">
+                            <span class="current-price">$179</span>
+                        </div>
+                        <p class="price-subtitle" data-i18n="perMonth">per month</p>
+                    </div>
+                    <ul class="price-features">
+                        <li data-i18n="priceFeature1"><i class="fas fa-check"></i> Unlimited conversations</li>
+                        <li data-i18n="priceFeature2"><i class="fas fa-check"></i> Advanced AI responses</li>
+                        <li data-i18n="priceFeature3"><i class="fas fa-check"></i> Pronunciation analysis</li>
+                        <li data-i18n="priceFeature4"><i class="fas fa-check"></i> Standard support</li>
+                        <li data-i18n="priceFeature5"><i class="fas fa-check"></i> Basic progress tracking</li>
+                    </ul>
+                    <div class="paypal-form-container">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                            <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                            <input type="hidden" name="business" value="gascagtz@gmail.com">
+                            <input type="hidden" name="lc" value="MX">
+                            <input type="hidden" name="item_name" value="Suscripción Mensual HablaYa!">
+                            <input type="hidden" name="a3" value="179.00">
+                            <input type="hidden" name="p3" value="1">
+                            <input type="hidden" name="t3" value="M">
+                            <input type="hidden" name="src" value="1">
+                            <input type="hidden" name="currency_code" value="MXN">
+                            <button type="submit" class="btn secondary" data-i18n="buyNow">Get Monthly Plan</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- USD Pricing -->
+                <div class="pricing-card usd">
+                    <div class="pricing-badge" data-i18n="popularChoice">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 data-i18n="annualPlan">Annual Plan</h3>
+                        <div class="price">
+                            <span class="current-price">$99</span>
+                            <span class="original-price">$110</span>
+                        </div>
+                        <p class="price-subtitle" data-i18n="perYear">per year <span class="discount" data-i18n="save10">Save 10%</span></p>
+                    </div>
+                    <ul class="price-features">
+                        <li data-i18n="priceFeature1"><i class="fas fa-check"></i> Unlimited conversations</li>
+                        <li data-i18n="priceFeature2"><i class="fas fa-check"></i> Advanced AI responses</li>
+                        <li data-i18n="priceFeature3"><i class="fas fa-check"></i> Pronunciation analysis</li>
+                        <li data-i18n="priceFeature4"><i class="fas fa-check"></i> Priority support</li>
+                        <li data-i18n="priceFeature5"><i class="fas fa-check"></i> Progress tracking</li>
+                    </ul>
+                    <div class="paypal-form-container">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                            <input type="hidden" name="cmd" value="_xclick">
+                            <input type="hidden" name="business" value="gascagtz@gmail.com">
+                            <input type="hidden" name="lc" value="US">
+                            <input type="hidden" name="item_name" value="HablaYa! Annual Subscription">
+                            <input type="hidden" name="amount" value="99.00">
+                            <input type="hidden" name="currency_code" value="USD">
+                            <input type="hidden" name="button_subtype" value="services">
+                            <input type="hidden" name="no_note" value="0">
+                            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+                            <button type="submit" class="btn primary" data-i18n="buyNow">Get Annual Plan</button>
+                        </form>
+                    </div>
+                    <p class="money-back" data-i18n="moneyBack">30-day money back guarantee</p>
+                </div>
+
+                <div class="pricing-card usd">
+                    <div class="pricing-header">
+                        <h3 data-i18n="monthlyPlan">Monthly Plan</h3>
+                        <div class="price">
+                            <span class="current-price">$9.99</span>
+                        </div>
+                        <p class="price-subtitle" data-i18n="perMonth">per month</p>
+                    </div>
+                    <ul class="price-features">
+                        <li data-i18n="priceFeature1"><i class="fas fa-check"></i> Unlimited conversations</li>
+                        <li data-i18n="priceFeature2"><i class="fas fa-check"></i> Advanced AI responses</li>
+                        <li data-i18n="priceFeature3"><i class="fas fa-check"></i> Pronunciation analysis</li>
+                        <li data-i18n="priceFeature4"><i class="fas fa-check"></i> Standard support</li>
+                        <li data-i18n="priceFeature5"><i class="fas fa-check"></i> Basic progress tracking</li>
+                    </ul>
+                    <div class="paypal-form-container">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                            <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                            <input type="hidden" name="business" value="gascagtz@gmail.com">
+                            <input type="hidden" name="lc" value="US">
+                            <input type="hidden" name="item_name" value="HablaYa! Monthly Subscription">
+                            <input type="hidden" name="a3" value="9.99">
+                            <input type="hidden" name="p3" value="1">
+                            <input type="hidden" name="t3" value="M">
+                            <input type="hidden" name="src" value="1">
+                            <input type="hidden" name="currency_code" value="USD">
+                            <button type="submit" class="btn secondary" data-i18n="buyNow">Get Monthly Plan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="testimonials">
+            <div class="section-header">
+                <span class="section-subtitle" data-i18n="testimonialsSubtitle">SUCCESS STORIES</span>
+                <h2 data-i18n="testimonialsTitle">Students Love HablaYa!</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text" data-i18n="testimonial1">"I went from basic to fluent conversations in just 3 months! The AI adapts perfectly to your level."</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">CM</div>
+                        <div class="author-info">
+                            <div class="author-name">Carlos M.</div>
+                            <div class="author-location" data-i18n="locationMexico">Mexico City</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text" data-i18n="testimonial2">"Finally an affordable way to practice daily. The feedback on my pronunciation was a game-changer."</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <div class="author-name">Ana L.</div>
+                            <div class="author-location" data-i18n="locationGuadalajara">Guadalajara</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text" data-i18n="testimonial3">"As a busy professional, I love being able to practice during my commute. The AI remembers my progress!"</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JR</div>
+                        <div class="author-info">
+                            <div class="author-name">Javier R.</div>
+                            <div class="author-location" data-i18n="locationMonterrey">Monterrey</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta">
+            <div class="cta-container">
+                <h2 data-i18n="finalCtaTitle">Ready to Transform Your Language Skills?</h2>
+                <p data-i18n="finalCtaSubtitle">Join 10,000+ students who achieved fluency with HablaYa!</p>
+                <div class="cta-buttons">
+                    <a href="#pricing" class="btn primary pulse" data-i18n="getAccess">Start Learning Now</a>
+                    <button id="try-free-btn" class="btn secondary" data-i18n="tryNow">Try for Free</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <a href="#" class="footer-logo">
+                        <span class="logo-icon">💬</span>
+                        <span>HablaYa!</span>
+                    </a>
+                    <p class="footer-about" data-i18n="footerAbout">AI-powered language mastery by LearnWG</p>
+                    <a href="https://learnwg.vercel.app" class="btn secondary" target="_blank">Visit LearnWG</a>
+                </div>
+                <div class="footer-links">
+                    <h4 data-i18n="quickLinks">Quick Links</h4>
+                    <a href="#features" data-i18n="features">Features</a>
+                    <a href="#pricing" data-i18n="pricing">Pricing</a>
+                    <a href="#testimonials" data-i18n="testimonials">Testimonials</a>
+                </div>
+                <div class="footer-links">
+                    <h4 data-i18n="company">Company</h4>
+                    <a href="#" class="modal-trigger" data-modal="about-modal" data-i18n="aboutUs">About Us</a>
+                    <a href="#" class="modal-trigger" data-modal="privacy-modal" data-i18n="privacy">Privacy</a>
+                    <a href="#" class="modal-trigger" data-modal="terms-modal" data-i18n="terms">Terms</a>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p data-i18n="copyright">© 2025 Learn WG. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="close-menu" id="close-menu" aria-label="Close menu">
+            <span class="close-icon"></span>
+        </button>
+        <div class="mobile-menu-content">
+            <a href="#features" class="mobile-nav-link" data-i18n="features">Features</a>
+            <a href="#pricing" class="mobile-nav-link" data-i18n="pricing">Pricing</a>
+            <a href="#testimonials" class="mobile-nav-link" data-i18n="testimonials">Testimonials</a>
+            <a href="#demo" class="mobile-nav-link" data-i18n="tryNow">Try Now</a>
+            <div class="mobile-menu-divider"></div>
+            <a href="#" class="mobile-nav-link modal-trigger" data-modal="about-modal" data-i18n="aboutUs">About Us</a>
+            <a href="#" class="mobile-nav-link modal-trigger" data-modal="privacy-modal" data-i18n="privacy">Privacy</a>
+            <a href="#" class="mobile-nav-link modal-trigger" data-modal="terms-modal" data-i18n="terms">Terms</a>
+            <div class="mobile-menu-divider"></div>
+            <button id="mobile-auth-btn" class="mobile-nav-link" data-i18n="loginButton">Log In</button>
+            <button id="mobile-lang-toggle" class="mobile-lang-toggle" data-i18n="toggleLang">
+                <span class="lang-flag">🇺🇸</span>
+                <span class="lang-text">Switch to English</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
