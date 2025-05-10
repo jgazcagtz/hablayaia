@@ -94,7 +94,7 @@ section {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background-color: var(--bg);
+    background-color: green;
     color: var(--bg);
     box-shadow: var(--shadow-lg);
     transition: var(--transition);
