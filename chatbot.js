@@ -8,7 +8,31 @@ document.addEventListener('DOMContentLoaded', function() {
         position: 'bottom-right',
         greetingMessage: '¡Hola! 👋 Bienvenido a HablaYa, tu plataforma para aprender inglés conversando con inteligencia artificial. ¿En qué puedo ayudarte hoy?'
     };
-
+// Versión de diagnóstico del chatbot
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Chatbot initialization started');
+  
+  // Crear botón flotante mínimo
+  const btn = document.createElement('button');
+  btn.textContent = 'Chat';
+  btn.style.position = 'fixed';
+  btn.style.bottom = '20px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '1000';
+  btn.style.padding = '15px';
+  btn.style.background = '#4361ee';
+  btn.style.color = 'white';
+  btn.style.border = 'none';
+  btn.style.borderRadius = '50%';
+  btn.style.cursor = 'pointer';
+  
+  btn.addEventListener('click', function() {
+    alert('Chatbot button clicked!');
+  });
+  
+  document.body.appendChild(btn);
+  console.log('Chatbot button added to DOM');
+});
     // Estados del flujo de conversación
     const conversationFlow = {
         welcome: {
