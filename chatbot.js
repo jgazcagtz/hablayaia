@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .hablaya-chatbot-window {
                 width: 380px;
-                max-height: 70vh;
+                max-height:  max-content;
                 background-color: white;
                 border-radius: 16px;
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
