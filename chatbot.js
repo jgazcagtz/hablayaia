@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         chatWindow.appendChild(chatHeader);
         chatWindow.appendChild(chatBody);
         chatWindow.appendChild(chatFooter);
-        chatbotContainer.appendChild(chatButton);
+        chatbotContainer.appendChild(chatbotButton);
         chatbotContainer.appendChild(chatWindow);
         
         // Agregar al cuerpo del documento
