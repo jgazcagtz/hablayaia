@@ -1,4 +1,4 @@
-// chatbot.js - AI-Powered Virtual Assistant for HablaYa
+// chatbot.js - AI-Powered Sales & Support Assistant for HablaYa
 document.addEventListener('DOMContentLoaded', function() {
     // Enhanced chatbot configuration
     const chatbotConfig = {
@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
         position: 'bottom-right',
         greetingMessage: '¡Hola! 👋 I\'m your HablaYa AI Tutor. Ready to achieve English fluency through natural conversations? How can I help you today?',
         user: null,
-        unreadMessages: 0
+        unreadMessages: 0,
+        trialDays: 7 // 7-day free trial
     };
 
     // Initialize Firebase (using same config as script.js)
@@ -33,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         welcome: {
             message: chatbotConfig.greetingMessage,
             options: [
-                { text: '🚀 How does HablaYa work?', next: 'howItWorks', emoji: '🚀' },
-                { text: '💰 See pricing plans', next: 'pricing', emoji: '💰' },
+                { text: '🚀 How HablaYa works', next: 'howItWorks', emoji: '🚀' },
+                { text: '💰 Pricing plans', next: 'pricing', emoji: '💰' },
                 { text: '🎓 Start free trial', next: 'freeTrial', emoji: '🎓' },
                 { text: '💬 Success stories', next: 'testimonials', emoji: '💬' }
             ]
@@ -47,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
                      '⏱️ <strong>24/7 Availability</strong> - Learn anytime, anywhere<br><br>' +
                      'Our students typically see <strong>2x faster progress</strong> compared to traditional methods!',
             options: [
-                { text: '💰 See plans & pricing', next: 'pricing', emoji: '💰' },
-                { text: '🎓 Start free trial', next: 'freeTrial', emoji: '🎓' },
-                { text: '🔙 Back to menu', next: 'welcome', emoji: '🔙' }
+                { text: '💰 See plans', next: 'pricing', emoji: '💰' },
+                { text: '🎓 Start trial', next: 'freeTrial', emoji: '🎓' },
+                { text: '🔙 Back', next: 'welcome', emoji: '🔙' }
             ]
         },
         pricing: {
@@ -66,62 +67,158 @@ document.addEventListener('DOMContentLoaded', function() {
                      '- 30-day money back guarantee',
             options: [
                 { text: '💳 Subscribe now', next: 'subscribe', emoji: '💳' },
-                { text: '🎓 Try free trial', next: 'freeTrial', emoji: '🎓' },
-                { text: '💬 See testimonials', next: 'testimonials', emoji: '💬' },
-                { text: '🔙 Back to menu', next: 'welcome', emoji: '🔙' }
+                { text: '🎓 Try free', next: 'freeTrial', emoji: '🎓' },
+                { text: '💬 Testimonials', next: 'testimonials', emoji: '💬' },
+                { text: '🔙 Back', next: 'welcome', emoji: '🔙' }
             ]
         },
         freeTrial: {
-            message: '🎉 Get 7 days FREE access to all HablaYa features!<br><br>' +
+            message: '🎉 Get <strong>7 days FREE</strong> access to all HablaYa features!<br><br>' +
                      'No credit card required. Start improving your English today:',
             options: () => {
                 const baseOptions = [
-                    { text: '💰 See pricing plans', next: 'pricing', emoji: '💰' },
-                    { text: '🔙 Back to menu', next: 'welcome', emoji: '🔙' }
+                    { text: '💰 See plans', next: 'pricing', emoji: '💰' },
+                    { text: '🔙 Back', next: 'welcome', emoji: '🔙' }
                 ];
                 
                 if (chatbotConfig.user) {
-                    return [
-                        { text: '🚀 Start practicing now', next: 'startPractice', emoji: '🚀' },
-                        ...baseOptions
-                    ];
+                    // Check if user already used trial
+                    if (chatbotConfig.user.trialUsed) {
+                        return [
+                            { text: '🚀 Start practicing', next: 'startPractice', emoji: '🚀' },
+                            ...baseOptions
+                        ];
+                    } else {
+                        return [
+                            { text: '🎁 Activate trial', next: 'activateTrial', emoji: '🎁' },
+                            ...baseOptions
+                        ];
+                    }
                 } else {
                     return [
-                        { text: '👤 Sign up for free', next: 'signup', emoji: '👤' },
-                        { text: '🔐 I already have an account', next: 'login', emoji: '🔐' },
+                        { text: '👤 Sign up free', next: 'signup', emoji: '👤' },
+                        { text: '🔐 I have account', next: 'login', emoji: '🔐' },
                         ...baseOptions
                     ];
                 }
             }
         },
-        testimonials: {
-            message: 'Here\'s what our students say:<br><br>' +
-                     '⭐️⭐️⭐️⭐️⭐️<blockquote>"I went from basic to fluent conversations in 3 months! The AI adapts perfectly to my level." - Carlos M.</blockquote>' +
-                     '⭐️⭐️⭐️⭐️⭐️<blockquote>"The pronunciation feedback changed everything. My coworkers noticed my improvement immediately!" - Ana L.</blockquote>' +
-                     '⭐️⭐️⭐️⭐️⭐️<blockquote>"As a busy professional, I love practicing during my commute. The AI remembers my progress!" - Diego R.</blockquote>',
+        activateTrial: {
+            message: '🎁 Activating your <strong>7-day free trial</strong>...<br><br>' +
+                     '<div class="loading-spinner"></div>',
+            action: () => {
+                // Add trial period to user in Firestore
+                const trialEnd = new Date();
+                trialEnd.setDate(trialEnd.getDate() + chatbotConfig.trialDays);
+                
+                db.collection('users').doc(chatbotConfig.user.uid).update({
+                    trialActive: true,
+                    trialEnd: firebase.firestore.Timestamp.fromDate(trialEnd),
+                    trialUsed: true
+                })
+                .then(() => {
+                    showConversationStep('trialActivated');
+                })
+                .catch(error => {
+                    showError('Failed to activate trial. Please try again.');
+                });
+            }
+        },
+        trialActivated: {
+            message: '🎉 Your <strong>7-day free trial</strong> is activated!<br><br>' +
+                     'You now have full access to all HablaYa features until <strong>{trialEnd}</strong>.' +
+                     'Start practicing right away!',
             options: [
-                { text: '🎓 Start free trial', next: 'freeTrial', emoji: '🎓' },
-                { text: '💰 See pricing', next: 'pricing', emoji: '💰' },
-                { text: '🔙 Back to menu', next: 'welcome', emoji: '🔙' }
+                { text: '🚀 Start practicing', next: 'startPractice', emoji: '🚀' },
+                { text: '💰 See plans', next: 'pricing', emoji: '💰' }
             ]
         },
         subscribe: {
-            message: '🚀 Ready to become fluent?<br><br>' +
-                     'You\'ll be redirected to our secure payment page to complete your subscription.',
+            message: '🚀 Ready to become fluent? Choose your subscription:<br><br>' +
+                     '1. <strong>Annual Plan</strong> - $1,799 MXN/year (save 10%)<br>' +
+                     '2. <strong>Monthly Plan</strong> - $179 MXN/month',
             options: [
-                { text: '💳 Continue to payment', next: 'processPayment', emoji: '💳' },
-                { text: '🎓 Try free trial first', next: 'freeTrial', emoji: '🎓' },
-                { text: '🔙 Back to plans', next: 'pricing', emoji: '🔙' }
+                { text: '💳 Annual ($1,799)', next: 'processPaymentAnnual', emoji: '💳' },
+                { text: '💳 Monthly ($179)', next: 'processPaymentMonthly', emoji: '💳' },
+                { text: '🔙 Back', next: 'pricing', emoji: '🔙' }
             ]
         },
-        processPayment: {
-            message: '🔒 Redirecting to secure payment...<br><br>' +
+        processPaymentAnnual: {
+            message: '🔒 Redirecting to secure payment for <strong>Annual Plan</strong>...<br><br>' +
                      '<div class="loading-spinner"></div>',
             action: () => {
                 setTimeout(() => {
-                    window.open('https://hablaya.site/pricing', '_blank');
+                    // Create PayPal form dynamically
+                    const form = document.createElement('form');
+                    form.action = 'https://www.paypal.com/cgi-bin/webscr';
+                    form.method = 'post';
+                    form.target = '_blank';
+                    
+                    const params = {
+                        cmd: '_xclick',
+                        business: 'gascagtz@gmail.com',
+                        lc: 'MX',
+                        item_name: 'Suscripción Anual HablaYa!',
+                        amount: '1799.00',
+                        currency_code: 'MXN',
+                        button_subtype: 'services',
+                        no_note: '0',
+                        bn: 'PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest'
+                    };
+                    
+                    for (const key in params) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = params[key];
+                        form.appendChild(input);
+                    }
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                    document.body.removeChild(form);
+                    
                     showConversationStep('paymentComplete');
-                }, 2000);
+                }, 1500);
+            }
+        },
+        processPaymentMonthly: {
+            message: '🔒 Redirecting to secure payment for <strong>Monthly Plan</strong>...<br><br>' +
+                     '<div class="loading-spinner"></div>',
+            action: () => {
+                setTimeout(() => {
+                    // Create PayPal form dynamically
+                    const form = document.createElement('form');
+                    form.action = 'https://www.paypal.com/cgi-bin/webscr';
+                    form.method = 'post';
+                    form.target = '_blank';
+                    
+                    const params = {
+                        cmd: '_xclick-subscriptions',
+                        business: 'gascagtz@gmail.com',
+                        lc: 'MX',
+                        item_name: 'Suscripción Mensual HablaYa!',
+                        a3: '179.00',
+                        p3: '1',
+                        t3: 'M',
+                        src: '1',
+                        currency_code: 'MXN'
+                    };
+                    
+                    for (const key in params) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = params[key];
+                        form.appendChild(input);
+                    }
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                    document.body.removeChild(form);
+                    
+                    showConversationStep('paymentComplete');
+                }, 1500);
             }
         },
         paymentComplete: {
@@ -137,11 +234,11 @@ document.addEventListener('DOMContentLoaded', function() {
                      '<form id="chatbot-signup" class="chatbot-form">' +
                      '<input type="text" placeholder="Your name" required>' +
                      '<input type="email" placeholder="Email" required>' +
-                     '<input type="password" placeholder="Password (min 6 chars)" required>' +
+                     '<input type="password" placeholder="Password (min 6 chars)" minlength="6" required>' +
                      '<button type="submit">Create Account</button>' +
                      '</form>',
             options: [
-                { text: '🔐 Already have an account? Log in', next: 'login', emoji: '🔐' },
+                { text: '🔐 Have account? Log in', next: 'login', emoji: '🔐' },
                 { text: '🔙 Back', next: 'freeTrial', emoji: '🔙' }
             ]
         },
@@ -153,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                      '<button type="submit">Log In</button>' +
                      '</form>',
             options: [
-                { text: '👤 Need an account? Sign up', next: 'signup', emoji: '👤' },
+                { text: '👤 Need account? Sign up', next: 'signup', emoji: '👤' },
                 { text: '🔙 Back', next: 'freeTrial', emoji: '🔙' }
             ]
         },
@@ -179,18 +276,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 startNewSession('spanish');
             }
         },
-        faq: {
-            message: 'Frequently Asked Questions:<br><br>' +
-                     '<strong>Q: How does the AI work?</strong><br>' +
-                     'A: Our AI analyzes your responses and adapts conversations to your level.<br><br>' +
-                     '<strong>Q: Can I cancel anytime?</strong><br>' +
-                     'A: Yes! Cancel anytime with no penalties.<br><br>' +
-                     '<strong>Q: Is there a mobile app?</strong><br>' +
-                     'A: Yes! Available on iOS and Android.<br><br>' +
-                     '<strong>Q: How do I track progress?</strong><br>' +
-                     'A: Your dashboard shows metrics and improvement over time.',
+        testimonials: {
+            message: 'Here\'s what our students say:<br><br>' +
+                     '⭐️⭐️⭐️⭐️⭐️<blockquote>"I went from basic to fluent conversations in 3 months! The AI adapts perfectly to my level." - Carlos M.</blockquote>' +
+                     '⭐️⭐️⭐️⭐️⭐️<blockquote>"The pronunciation feedback changed everything. My coworkers noticed my improvement immediately!" - Ana L.</blockquote>' +
+                     '⭐️⭐️⭐️⭐️⭐️<blockquote>"As a busy professional, I love practicing during my commute. The AI remembers my progress!" - Diego R.</blockquote>',
             options: [
-                { text: '🎓 Start free trial', next: 'freeTrial', emoji: '🎓' },
+                { text: '🎓 Start trial', next: 'freeTrial', emoji: '🎓' },
                 { text: '💰 See pricing', next: 'pricing', emoji: '💰' },
                 { text: '🔙 Back', next: 'welcome', emoji: '🔙' }
             ]
@@ -289,21 +381,61 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Listen for auth state changes
         auth.onAuthStateChanged(user => {
-            chatbotConfig.user = user;
             if (user) {
-                document.querySelector('.chatbot-header-content h3').textContent = `Hi, ${user.displayName || 'there'}!`;
-                document.querySelector('.chatbot-status').textContent = 'Premium Member';
+                // User is signed in
+                chatbotConfig.user = {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName
+                };
+                
+                // Get additional user data from Firestore
+                db.collection('users').doc(user.uid).get()
+                    .then(doc => {
+                        if (doc.exists) {
+                            chatbotConfig.user = {
+                                ...chatbotConfig.user,
+                                ...doc.data()
+                            };
+                        }
+                        
+                        updateUserUI();
+                    });
             } else {
-                document.querySelector('.chatbot-header-content h3').textContent = chatbotConfig.botName;
-                document.querySelector('.chatbot-status').textContent = 'Online';
+                // User is signed out
+                chatbotConfig.user = null;
+                updateUserUI();
             }
         });
     }
 
-    // Enhanced chatbot styles
+    // Update UI based on user state
+    function updateUserUI() {
+        const headerTitle = document.querySelector('.chatbot-header-content h3');
+        const statusElement = document.querySelector('.chatbot-status');
+        
+        if (chatbotConfig.user) {
+            headerTitle.textContent = `Hi, ${chatbotConfig.user.displayName || 'there'}!`;
+            
+            if (chatbotConfig.user.trialActive) {
+                const trialEnd = chatbotConfig.user.trialEnd.toDate();
+                statusElement.textContent = `Trial ends ${trialEnd.toLocaleDateString()}`;
+            } else if (chatbotConfig.user.subscriptionActive) {
+                statusElement.textContent = 'Premium Member';
+            } else {
+                statusElement.textContent = 'Free Account';
+            }
+        } else {
+            headerTitle.textContent = chatbotConfig.botName;
+            statusElement.textContent = 'Online';
+        }
+    }
+
+    // Enhanced chatbot styles with responsive design
     function setChatbotStyles() {
         const style = document.createElement('style');
         style.textContent = `
+            /* Base Styles */
             .hablaya-chatbot-container {
                 position: fixed;
                 ${chatbotConfig.position === 'bottom-right' ? 'right: 20px; bottom: 20px;' : 'left: 20px; bottom: 20px;'}
@@ -352,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             .hablaya-chatbot-window {
                 width: 380px;
-                max-height: 600px;
+                max-height: 70vh;
                 background-color: white;
                 border-radius: 16px;
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -516,16 +648,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 background-color: ${chatbotConfig.accentColor};
             }
             
-            .chatbot-link {
-                color: ${chatbotConfig.primaryColor};
-                text-decoration: none;
-                font-weight: 500;
-            }
-            
-            .chatbot-link:hover {
-                text-decoration: underline;
-            }
-            
             .loading-spinner {
                 width: 24px;
                 height: 24px;
@@ -579,15 +701,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 border-top: 1px solid #f1f5f9;
             }
             
-            @media (max-width: 480px) {
+            /* Responsive Styles */
+            @media (max-width: 768px) {
                 .hablaya-chatbot-window {
                     width: 90vw;
-                    max-height: 70vh;
+                    max-width: 380px;
                     ${chatbotConfig.position === 'bottom-right' ? 'right: 5vw;' : 'left: 5vw;'}
+                    bottom: 80px;
                 }
                 
                 .chatbot-quick-actions {
                     flex-direction: column;
+                }
+                
+                .quick-action {
+                    width: 100%;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .hablaya-chatbot-button {
+                    width: 50px;
+                    height: 50px;
+                    font-size: 20px;
+                }
+                
+                .hablaya-chatbot-window {
+                    max-height: 60vh;
+                }
+                
+                .chatbot-message {
+                    font-size: 13px;
+                }
+                
+                .chatbot-option {
+                    padding: 10px 12px;
+                    font-size: 13px;
+                }
+                
+                .chatbot-form input,
+                .chatbot-form button {
+                    padding: 10px 12px;
+                    font-size: 13px;
                 }
             }
         `;
@@ -623,6 +778,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show conversation step with enhanced features
     function showConversationStep(stepId) {
         const step = conversationFlow[stepId];
+        if (!step) return;
+        
         const chatBody = document.getElementById('hablaya-chatbot-messages');
         const chatFooter = document.querySelector('.hablaya-chatbot-footer');
         
@@ -630,10 +787,17 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBody.innerHTML = '';
         chatFooter.innerHTML = '';
         
+        // Format message with dynamic data
+        let message = step.message;
+        if (stepId === 'trialActivated' && chatbotConfig.user?.trialEnd) {
+            const trialEnd = chatbotConfig.user.trialEnd.toDate();
+            message = message.replace('{trialEnd}', trialEnd.toLocaleDateString());
+        }
+        
         // Add message
         const messageElement = document.createElement('div');
         messageElement.className = 'chatbot-message';
-        messageElement.innerHTML = step.message;
+        messageElement.innerHTML = message;
         chatBody.appendChild(messageElement);
         
         // Handle form submissions
@@ -654,19 +818,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 email: email,
                                 englishSessions: 0,
                                 spanishSessions: 0,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                             });
                         });
                     })
                     .then(() => {
-                        showConversationStep('startPractice');
+                        showConversationStep('freeTrial');
                     })
                     .catch(error => {
-                        const errorElement = document.createElement('div');
-                        errorElement.className = 'chatbot-message';
-                        errorElement.style.color = chatbotConfig.accentColor;
-                        errorElement.textContent = error.message;
-                        chatBody.appendChild(errorElement);
+                        showError(error.message);
                     });
             });
         } else if (stepId === 'login') {
@@ -677,14 +838,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 auth.signInWithEmailAndPassword(email, password)
                     .then(() => {
-                        showConversationStep('startPractice');
+                        showConversationStep('freeTrial');
                     })
                     .catch(error => {
-                        const errorElement = document.createElement('div');
-                        errorElement.className = 'chatbot-message';
-                        errorElement.style.color = chatbotConfig.accentColor;
-                        errorElement.textContent = error.message;
-                        chatBody.appendChild(errorElement);
+                        showError(error.message);
                     });
             });
         }
@@ -703,12 +860,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (step.action) step.action();
                     showConversationStep(option.next);
                 });
-                optionButton.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        if (step.action) step.action();
-                        showConversationStep(option.next);
-                    }
-                });
                 optionsContainer.appendChild(optionButton);
             });
             
@@ -721,10 +872,28 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
+    // Show error message in chat
+    function showError(message) {
+        const chatBody = document.getElementById('hablaya-chatbot-messages');
+        const errorElement = document.createElement('div');
+        errorElement.className = 'chatbot-message';
+        errorElement.style.color = chatbotConfig.accentColor;
+        errorElement.textContent = message;
+        chatBody.appendChild(errorElement);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
     // Start new practice session (connected to Firebase)
     function startNewSession(language) {
         if (!chatbotConfig.user) {
             showConversationStep('login');
+            return;
+        }
+        
+        // Check if user has access
+        if (!chatbotConfig.user.subscriptionActive && 
+            (!chatbotConfig.user.trialActive || new Date() > chatbotConfig.user.trialEnd.toDate())) {
+            showConversationStep('subscribe');
             return;
         }
         
@@ -755,12 +924,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            const chatBody = document.getElementById('hablaya-chatbot-messages');
-            const errorElement = document.createElement('div');
-            errorElement.className = 'chatbot-message';
-            errorElement.style.color = chatbotConfig.accentColor;
-            errorElement.textContent = 'Error starting session. Please try again.';
-            chatBody.appendChild(errorElement);
+            showError('Error starting session. Please try again.');
         });
     }
 
@@ -785,8 +949,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add notification after 10 seconds
         setTimeout(() => {
-            chatbotConfig.unreadMessages = 1;
-            updateNotificationBadge();
+            if (!document.getElementById('hablaya-chatbot-window').classList.contains('active')) {
+                chatbotConfig.unreadMessages = 1;
+                updateNotificationBadge();
+            }
         }, 10000);
     }, 3000);
 
