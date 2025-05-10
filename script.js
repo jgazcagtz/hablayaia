@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                 });
             })
-            .then(() => { document.getElementById('login-modal').style.display = 'none';
+            .then(() => { document.getElementById('signup-form').style.display = 'none';
                 // Success - modal will close via auth state change handler
             })
             .catch(error => {
