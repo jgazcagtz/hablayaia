@@ -134,17 +134,21 @@
                 </div>
             </div>
             
-            <div class="dashboard-actions">
-                <h3 data-i18n="startSession">Start a New Session</h3>
-                <div class="action-buttons">
-                    <button id="start-english" class="btn primary">
-                        <i class="fas fa-language"></i> <span data-i18n="englishVersion">English Version</span>
-                    </button>
-                    <button id="start-spanish" class="btn secondary">
-                        <i class="fas fa-language"></i> <span data-i18n="spanishVersion">Spanish Version</span>
-                    </button>
-                </div>
-            </div>
+            <!-- In the dashboard-actions section, add the Portuguese button -->
+<div class="dashboard-actions">
+    <h3 data-i18n="startSession">Start a New Session</h3>
+    <div class="action-buttons">
+        <button id="start-english" class="btn primary">
+            <i class="fas fa-language"></i> <span data-i18n="englishVersion">English Version</span>
+        </button>
+        <button id="start-spanish" class="btn secondary">
+            <i class="fas fa-language"></i> <span data-i18n="spanishVersion">Spanish Version</span>
+        </button>
+        <button id="start-portuguese" class="btn secondary">
+            <i class="fas fa-language"></i> <span data-i18n="portugueseVersion">Portuguese Version</span>
+        </button>
+    </div>
+</div>
             
             <!-- Session History -->
             <div class="session-history">
@@ -223,6 +227,13 @@
                     <h3 data-i18n="spanishVersion">Spanish Version</h3>
                     <p data-i18n="spanishDesc">Practice your Spanish with our AI tutor</p>
                     <button class="btn secondary try-chatbot" data-language="spanish" data-i18n="trySpanish">Try Spanish Version</button>
+                </div>
+              
+              <div class="demo-card">
+                    <div class="demo-icon"><i class="fas fa-language"></i></div>
+                    <h3 data-i18n="portugueseVersion">Portuguese Version</h3>
+                    <p data-i18n="portugueseDesc">Practice your Portuguese with our AI tutor</p>
+                    <button class="btn secondary try-chatbot" data-language="spanish" data-i18n="tryPortuguese">Try Portuguese Version</button>
                 </div>
             </div>
         </section>
