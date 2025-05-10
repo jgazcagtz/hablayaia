@@ -2,8 +2,7 @@
 const translations = {
     es: {
         heroTitle: "Fluidez al Alcance de tu Mano",
-heroSubtitle: "Domina inglés o español conversando de forma natural con nuestro avanzado chatbot de IA.",
-
+        heroSubtitle: "Domina inglés, español o portugués conversando de forma natural con nuestro avanzado chatbot de IA.",
         getAccess: "Comenzar Ahora",
         tryNow: "Probar Ahora",
         features: "Características",
@@ -11,13 +10,16 @@ heroSubtitle: "Domina inglés o español conversando de forma natural con nuestr
         testimonials: "Testimonios",
         toggleLang: "Cambiar a Inglés",
         demoTitle: "Habla con HablaYa!",
-        demoSubtitle: "Prueba nuestro chatbot de IA en ambos idiomas",
+        demoSubtitle: "Prueba nuestro chatbot de IA en todos los idiomas",
         englishVersion: "Versión en Inglés",
         englishDesc: "Practica tu inglés con nuestro tutor de IA",
         tryEnglish: "Probar Inglés",
         spanishVersion: "Versión en Español",
         spanishDesc: "Practica tu español con nuestro tutor de IA",
         trySpanish: "Probar Español",
+        portugueseVersion: "Versión en Portugués",
+        portugueseDesc: "Practica tu portugués con nuestro tutor de IA",
+        tryPortuguese: "Probar Portugués",
         featuresSubtitle: "POR QUÉ HABLAYA",
         featuresTitle: "Tu Asistente de Idiomas con IA",
         feature1Title: "IA Inteligente",
@@ -65,6 +67,7 @@ heroSubtitle: "Domina inglés o español conversando de forma natural con nuestr
         locationMexico: "Ciudad de México",
         locationGuadalajara: "Guadalajara",
         locationMonterrey: "Monterrey",
+        locationBrazil: "São Paulo",
         popularChoice: "Más Popular",
         liveChat: "Chat en Vivo",
         loginTitle: "Iniciar Sesión",
@@ -79,13 +82,14 @@ heroSubtitle: "Domina inglés o español conversando de forma natural con nuestr
         dashboardTitle: "Tu Panel de Aprendizaje",
         englishSessions: "Sesiones en Inglés",
         spanishSessions: "Sesiones en Español",
+        portugueseSessions: "Sesiones en Portugués",
         totalSessions: "Sesiones Totales",
         startSession: "Iniciar Nueva Sesión",
         logoutButton: "Cerrar Sesión"
     },
     en: {
         heroTitle: "Fluency at Your Fingertips",
-        heroSubtitle: "Master English or Spanish through natural conversations with our advanced AI chatbot",
+        heroSubtitle: "Master English, Spanish or Portuguese through natural conversations with our advanced AI chatbot",
         getAccess: "Get Started",
         tryNow: "Try Now",
         features: "Features",
@@ -93,13 +97,16 @@ heroSubtitle: "Domina inglés o español conversando de forma natural con nuestr
         testimonials: "Testimonials",
         toggleLang: "Switch to Spanish",
         demoTitle: "Speak with HablaYa!",
-        demoSubtitle: "Try our AI chatbot in both languages",
+        demoSubtitle: "Try our AI chatbot in all languages",
         englishVersion: "English Version",
         englishDesc: "Practice your English with our AI tutor",
         tryEnglish: "Try English Version",
         spanishVersion: "Spanish Version",
         spanishDesc: "Practice your Spanish with our AI tutor",
         trySpanish: "Try Spanish Version",
+        portugueseVersion: "Portuguese Version",
+        portugueseDesc: "Practice your Portuguese with our AI tutor",
+        tryPortuguese: "Try Portuguese Version",
         featuresSubtitle: "WHY HABLAYA",
         featuresTitle: "Your Personal AI Language Partner",
         feature1Title: "Smart AI Tutor",
@@ -147,6 +154,7 @@ heroSubtitle: "Domina inglés o español conversando de forma natural con nuestr
         locationMexico: "Mexico City",
         locationGuadalajara: "Guadalajara",
         locationMonterrey: "Monterrey",
+        locationBrazil: "São Paulo",
         popularChoice: "Most Popular",
         liveChat: "Live Conversation",
         loginTitle: "Log In",
@@ -161,9 +169,97 @@ heroSubtitle: "Domina inglés o español conversando de forma natural con nuestr
         dashboardTitle: "Your Learning Dashboard",
         englishSessions: "English Sessions",
         spanishSessions: "Spanish Sessions",
+        portugueseSessions: "Portuguese Sessions",
         totalSessions: "Total Sessions",
         startSession: "Start a New Session",
         logoutButton: "Log Out"
+    },
+    pt: {
+        heroTitle: "Fluência na Ponta dos Dedos",
+        heroSubtitle: "Domine inglês, espanhol ou português através de conversas naturais com nosso chatbot de IA avançado",
+        getAccess: "Começar Agora",
+        tryNow: "Experimentar Agora",
+        features: "Recursos",
+        pricing: "Preços",
+        testimonials: "Depoimentos",
+        toggleLang: "Mudar para Espanhol",
+        demoTitle: "Fale com HablaYa!",
+        demoSubtitle: "Experimente nosso chatbot de IA em todos os idiomas",
+        englishVersion: "Versão em Inglês",
+        englishDesc: "Pratique seu inglês com nosso tutor de IA",
+        tryEnglish: "Experimentar Inglês",
+        spanishVersion: "Versão em Espanhol",
+        spanishDesc: "Pratique seu espanhol com nosso tutor de IA",
+        trySpanish: "Experimentar Espanhol",
+        portugueseVersion: "Versão em Português",
+        portugueseDesc: "Pratique seu português com nosso tutor de IA",
+        tryPortuguese: "Experimentar Português",
+        featuresSubtitle: "POR QUE HABLAYA",
+        featuresTitle: "Seu Parceiro de Idiomas com IA",
+        feature1Title: "Tutor IA Inteligente",
+        feature1Desc: "IA adaptativa que aprende seu nível e personaliza conversas",
+        feature2Title: "Diálogos Reais",
+        feature2Desc: "Pratique conversas práticas que você realmente usará",
+        feature3Title: "Sempre Disponível",
+        feature3Desc: "Pratique quando tiver inspiração, dia ou noite",
+        feature4Title: "Feedback Instantâneo",
+        feature4Desc: "Correções em tempo real de pronúncia e gramática",
+        pricingSubtitle: "PLANOS ACESSÍVEIS",
+        pricingTitle: "Preços Simples, Máximo Valor",
+        annualPlan: "Plano Anual",
+        monthlyPlan: "Plano Mensal",
+        perYear: "por ano",
+        perMonth: "por mês",
+        save10: "Economize 10%",
+        priceFeature1: "Conversas ilimitadas",
+        priceFeature2: "Respostas de IA avançada",
+        priceFeature3: "Tecnologia de Reconhecimento de Voz",
+        priceFeature4: "Suporte prioritário",
+        priceFeature5: "Pratique a qualquer hora, em qualquer lugar",
+        buyNow: "Obter",
+        moneyBack: "Garantia de devolução em 30 dias",
+        testimonialsSubtitle: "HISTÓRIAS DE SUCESSO",
+        testimonialsTitle: "Os Alunos Amam o HablaYa!",
+        testimonial1: "Fui de conversas básicas para fluentes em apenas 3 meses! A IA se adapta perfeitamente ao seu nível.",
+        testimonial2: "Finalmente uma maneira acessível de praticar diariamente. O feedback sobre minha pronúncia mudou tudo.",
+        testimonial3: "Como profissional ocupado, adoro poder praticar durante meu deslocamento. A IA lembra do meu progresso!",
+        finalCtaTitle: "Pronto para Transformar suas Habilidades Linguísticas?",
+        finalCtaSubtitle: "Junte-se a mais de 10.000 alunos que alcançaram fluência com HablaYa!",
+        quickLinks: "Links Rápidos",
+        company: "Empresa",
+        aboutUs: "Sobre Nós",
+        privacy: "Privacidade",
+        terms: "Termos",
+        footerAbout: "Domínio de idiomas com IA por LearnWG",
+        copyright: "© 2025 Learn WG. Todos os direitos reservados.",
+        aboutTitle: "Sobre LearnWG",
+        aboutText: "LearnWG é uma empresa de tecnologia educacional inovadora que cria soluções de aprendizado de idiomas com IA que tornam o domínio de novos idiomas acessível, eficaz e agradável para todos.",
+        privacyTitle: "Política de Privacidade",
+        privacyText: "Priorizamos sua privacidade. Seus dados são criptografados e usados apenas para melhorar sua experiência de aprendizado. Nunca vendemos ou compartilhamos suas informações com terceiros sem consentimento explícito.",
+        termsTitle: "Termos de Serviço",
+        termsText: "Ao acessar o HablaYa!, você concorda com nossos termos. As assinaturas são renovadas automaticamente, mas podem ser canceladas a qualquer momento. Oferecemos uma garantia de devolução do dinheiro em 30 dias se você não estiver satisfeito.",
+        locationMexico: "Cidade do México",
+        locationGuadalajara: "Guadalajara",
+        locationMonterrey: "Monterrey",
+        locationBrazil: "São Paulo",
+        popularChoice: "Mais Popular",
+        liveChat: "Conversa ao Vivo",
+        loginTitle: "Entrar",
+        emailLabel: "Email",
+        passwordLabel: "Senha",
+        loginButton: "Entrar",
+        noAccount: "Não tem uma conta?",
+        signupTitle: "Criar Conta",
+        nameLabel: "Nome",
+        signupButton: "Registrar",
+        haveAccount: "Já tem uma conta?",
+        dashboardTitle: "Seu Painel de Aprendizado",
+        englishSessions: "Sessões em Inglês",
+        spanishSessions: "Sessões em Espanhol",
+        portugueseSessions: "Sessões em Português",
+        totalSessions: "Sessões Totais",
+        startSession: "Iniciar Nova Sessão",
+        logoutButton: "Sair"
     }
 };
 
@@ -336,7 +432,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('login-password').value;
         
         auth.signInWithEmailAndPassword(email, password)
-            .then(() => { document.getElementById('login-modal').style.display = 'none';
+            .then(() => {
+                document.getElementById('login-modal').style.display = 'none';
                 // Success - modal will close via auth state change handler
             })
             .catch(error => {
@@ -360,11 +457,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     email: email,
                     englishSessions: 0,
                     spanishSessions: 0,
+                    portugueseSessions: 0,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                 });
             })
-            .then(() => { document.getElementById('signup-form').style.display = 'none';
+            .then(() => {
+                document.getElementById('signup-form').style.display = 'none';
                 // Success - modal will close via auth state change handler
             })
             .catch(error => {
@@ -381,6 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dashboard buttons
     const startEnglishBtn = document.getElementById('start-english');
     const startSpanishBtn = document.getElementById('start-spanish');
+    const startPortugueseBtn = document.getElementById('start-portuguese');
     
     startEnglishBtn.addEventListener('click', function() {
         startNewSession('english');
@@ -388,6 +488,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     startSpanishBtn.addEventListener('click', function() {
         startNewSession('spanish');
+    });
+    
+    startPortugueseBtn.addEventListener('click', function() {
+        startNewSession('portuguese');
     });
     
     // Auth state observer
@@ -419,7 +523,11 @@ function toggleTheme() {
 
 function toggleLanguage() {
     const currentLang = document.documentElement.getAttribute('data-lang');
-    const newLang = currentLang === 'es' ? 'en' : 'es';
+    let newLang;
+    if (currentLang === 'es') newLang = 'en';
+    else if (currentLang === 'en') newLang = 'pt';
+    else newLang = 'es';
+    
     document.documentElement.setAttribute('data-lang', newLang);
     updateLanguage(newLang);
     updateLanguageFlags();
@@ -456,11 +564,18 @@ function updateLanguageFlags() {
                 text.textContent = 'ES';
             }
         });
-    } else {
+    } else if (currentLang === 'en') {
         flags.forEach(flag => flag.textContent = '🇺🇸');
         langTexts.forEach(text => {
             if (text.classList.contains('lang-text')) {
                 text.textContent = 'EN';
+            }
+        });
+    } else {
+        flags.forEach(flag => flag.textContent = '🇧🇷');
+        langTexts.forEach(text => {
+            if (text.classList.contains('lang-text')) {
+                text.textContent = 'PT';
             }
         });
     }
@@ -489,8 +604,9 @@ function showDashboard(user) {
                 // Update session counts
                 document.getElementById('english-count').textContent = userData.englishSessions || 0;
                 document.getElementById('spanish-count').textContent = userData.spanishSessions || 0;
+                document.getElementById('portuguese-count').textContent = userData.portugueseSessions || 0;
                 document.getElementById('total-count').textContent = 
-                    (userData.englishSessions || 0) + (userData.spanishSessions || 0);
+                    (userData.englishSessions || 0) + (userData.spanishSessions || 0) + (userData.portugueseSessions || 0);
                 
                 // Load session history
                 loadSessionHistory(user.uid);
@@ -501,6 +617,7 @@ function showDashboard(user) {
                     email: user.email || '',
                     englishSessions: 0,
                     spanishSessions: 0,
+                    portugueseSessions: 0,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                 });
@@ -530,7 +647,11 @@ function startNewSession(language) {
     }
     
     // Show loading state
-    const sessionBtn = language === 'english' ? document.getElementById('start-english') : document.getElementById('start-spanish');
+    let sessionBtn;
+    if (language === 'english') sessionBtn = document.getElementById('start-english');
+    else if (language === 'spanish') sessionBtn = document.getElementById('start-spanish');
+    else sessionBtn = document.getElementById('start-portuguese');
+    
     const originalText = sessionBtn.innerHTML;
     sessionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
     sessionBtn.disabled = true;
@@ -545,7 +666,11 @@ function startNewSession(language) {
     db.collection('users').doc(user.uid).collection('sessions').add(sessionData)
         .then(docRef => {
             // Open the chatbot in a new tab
-            const url = language === 'english' ? 'https://hablaya.vercel.app' : 'https://hablayaspanish.vercel.app';
+            let url;
+            if (language === 'english') url = 'https://hablaya.vercel.app';
+            else if (language === 'spanish') url = 'https://hablayaspanish.vercel.app';
+            else url = 'https://hablayaportugues.vercel.app';
+            
             const newWindow = window.open(url, '_blank');
             
             // Check if the window was successfully opened
@@ -642,9 +767,15 @@ function loadSessionHistory(userId) {
                 const sessionDate = sessionData.startTime ? 
                     sessionData.startTime.toDate().toLocaleString() : 'Just now';
                 
+                // Determine language display text
+                let languageText;
+                if (sessionData.language === 'english') languageText = 'English Practice';
+                else if (sessionData.language === 'spanish') languageText = 'Spanish Practice';
+                else languageText = 'Portuguese Practice';
+                
                 sessionItem.innerHTML = `
                     <div class="session-info">
-                        <span class="session-language">${sessionData.language === 'english' ? 'English' : 'Spanish'} Practice</span>
+                        <span class="session-language">${languageText}</span>
                         <span class="session-date">${sessionDate}</span>
                     </div>
                     <div class="session-duration">${durationText}</div>
