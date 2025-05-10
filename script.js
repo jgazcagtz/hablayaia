@@ -65,7 +65,22 @@ const translations = {
         locationGuadalajara: "Guadalajara",
         locationMonterrey: "Monterrey",
         popularChoice: "Más Popular",
-        liveChat: "Chat en Vivo"
+        liveChat: "Chat en Vivo",
+        loginTitle: "Iniciar Sesión",
+        emailLabel: "Correo Electrónico",
+        passwordLabel: "Contraseña",
+        loginButton: "Iniciar Sesión",
+        noAccount: "¿No tienes cuenta?",
+        signupTitle: "Crear Cuenta",
+        nameLabel: "Nombre",
+        signupButton: "Registrarse",
+        haveAccount: "¿Ya tienes cuenta?",
+        dashboardTitle: "Tu Panel de Aprendizaje",
+        englishSessions: "Sesiones en Inglés",
+        spanishSessions: "Sesiones en Español",
+        totalSessions: "Sesiones Totales",
+        startSession: "Iniciar Nueva Sesión",
+        logoutButton: "Cerrar Sesión"
     },
     en: {
         heroTitle: "Fluency at Your Fingertips",
@@ -132,9 +147,39 @@ const translations = {
         locationGuadalajara: "Guadalajara",
         locationMonterrey: "Monterrey",
         popularChoice: "Most Popular",
-        liveChat: "Live Conversation"
+        liveChat: "Live Conversation",
+        loginTitle: "Log In",
+        emailLabel: "Email",
+        passwordLabel: "Password",
+        loginButton: "Log In",
+        noAccount: "Don't have an account?",
+        signupTitle: "Create Account",
+        nameLabel: "Name",
+        signupButton: "Sign Up",
+        haveAccount: "Already have an account?",
+        dashboardTitle: "Your Learning Dashboard",
+        englishSessions: "English Sessions",
+        spanishSessions: "Spanish Sessions",
+        totalSessions: "Total Sessions",
+        startSession: "Start a New Session",
+        logoutButton: "Log Out"
     }
 };
+
+// Firebase configuration - REPLACE WITH YOUR ACTUAL CONFIG
+const firebaseConfig = {
+    apiKey: "AIzaSyDCgyLbGewcv6zfz7eCSNBKmhPF3fKurew",
+    authDomain: "hablaya-79760.firebaseapp.com",
+    projectId: "hablaya-79760",
+    storageBucket: "hablaya-79760.firebasestorage.app",
+    messagingSenderId: "933344055830",
+    appId: "1:933344055830:web:d39edec28fc6395e259b37"
+  };
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
@@ -238,6 +283,125 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Auth button event listeners
+    const authBtn = document.getElementById('auth-btn');
+    const mobileAuthBtn = document.getElementById('mobile-auth-btn');
+    const tryFreeBtn = document.getElementById('try-free-btn');
+    const tryChatbotBtns = document.querySelectorAll('.try-chatbot');
+    
+    authBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-modal').style.display = 'flex';
+    });
+    
+    mobileAuthBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-modal').style.display = 'flex';
+        mobileMenu.classList.remove('active');
+    });
+    
+    tryFreeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-modal').style.display = 'flex';
+    });
+    
+    tryChatbotBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (auth.currentUser) {
+                const language = this.dataset.language;
+                recordSession(language);
+                window.open(language === 'english' ? 'https://hablaya.vercel.app' : 'https://hablayaspanish.vercel.app', '_blank');
+            } else {
+                document.getElementById('login-modal').style.display = 'flex';
+            }
+        });
+    });
+    
+    // Switch between login and signup forms
+    document.querySelectorAll('.switch-auth').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetModal = this.dataset.target;
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            document.getElementById(targetModal).style.display = 'flex';
+        });
+    });
+    
+    // Login form submission
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                // Success - modal will close via auth state change handler
+            })
+            .catch(error => {
+                document.getElementById('login-error').textContent = error.message;
+            });
+    });
+    
+    // Signup form submission
+    const signupForm = document.getElementById('signup-form');
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Create user document in Firestore
+                return db.collection('users').doc(userCredential.user.uid).set({
+                    name: name,
+                    email: email,
+                    englishSessions: 0,
+                    spanishSessions: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            })
+            .then(() => {
+                // Success - modal will close via auth state change handler
+            })
+            .catch(error => {
+                document.getElementById('signup-error').textContent = error.message;
+            });
+    });
+    
+    // Logout button
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn.addEventListener('click', function() {
+        auth.signOut();
+    });
+    
+    // Dashboard buttons
+    const startEnglishBtn = document.getElementById('start-english');
+    const startSpanishBtn = document.getElementById('start-spanish');
+    
+    startEnglishBtn.addEventListener('click', function() {
+        recordSession('english');
+        window.open('https://hablaya.vercel.app', '_blank');
+    });
+    
+    startSpanishBtn.addEventListener('click', function() {
+        recordSession('spanish');
+        window.open('https://hablayaspanish.vercel.app', '_blank');
+    });
+    
+    // Auth state observer
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // User is signed in
+            showDashboard(user);
+        } else {
+            // User is signed out
+            hideDashboard();
+        }
+    });
+    
     // Update flag based on language
     updateLanguageFlags();
 });
@@ -300,6 +464,62 @@ function updateLanguageFlags() {
             }
         });
     }
+}
+
+function showDashboard(user) {
+    // Hide main app and show dashboard
+    document.getElementById('app-container').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    
+    // Update user info
+    document.getElementById('user-name').textContent = user.displayName || 'User';
+    document.getElementById('user-email').textContent = user.email;
+    
+    // Get user data from Firestore
+    db.collection('users').doc(user.uid).get()
+        .then(doc => {
+            if (doc.exists) {
+                const userData = doc.data();
+                document.getElementById('english-count').textContent = userData.englishSessions || 0;
+                document.getElementById('spanish-count').textContent = userData.spanishSessions || 0;
+                document.getElementById('total-count').textContent = (userData.englishSessions || 0) + (userData.spanishSessions || 0);
+                
+                // Update name if available
+                if (userData.name) {
+                    document.getElementById('user-name').textContent = userData.name;
+                }
+            }
+        });
+}
+
+function hideDashboard() {
+    // Show main app and hide dashboard
+    document.getElementById('app-container').style.display = 'block';
+    document.getElementById('dashboard').style.display = 'none';
+    
+    // Close all modals
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.style.display = 'none';
+    });
+}
+
+function recordSession(language) {
+    const user = auth.currentUser;
+    if (!user) return;
+    
+    const increment = firebase.firestore.FieldValue.increment(1);
+    const updateData = {};
+    updateData[`${language}Sessions`] = increment;
+    
+    db.collection('users').doc(user.uid).update(updateData)
+        .then(() => {
+            // Update the UI to reflect the new count
+            const countElement = document.getElementById(`${language}-count`);
+            countElement.textContent = parseInt(countElement.textContent) + 1;
+            document.getElementById('total-count').textContent = 
+                parseInt(document.getElementById('english-count').textContent) + 
+                parseInt(document.getElementById('spanish-count').textContent);
+        });
 }
 
 // Check for saved theme preference
