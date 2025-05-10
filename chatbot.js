@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 .hablaya-chatbot-window {
-                    max-height: 60vh;
+                    max-height:  max-content;
                 }
                 
                 .chatbot-message {
