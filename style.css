@@ -81,7 +81,7 @@ section {
     position: relative;
 }
 
-/* WhatsApp Floating Button - Improved */
+/* WhatsApp Floating Button */
 .fab-container {
     position: fixed;
     bottom: 5px;
@@ -90,14 +90,12 @@ section {
 }
 
 .fab {
-  display: flex;
+    display: flex;
     width: 56px;
     height: 56px;
     border-radius: 50%;
     background-color: var(--bg);
     color: var(--bg);
-    
-   
     box-shadow: var(--shadow-lg);
     transition: var(--transition);
     position: relative;
@@ -106,12 +104,12 @@ section {
 }
 
 .fab i {
-  color: green;
+    color: green;
     font-size: 1.75rem;
-    display: flex; /* Changed from flex to block */
-    line-height: 2; /* Ensures proper vertical alignment */
+    display: flex;
+    line-height: 2;
     z-index: 2;
-  margin-left: -1px;
+    margin-left: -1px;
 }
 
 .fab::before {
@@ -121,7 +119,7 @@ section {
     height: 100%;
     border-radius: 50%;
     background-color: white;
-    z-index: 1.5; /* Changed from -1 to 1 */
+    z-index: 1.5;
     animation: pulse 2s infinite;
     top: 0;
     left: 0;
@@ -1165,6 +1163,164 @@ section {
 .mobile-lang-toggle:hover {
     background: rgba(var(--primary), 0.1);
     color: var(--primary);
+}
+
+/* Auth Modals */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    padding: var(--space-sm);
+    border: 1px solid rgba(var(--text), 0.2);
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    transition: var(--transition);
+    background: var(--bg);
+    color: var(--text);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary), 0.1);
+}
+
+.auth-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.auth-footer .btn.secondary {
+    width: 100%;
+    max-width: 300px;
+    margin-top: var(--space-xs);
+}
+
+.auth-link {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.auth-error {
+    color: var(--error);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: var(--space-sm);
+    min-height: 1.2rem;
+}
+
+/* Dashboard */
+.dashboard-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xxl);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xxl);
+    padding: var(--space-md);
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.user-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xxl);
+}
+
+.stat-card {
+    background: var(--card);
+    padding: var(--space-xl);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid rgba(var(--primary), 0.1);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: var(--space-md);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.dashboard-actions {
+    background: var(--card);
+    padding: var(--space-xl);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: var(--space-xl);
+    border: 1px solid rgba(var(--primary), 0.1);
+}
+
+.action-buttons {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Animations */
