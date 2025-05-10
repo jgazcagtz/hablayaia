@@ -103,9 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
         freeTrial: {
             message: {
                 en: '🎉 Get <strong>7 days FREE</strong> access to all HablaYa features!<br><br>' +
-                    'No credit card required. Start improving your English today:',
+                    'No credit card required. Start improving your Spanish today:',
                 es: '🎉 Obtén acceso <strong>GRATIS por 7 días</strong> a todas las funciones de HablaYa!<br><br>' +
-                    'No se requiere tarjeta de crédito. Empieza a mejorar tu español hoy:'
+                    'No se requiere tarjeta de crédito. Empieza a practicar inglés conversacional hoy:'
             },
             options: () => {
                 const baseOptions = [
