@@ -1,15 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>HablaYa! - AI Language Chatbot</title>
-  <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
-<html lang="es" data-theme="light" data-lang="es">
+<html lang="en" data-theme="light" data-lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,12 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Floating Action Button -->
     <div class="fab-container">
         <a href="https://wa.me/525533355687" class="fab whatsapp" target="_blank" aria-label="WhatsApp">
-          <center>  <i class="fab fa-whatsapp"></i> </center>
+            <center><i class="fab fa-whatsapp"></i></center>
         </a>
     </div>
 
@@ -61,18 +52,123 @@
         </div>
     </div>
 
-    <div class="app-container">
+    <!-- Auth Modals -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-sign-in-alt"></i></div>
+            <h3 data-i18n="loginTitle">Log In</h3>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email" data-i18n="emailLabel">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" data-i18n="passwordLabel">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn primary" data-i18n="loginButton">Log In</button>
+                <div class="auth-footer">
+                    <p class="auth-link" data-i18n="noAccount">Don't have an account?</p>
+                    <button type="button" class="btn secondary switch-auth" data-target="signup-modal" data-i18n="signupButton">Sign Up</button>
+                </div>
+                <div id="login-error" class="auth-error"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon"><i class="fas fa-user-plus"></i></div>
+            <h3 data-i18n="signupTitle">Create Account</h3>
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name" data-i18n="nameLabel">Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email" data-i18n="emailLabel">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password" data-i18n="passwordLabel">Password (min 6 characters)</label>
+                    <input type="password" id="signup-password" minlength="6" required>
+                </div>
+                <button type="submit" class="btn primary" data-i18n="signupButton">Sign Up</button>
+                <div class="auth-footer">
+                    <p class="auth-link" data-i18n="haveAccount">Already have an account?</p>
+                    <button type="button" class="btn secondary switch-auth" data-target="login-modal" data-i18n="loginButton">Log In</button>
+                </div>
+                <div id="signup-error" class="auth-error"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="dashboard-container" style="display: none;">
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h2 data-i18n="dashboardTitle">Your Learning Dashboard</h2>
+                <button id="logout-btn" class="btn secondary" data-i18n="logoutButton">Log Out</button>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="user-name">User Name</h3>
+                    <p id="user-email">user@example.com</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h3 data-i18n="englishSessions">English Sessions</h3>
+                    <div class="stat-value" id="english-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-comments"></i></div>
+                    <h3 data-i18n="spanishSessions">Spanish Sessions</h3>
+                    <div class="stat-value" id="spanish-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <h3 data-i18n="totalSessions">Total Sessions</h3>
+                    <div class="stat-value" id="total-count">0</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <h3 data-i18n="startSession">Start a New Session</h3>
+                <div class="action-buttons">
+                    <button id="start-english" class="btn primary">
+                        <i class="fas fa-language"></i> <span data-i18n="englishVersion">English Version</span>
+                    </button>
+                    <button id="start-spanish" class="btn secondary">
+                        <i class="fas fa-language"></i> <span data-i18n="spanishVersion">Spanish Version</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container" id="app-container">
         <!-- Navigation -->
         <nav class="main-nav">
             <div class="nav-container">
                 <a href="#" class="logo">
-                    <i class="fa-solid fa-comment-dots"></i>
+                    <span class="logo-icon"><i class="fa-solid fa-comment-dots"></i></span>
                     <span>HablaYa!</span>
                 </a>
                 <div class="nav-links">
                     <a href="#features" class="nav-link" data-i18n="features">Features</a>
                     <a href="#pricing" class="nav-link" data-i18n="pricing">Pricing</a>
                     <a href="#testimonials" class="nav-link" data-i18n="testimonials">Testimonials</a>
+                    <button id="auth-btn" class="btn secondary" data-i18n="loginButton">Log In</button>
                     <button id="lang-toggle" class="lang-toggle" aria-label="Toggle language">
                         <span class="lang-flag">🇲🇽</span>
                         <span class="lang-text">ES</span>
@@ -119,13 +215,13 @@
                     <div class="demo-icon"><i class="fas fa-language"></i></div>
                     <h3 data-i18n="englishVersion">English Version</h3>
                     <p data-i18n="englishDesc">Practice your English with our AI tutor</p>
-                    <a href="https://hablaya.vercel.app" class="btn secondary" target="_blank" data-i18n="tryEnglish">Try English Version</a>
+                    <button class="btn secondary try-chatbot" data-language="english" data-i18n="tryEnglish">Try English Version</button>
                 </div>
                 <div class="demo-card">
                     <div class="demo-icon"><i class="fas fa-language"></i></div>
                     <h3 data-i18n="spanishVersion">Spanish Version</h3>
                     <p data-i18n="spanishDesc">Practice your Spanish with our AI tutor</p>
-                    <a href="https://hablayaspanish.vercel.app" class="btn secondary" target="_blank" data-i18n="trySpanish">Try Spanish Version</a>
+                    <button class="btn secondary try-chatbot" data-language="spanish" data-i18n="trySpanish">Try Spanish Version</button>
                 </div>
             </div>
         </section>
@@ -367,7 +463,7 @@
                 <p data-i18n="finalCtaSubtitle">Join 10,000+ students who achieved fluency with HablaYa!</p>
                 <div class="cta-buttons">
                     <a href="#pricing" class="btn primary pulse" data-i18n="getAccess">Start Learning Now</a>
-                    <a href="#demo" class="btn secondary" data-i18n="tryNow">Try for Free</a>
+                    <button id="try-free-btn" class="btn secondary" data-i18n="tryNow">Try for Free</button>
                 </div>
             </div>
         </section>
@@ -417,6 +513,7 @@
             <a href="#" class="mobile-nav-link modal-trigger" data-modal="privacy-modal" data-i18n="privacy">Privacy</a>
             <a href="#" class="mobile-nav-link modal-trigger" data-modal="terms-modal" data-i18n="terms">Terms</a>
             <div class="mobile-menu-divider"></div>
+            <button id="mobile-auth-btn" class="mobile-nav-link" data-i18n="loginButton">Log In</button>
             <button id="mobile-lang-toggle" class="mobile-lang-toggle" data-i18n="toggleLang">
                 <span class="lang-flag">🇺🇸</span>
                 <span class="lang-text">Switch to English</span>
@@ -424,11 +521,11 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
     <script src="script.js"></script>
-</body>
-</html>
-<!-- partial -->
-  <script  src="./script.js"></script>
-
 </body>
 </html>
