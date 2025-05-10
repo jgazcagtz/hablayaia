@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
         accentColor: '#f72585',
         position: 'bottom-right',
         greetingMessage: {
-            en: '¡Hola! 👋 I\'m your HablaYa AI Tutor. Ready to achieve English fluency through natural conversations? How can I help you today?',
-            es: '¡Hola! 👋 Soy tu tutor AI de HablaYa. ¿Listo para lograr fluidez en español mediante conversaciones naturales? ¿Cómo puedo ayudarte hoy?'
+            en: '¡Hola! 👋 I\'m your HablaYa AI Tutor. Ready to achieve Spanish fluency through natural conversations? How can I help you today?',
+            es: '¡Hola! 👋 Soy tu tutor AI de HablaYa. ¿Listo para lograr fluidez en inglés mediante conversaciones naturales? ¿Cómo puedo ayudarte hoy?'
         },
         currentLanguage: document.documentElement.getAttribute('data-lang') || 'es',
         user: null,
