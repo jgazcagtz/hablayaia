@@ -2,7 +2,7 @@
 const translations = {
     es: {
         heroTitle: "Fluidez al Alcance de tu Mano",
-        heroSubtitle: "Domina inglés, español o portugués conversando de forma natural con nuestro avanzado chatbot de IA.",
+        heroSubtitle: "Domina inglés, español, portugués, francés o italiano conversando de forma natural con nuestro avanzado chatbot de IA",
         getAccess: "Comenzar Ahora",
         tryNow: "Probar Ahora",
         features: "Características",
@@ -90,7 +90,7 @@ const translations = {
     },
     en: {
         heroTitle: "Fluency at Your Fingertips",
-        heroSubtitle: "Master English, Spanish or Portuguese through natural conversations with our advanced AI chatbot",
+        heroSubtitle: "Master English, Spanish, Portuguese, French, or Italian by conversing naturally with our advanced AI chatbot",
         getAccess: "Get Started",
         tryNow: "Try Now",
         features: "Features",
@@ -178,7 +178,7 @@ const translations = {
     },
     pt: {
         heroTitle: "Fluência na Ponta dos Dedos",
-        heroSubtitle: "Domine inglês, espanhol ou português através de conversas naturais com nosso chatbot de IA avançado",
+        heroSubtitle: "Domine inglês, espanhol, português, francês ou italiano conversando de forma natural com o nosso avançado chatbot de IA",
         getAccess: "Começar Agora",
         tryNow: "Experimentar Agora",
         features: "Recursos",
