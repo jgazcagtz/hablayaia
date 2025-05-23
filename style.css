@@ -730,7 +730,7 @@ section {
     transition: var(--transition);
     position: relative;
     border: 1px solid rgba(var(--primary), 0.1);
-    display: none;
+    
 }
 
 .pricing-card.active {
