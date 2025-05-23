@@ -85,7 +85,8 @@ const translations = {
         portugueseSessions: "Sesiones en Portugués",
         totalSessions: "Sesiones Totales",
         startSession: "Iniciar Nueva Sesión",
-        logoutButton: "Cerrar Sesión"
+        logoutButton: "Cerrar Sesión",
+        startChatbot: "Iniciar Tutor de Idiomas"
     },
     en: {
         heroTitle: "Fluency at Your Fingertips",
@@ -172,7 +173,8 @@ const translations = {
         portugueseSessions: "Portuguese Sessions",
         totalSessions: "Total Sessions",
         startSession: "Start a New Session",
-        logoutButton: "Log Out"
+        logoutButton: "Log Out",
+        startChatbot: "Start Language Tutor"
     },
     pt: {
         heroTitle: "Fluência na Ponta dos Dedos",
@@ -207,7 +209,7 @@ const translations = {
         pricingSubtitle: "PLANOS ACESSÍVEIS",
         pricingTitle: "Preços Simples, Máximo Valor",
         annualPlan: "Plano Anual",
-        monthlyPlan: "Plano Mensal",
+        monthlyPlan: "Plano Mensual",
         perYear: "por ano",
         perMonth: "por mês",
         save10: "Economize 10%",
@@ -259,7 +261,8 @@ const translations = {
         portugueseSessions: "Sessões em Português",
         totalSessions: "Sessões Totais",
         startSession: "Iniciar Nova Sessão",
-        logoutButton: "Sair"
+        logoutButton: "Sair",
+        startChatbot: "Iniciar Tutor de Idiomas"
     }
 };
 
@@ -309,24 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('active');
         mobileMenuBtn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
-    });
-    
-    // Pricing tabs
-    const pricingTabs = document.querySelectorAll('.pricing-tab, .currency-btn');
-    pricingTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            const currency = this.dataset.currency;
-            document.querySelectorAll('.pricing-tab, .currency-btn').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            
-            document.querySelectorAll('.pricing-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            
-            document.querySelectorAll(`.pricing-card.${currency}`).forEach(card => {
-                card.classList.add('active');
-            });
-        });
     });
     
     // Modal functionality
@@ -405,8 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tryChatbotBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             if (auth.currentUser) {
-                const language = this.dataset.language;
-                startNewSession(language);
+                startNewSession('all');
             } else {
                 document.getElementById('login-modal').style.display = 'flex';
             }
@@ -477,21 +461,10 @@ document.addEventListener('DOMContentLoaded', function() {
         auth.signOut();
     });
     
-    // Dashboard buttons
-    const startEnglishBtn = document.getElementById('start-english');
-    const startSpanishBtn = document.getElementById('start-spanish');
-    const startPortugueseBtn = document.getElementById('start-portuguese');
-    
-    startEnglishBtn.addEventListener('click', function() {
-        startNewSession('english');
-    });
-    
-    startSpanishBtn.addEventListener('click', function() {
-        startNewSession('spanish');
-    });
-    
-    startPortugueseBtn.addEventListener('click', function() {
-        startNewSession('portuguese');
+    // Dashboard button
+    const startChatbotBtn = document.getElementById('start-chatbot');
+    startChatbotBtn.addEventListener('click', function() {
+        startNewSession('all');
     });
     
     // Auth state observer
@@ -647,18 +620,14 @@ function startNewSession(language) {
     }
     
     // Show loading state
-    let sessionBtn;
-    if (language === 'english') sessionBtn = document.getElementById('start-english');
-    else if (language === 'spanish') sessionBtn = document.getElementById('start-spanish');
-    else sessionBtn = document.getElementById('start-portuguese');
-    
+    const sessionBtn = document.getElementById('start-chatbot');
     const originalText = sessionBtn.innerHTML;
     sessionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
     sessionBtn.disabled = true;
     
     // Record the session start
     const sessionData = {
-        language: language,
+        language: 'all',
         startTime: firebase.firestore.FieldValue.serverTimestamp(),
         status: 'active'
     };
@@ -666,11 +635,7 @@ function startNewSession(language) {
     db.collection('users').doc(user.uid).collection('sessions').add(sessionData)
         .then(docRef => {
             // Open the chatbot in a new tab
-            let url;
-            if (language === 'english') url = 'https://hablaya.vercel.app';
-            else if (language === 'spanish') url = 'https://hablayaspanish.vercel.app';
-            else url = 'https://hablayaportugues.vercel.app';
-            
+            const url = 'https://hablayalanguagetutor.vercel.app/';
             const newWindow = window.open(url, '_blank');
             
             // Check if the window was successfully opened
@@ -768,10 +733,7 @@ function loadSessionHistory(userId) {
                     sessionData.startTime.toDate().toLocaleString() : 'Just now';
                 
                 // Determine language display text
-                let languageText;
-                if (sessionData.language === 'english') languageText = 'English Practice';
-                else if (sessionData.language === 'spanish') languageText = 'Spanish Practice';
-                else languageText = 'Portuguese Practice';
+                let languageText = 'Language Practice';
                 
                 sessionItem.innerHTML = `
                     <div class="session-info">
