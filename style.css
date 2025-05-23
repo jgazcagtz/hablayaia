@@ -670,6 +670,7 @@ section {
 }
 
 /* Pricing Section */
+/* Pricing Section */
 .pricing {
     position: relative;
     overflow: hidden;
@@ -684,35 +685,6 @@ section {
     height: 100%;
     background: linear-gradient(135deg, rgba(var(--primary), 0.03) 0%, transparent 100%);
     z-index: -1;
-}
-
-.currency-selector {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-xl);
-}
-
-.currency-btn {
-    padding: var(--space-sm) var(--space-md);
-    border: none;
-    background: var(--card);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-weight: 600;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
-    color: var(--text-light);
-}
-
-.currency-btn.active {
-    background: var(--primary);
-    color: white;
-}
-
-.currency-btn:hover:not(.active) {
-    background: rgba(var(--primary), 0.1);
-    color: var(--primary);
 }
 
 .pricing-grid {
@@ -730,10 +702,9 @@ section {
     transition: var(--transition);
     position: relative;
     border: 1px solid rgba(var(--primary), 0.1);
-    
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
 }
-
-
 
 .pricing-card:hover {
     transform: translateY(-5px);
