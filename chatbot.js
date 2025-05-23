@@ -79,35 +79,38 @@ document.addEventListener('DOMContentLoaded', function() {
         pricing: {
             message: {
                 en: 'Choose the plan that fits your goals:<br><br>' +
-                    '💎 <strong>Annual Plan</strong> - $1,799 MXN/year <small>(save 10%)</small><br>' +
-                    '• Only $150 MXN/month<br>' +
-                    '• <em>Best value - most popular!</em><br><br>' +
-                    '📅 <strong>Monthly Plan</strong> - $179 MXN/month<br>' +
-                    '• Flexible commitment<br><br>' +
+                    '💎 <strong>5-Year Plan</strong> - $9,899 MXN <small>(save 34%)</small><br>' +
+                    '• Only $165 MXN/month<br>' +
+                    '• <em>Best long-term value</em><br><br>' +
+                    '⭐ <strong>2-Year Plan</strong> - $4,999 MXN <small>(save 17%)</small><br>' +
+                    '• Only $208 MXN/month<br>' +
+                    '• <em>Most popular choice</em><br><br>' +
                     '✅ Both include:<br>' +
-                    '- Unlimited AI conversations<br>' +
+                    '- All 5 languages (English, Spanish, Portuguese, Italian, French)<br>' +
                     '- Speech recognition<br>' +
                     '- Progress tracking<br>' +
                     '- 30-day money back guarantee',
                 es: 'Elige el plan que se ajuste a tus metas:<br><br>' +
-                    '💎 <strong>Plan Anual</strong> - $1,799 MXN/año <small>(ahorra 10%)</small><br>' +
-                    '• Solo $150 MXN/mes<br>' +
-                    '• <em>¡Mejor valor - más popular!</em><br><br>' +
-                    '📅 <strong>Plan Mensual</strong> - $179 MXN/mes<br>' +
-                    '• Compromiso flexible<br><br>' +
+                    '💎 <strong>Plan de 5 Años</strong> - $9,899 MXN <small>(ahorra 34%)</small><br>' +
+                    '• Solo $165 MXN/mes<br>' +
+                    '• <em>Mejor valor a largo plazo</em><br><br>' +
+                    '⭐ <strong>Plan de 2 Años</strong> - $4,999 MXN <small>(ahorra 17%)</small><br>' +
+                    '• Solo $208 MXN/mes<br>' +
+                    '• <em>Opción más popular</em><br><br>' +
                     '✅ Ambos incluyen:<br>' +
-                    '- Conversaciones ilimitadas con IA<br>' +
+                    '- Todos los 5 idiomas (Inglés, Español, Portugués, Italiano, Francés)<br>' +
                     '- Reconocimiento de voz<br>' +
                     '- Seguimiento de progreso<br>' +
                     '- Garantía de devolución de 30 días',
                 pt: 'Escolha o plano que atende aos seus objetivos:<br><br>' +
-                    '💎 <strong>Plano Anual</strong> - $1,799 MXN/ano <small>(economize 10%)</small><br>' +
-                    '• Apenas $150 MXN/mês<br>' +
-                    '• <em>Melhor custo-benefício - mais popular!</em><br><br>' +
-                    '📅 <strong>Plano Mensal</strong> - $179 MXN/mês<br>' +
-                    '• Compromisso flexível<br><br>' +
+                    '💎 <strong>Plano de 5 Anos</strong> - $9,899 MXN <small>(economize 34%)</small><br>' +
+                    '• Apenas $165 MXN/mês<br>' +
+                    '• <em>Melhor valor a longo prazo</em><br><br>' +
+                    '⭐ <strong>Plano de 2 Anos</strong> - $4,999 MXN <small>(economize 17%)</small><br>' +
+                    '• Apenas $208 MXN/mês<br>' +
+                    '• <em>Escolha mais popular</em><br><br>' +
                     '✅ Ambos incluem:<br>' +
-                    '- Conversas ilimitadas com IA<br>' +
+                    '- Todos os 5 idiomas (Inglês, Espanhol, Português, Italiano, Francês)<br>' +
                     '- Reconhecimento de voz<br>' +
                     '- Acompanhamento de progresso<br>' +
                     '- Garantia de devolução em 30 dias'
@@ -122,11 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
         freeTrial: {
             message: {
                 en: '🎉 Get <strong>7 days FREE</strong> access to all HablaYa features!<br><br>' +
-                    'No credit card required. Start improving your Spanish today:',
+                    'No credit card required. Start improving your language skills today:',
                 es: '🎉 Obtén acceso <strong>GRATIS por 7 días</strong> a todas las funciones de HablaYa!<br><br>' +
-                    'No se requiere tarjeta de crédito. Empieza a practicar inglés conversacional hoy:',
+                    'No se requiere tarjeta de crédito. Empieza a practicar hoy:',
                 pt: '🎉 Obtenha acesso <strong>GRÁTIS por 7 dias</strong> a todos os recursos do HablaYa!<br><br>' +
-                    'Nenhum cartão de crédito necessário. Comece a praticar inglês conversacional hoje:'
+                    'Nenhum cartão de crédito necessário. Comece a praticar hoje:'
             },
             options: () => {
                 const baseOptions = [
@@ -207,28 +210,28 @@ document.addEventListener('DOMContentLoaded', function() {
         subscribe: {
             message: {
                 en: '🚀 Ready to become fluent? Choose your subscription:<br><br>' +
-                    '1. <strong>Annual Plan</strong> - $1,799 MXN/year (save 10%)<br>' +
-                    '2. <strong>Monthly Plan</strong> - $179 MXN/month',
+                    '1. <strong>5-Year Plan</strong> - $9,899 MXN (save 34%)<br>' +
+                    '2. <strong>2-Year Plan</strong> - $4,999 MXN (save 17%)',
                 es: '🚀 ¿Listo para ser fluido? Elige tu suscripción:<br><br>' +
-                    '1. <strong>Plan Anual</strong> - $1,799 MXN/año (ahorra 10%)<br>' +
-                    '2. <strong>Plan Mensual</strong> - $179 MXN/mes',
+                    '1. <strong>Plan de 5 Años</strong> - $9,899 MXN (ahorra 34%)<br>' +
+                    '2. <strong>Plan de 2 Años</strong> - $4,999 MXN (ahorra 17%)',
                 pt: '🚀 Pronto para se tornar fluente? Escolha sua assinatura:<br><br>' +
-                    '1. <strong>Plano Anual</strong> - $1,799 MXN/ano (economize 10%)<br>' +
-                    '2. <strong>Plano Mensal</strong> - $179 MXN/mês'
+                    '1. <strong>Plano de 5 Anos</strong> - $9,899 MXN (economize 34%)<br>' +
+                    '2. <strong>Plano de 2 Anos</strong> - $4,999 MXN (economize 17%)'
             },
             options: [
-                { text: { en: '💳 Annual ($1,799)', es: '💳 Anual ($1,799)', pt: '💳 Anual ($1,799)' }, next: 'processPaymentAnnual', emoji: '💳' },
-                { text: { en: '💳 Monthly ($179)', es: '💳 Mensual ($179)', pt: '💳 Mensal ($179)' }, next: 'processPaymentMonthly', emoji: '💳' },
+                { text: { en: '💳 5-Year ($9,899)', es: '💳 5 Años ($9,899)', pt: '💳 5 Anos ($9,899)' }, next: 'processPayment5Year', emoji: '💳' },
+                { text: { en: '💳 2-Year ($4,999)', es: '💳 2 Años ($4,999)', pt: '💳 2 Anos ($4,999)' }, next: 'processPayment2Year', emoji: '💳' },
                 { text: { en: '🔙 Back', es: '🔙 Regresar', pt: '🔙 Voltar' }, next: 'pricing', emoji: '🔙' }
             ]
         },
-        processPaymentAnnual: {
+        processPayment5Year: {
             message: {
-                en: '🔒 Redirecting to secure payment for <strong>Annual Plan</strong>...<br><br>' +
+                en: '🔒 Redirecting to secure payment for <strong>5-Year Plan</strong>...<br><br>' +
                     '<div class="loading-spinner"></div>',
-                es: '🔒 Redirigiendo a pago seguro para <strong>Plan Anual</strong>...<br><br>' +
+                es: '🔒 Redirigiendo a pago seguro para <strong>Plan de 5 Años</strong>...<br><br>' +
                     '<div class="loading-spinner"></div>',
-                pt: '🔒 Redirecionando para pagamento seguro do <strong>Plano Anual</strong>...<br><br>' +
+                pt: '🔒 Redirecionando para pagamento seguro do <strong>Plano de 5 Anos</strong>...<br><br>' +
                     '<div class="loading-spinner"></div>'
             },
             action: () => {
@@ -245,11 +248,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         lc: chatbotConfig.currentLanguage === 'es' ? 'MX' : 
                             (chatbotConfig.currentLanguage === 'pt' ? 'BR' : 'US'),
                         item_name: chatbotConfig.currentLanguage === 'es' 
-                            ? 'Suscripción Anual HablaYa!' 
+                            ? 'Suscripción de 5 Años HablaYa!' 
                             : (chatbotConfig.currentLanguage === 'pt' 
-                                ? 'Assinatura Anual HablaYa!' 
-                                : 'HablaYa! Annual Subscription'),
-                        amount: '1799.00',
+                                ? 'Assinatura de 5 Anos HablaYa!' 
+                                : 'HablaYa! 5-Year Subscription'),
+                        amount: '9899.00',
                         currency_code: 'MXN',
                         button_subtype: 'services',
                         no_note: '0',
@@ -272,13 +275,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1500);
             }
         },
-        processPaymentMonthly: {
+        processPayment2Year: {
             message: {
-                en: '🔒 Redirecting to secure payment for <strong>Monthly Plan</strong>...<br><br>' +
+                en: '🔒 Redirecting to secure payment for <strong>2-Year Plan</strong>...<br><br>' +
                     '<div class="loading-spinner"></div>',
-                es: '🔒 Redirigiendo a pago seguro para <strong>Plan Mensual</strong>...<br><br>' +
+                es: '🔒 Redirigiendo a pago seguro para <strong>Plan de 2 Años</strong>...<br><br>' +
                     '<div class="loading-spinner"></div>',
-                pt: '🔒 Redirecionando para pagamento seguro do <strong>Plano Mensual</strong>...<br><br>' +
+                pt: '🔒 Redirecionando para pagamento seguro do <strong>Plano de 2 Anos</strong>...<br><br>' +
                     '<div class="loading-spinner"></div>'
             },
             action: () => {
@@ -290,20 +293,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     form.target = '_blank';
                     
                     const params = {
-                        cmd: '_xclick-subscriptions',
+                        cmd: '_xclick',
                         business: 'gascagtz@gmail.com',
                         lc: chatbotConfig.currentLanguage === 'es' ? 'MX' : 
                             (chatbotConfig.currentLanguage === 'pt' ? 'BR' : 'US'),
                         item_name: chatbotConfig.currentLanguage === 'es' 
-                            ? 'Suscripción Mensual HablaYa!' 
+                            ? 'Suscripción de 2 Años HablaYa!' 
                             : (chatbotConfig.currentLanguage === 'pt' 
-                                ? 'Assinatura Mensal HablaYa!' 
-                                : 'HablaYa! Monthly Subscription'),
-                        a3: '179.00',
-                        p3: '1',
-                        t3: 'M',
-                        src: '1',
-                        currency_code: 'MXN'
+                                ? 'Assinatura de 2 Anos HablaYa!' 
+                                : 'HablaYa! 2-Year Subscription'),
+                        amount: '4999.00',
+                        currency_code: 'MXN',
+                        button_subtype: 'services',
+                        no_note: '0',
+                        bn: 'PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest'
                     };
                     
                     for (const key in params) {
@@ -393,54 +396,15 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         startPractice: {
             message: {
-                en: 'Choose your practice mode:',
-                es: 'Elige tu modo de práctica:',
-                pt: 'Escolha seu modo de prática:'
-            },
-            options: [
-                { text: { en: '🇬🇧 Practice English', es: '🇬🇧 Practicar inglés', pt: '🇬🇧 Praticar inglês' }, next: 'startEnglish', emoji: '🇬🇧' },
-                { text: { en: '🇪🇸 Practice Spanish', es: '🇪🇸 Practicar español', pt: '🇪🇸 Praticar espanhol' }, next: 'startSpanish', emoji: '🇪🇸' },
-                { text: { en: '🇵🇹 Practice Portuguese', es: '🇵🇹 Practicar portugués', pt: '🇵🇹 Praticar português' }, next: 'startPortuguese', emoji: '🇵🇹' },
-                { text: { en: '🔙 Back', es: '🔙 Regresar', pt: '🔙 Voltar' }, next: 'welcome', emoji: '🔙' }
-            ]
-        },
-        startEnglish: {
-            message: {
-                en: 'Opening English practice session...<br><br>' +
+                en: 'Opening language practice session...<br><br>' +
                     '<div class="loading-spinner"></div>',
-                es: 'Abriendo sesión de práctica de inglés...<br><br>' +
+                es: 'Abriendo sesión de práctica de idiomas...<br><br>' +
                     '<div class="loading-spinner"></div>',
-                pt: 'Abrindo sessão de prática de inglês...<br><br>' +
+                pt: 'Abrindo sessão de prática de idiomas...<br><br>' +
                     '<div class="loading-spinner"></div>'
             },
             action: () => {
-                startNewSession('english');
-            }
-        },
-        startSpanish: {
-            message: {
-                en: 'Opening Spanish practice session...<br><br>' +
-                    '<div class="loading-spinner"></div>',
-                es: 'Abriendo sesión de práctica de español...<br><br>' +
-                    '<div class="loading-spinner"></div>',
-                pt: 'Abrindo sessão de prática de espanhol...<br><br>' +
-                    '<div class="loading-spinner"></div>'
-            },
-            action: () => {
-                startNewSession('spanish');
-            }
-        },
-        startPortuguese: {
-            message: {
-                en: 'Opening Portuguese practice session...<br><br>' +
-                    '<div class="loading-spinner"></div>',
-                es: 'Abriendo sesión de práctica de portugués...<br><br>' +
-                    '<div class="loading-spinner"></div>',
-                pt: 'Abrindo sessão de prática de português...<br><br>' +
-                    '<div class="loading-spinner"></div>'
-            },
-            action: () => {
-                startNewSession('portuguese');
+                startNewSession('all');
             }
         },
         testimonials: {
@@ -1155,15 +1119,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Create session record in Firestore
         db.collection('users').doc(chatbotConfig.user.uid).collection('sessions').add({
-            language: language,
+            language: 'all',
             startTime: firebase.firestore.FieldValue.serverTimestamp(),
             status: 'active'
         })
         .then(docRef => {
             // Open practice window
-            const url = language === 'english' ? 
-                'https://hablaya.vercel.app' : 
-                (language === 'spanish' ? 'https://hablayaspanish.vercel.app' : 'https://hablayaportugues.vercel.app');
+            const url = 'https://hablayalanguagetutor.vercel.app/';
             const newWindow = window.open(url, '_blank');
             
             if (newWindow) {
