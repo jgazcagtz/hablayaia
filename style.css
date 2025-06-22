@@ -464,6 +464,8 @@ section {
     gap: var(--space-xs);
     position: relative;
     overflow: hidden;
+    min-height: 48px;
+    white-space: nowrap;
 }
 
 .btn::after {
@@ -486,11 +488,13 @@ section {
     background: var(--gradient);
     color: white;
     box-shadow: var(--shadow);
+    border: none;
 }
 
 .btn.primary:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
+    color: white;
 }
 
 .btn.secondary {
@@ -504,10 +508,80 @@ section {
     background: rgba(var(--primary), 0.1);
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
+    color: var(--primary);
 }
 
 .btn.pulse {
     animation: pulse 2s infinite;
+}
+
+/* PayPal form button specific styles */
+.paypal-form button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.paypal-form button.btn.primary {
+    background: var(--gradient);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+}
+
+.paypal-form button.btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+    color: white;
+}
+
+.paypal-form button.btn.secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Specific styles for upgrade modal buttons */
+.upgrade-plan .paypal-form button {
+    background: var(--gradient);
+    color: white;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+    transition: all 0.3s ease;
+}
+
+.upgrade-plan .paypal-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+    color: white;
+}
+
+.upgrade-plan.popular .paypal-form button {
+    background: white;
+    color: var(--primary);
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.upgrade-plan.popular .paypal-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: var(--primary);
 }
 
 .hero-image {
@@ -1234,7 +1308,7 @@ section {
 .form-group input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(var(--primary), 0.1);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
 }
 
 .auth-footer {
@@ -1367,29 +1441,63 @@ section {
 }
 
 @keyframes slideUp {
-    from { 
+    from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
-    to { 
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes pulse {
-    0% { 
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-        transform: scale(1);
-    }
-    70% { 
-        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
-        transform: scale(1.05);
-    }
-    100% { 
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-        transform: scale(1);
-    }
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Enhanced Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+/* Enhanced Card Styles */
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsive Design */
@@ -2033,52 +2141,6 @@ section {
     to { transform: rotate(360deg); }
 }
 
-/* Enhanced Button Styles */
-.btn {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.btn:hover::before {
-    left: 100%;
-}
-
-.btn.primary {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    border: none;
-    color: white;
-    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
-}
-
-.btn.primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
-}
-
-.btn.secondary {
-    background: transparent;
-    border: 2px solid var(--border-color);
-    color: var(--text-primary);
-}
-
-.btn.secondary:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
 /* Enhanced Form Styles */
 .form-group {
     margin-bottom: 1.5rem;
@@ -2104,7 +2166,7 @@ section {
 
 .form-group input:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
 }
 
