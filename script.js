@@ -1610,9 +1610,15 @@ function translateElement(element, lang) {
 
 // Show dashboard
 function showDashboard(user) {
-    document.getElementById('main-app').style.display = 'none';
-    document.getElementById('intro-page').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
+    const mainApp = document.getElementById('main-app');
+    const introPage = document.getElementById('intro-page');
+    const dashboard = document.getElementById('dashboard');
+    
+    if (mainApp) mainApp.style.display = 'none';
+    if (introPage) introPage.style.display = 'none';
+    if (dashboard) {
+        dashboard.style.display = 'block';
+    }
     
     // Load user data
     loadUserData();
