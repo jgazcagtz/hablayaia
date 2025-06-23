@@ -2,14 +2,14 @@
 // This file ensures consistent pricing across all components
 
 window.PRICING_CONFIG = {
-    // Currency settings with exchange rates
+    // Currency settings with correct exchange rates (1 USD = 19 MXN)
     currency: 'MXN',
     currencySymbol: '$',
     exchangeRates: {
         MXN: 1,
-        USD: 0.059, // 1 MXN = 0.059 USD
-        EUR: 0.054, // 1 MXN = 0.054 EUR
-        BRL: 0.29   // 1 MXN = 0.29 BRL
+        USD: 0.053, // 1 MXN = 0.053 USD (1 USD = 19 MXN)
+        EUR: 0.049, // 1 MXN = 0.049 EUR (1 EUR = 20.4 MXN)
+        BRL: 0.28   // 1 MXN = 0.28 BRL (1 BRL = 3.57 MXN)
     },
     currencySymbols: {
         MXN: '$',
@@ -25,7 +25,7 @@ window.PRICING_CONFIG = {
     introPricingActive: true,
     introPricingEndDate: new Date('2024-04-15'), // 90 days from launch
     
-    // Pricing plans with 50% discount for intro pricing
+    // Pricing plans with 50% discount for intro pricing (in MXN)
     plans: {
         trial: {
             name: {
@@ -282,16 +282,14 @@ window.PRICING_CONFIG = {
             return price;
         }
         
-        // Convert to USD first, then to target currency
-        const usdRate = this.exchangeRates[fromCurrency];
-        const targetRate = this.exchangeRates[toCurrency];
+        // Convert from MXN to target currency
+        const rate = this.exchangeRates[toCurrency];
         
-        if (!usdRate || !targetRate) {
+        if (!rate) {
             return price; // Fallback to original price
         }
         
-        const usdAmount = price * usdRate;
-        return Math.round(usdAmount / targetRate);
+        return Math.round(price * rate);
     },
     
     formatPrice(price, currency = null) {
