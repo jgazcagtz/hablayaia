@@ -50,10 +50,10 @@ const translations = {
         tryEnglish: "Probar Inglés",
         spanishVersion: "Versión en Español",
         spanishDesc: "Practica tu español con nuestro tutor de IA",
-        trySpanish: "Probar Spanish Version",
+        trySpanish: "Probar Espanhol",
         portugueseVersion: "Versión en Portugués",
         portugueseDesc: "Practica tu portugués con nuestro tutor de IA",
-        tryPortuguese: "Probar Portuguese Version",
+        tryPortuguese: "Probar Portugués",
         featuresSubtitle: "POR QUÉ HABLAYA",
         featuresTitle: "Tu Asistente de Idiomas con IA",
         feature1Title: "IA Inteligente",
@@ -274,7 +274,7 @@ const translations = {
         billingHistory: "Billing History",
         upgradePlan: "Upgrade Plan",
         manageSubscription: "Manage",
-        viewAllTransactions: "View All",
+        viewAllTransactions: "View All Transactions",
         trialExpired: "Trial Expired",
         trialActive: "Trial Active",
         daysLeft: "days left",
@@ -344,7 +344,7 @@ const translations = {
         pricingTitle: "Preços Simples, Máximo Valor",
         pricingDescription: "Comece com um teste grátis de 7 dias, depois escolha o plano que se ajusta aos seus objetivos",
         freeTrial: "Teste Grátis",
-        freeTrialPlan: "Teste Grátis de 7 Dias",
+        freeTrialPlan: "Teste Gratuito de 7 Dias",
         freeTrialSubtitle: "7 dias grátis • Sem cartão de crédito",
         startFreeTrial: "Começar Teste Grátis",
         trialNote: "Cancele a qualquer momento durante o teste",
@@ -412,7 +412,7 @@ const translations = {
         billingHistory: "Histórico de Faturamento",
         upgradePlan: "Atualizar Plano",
         manageSubscription: "Gerenciar",
-        viewAllTransactions: "Ver Todas",
+        viewAllTransactions: "Ver Todas as Transações",
         trialExpired: "Teste Expirado",
         trialActive: "Teste Ativo",
         daysLeft: "dias restantes",
@@ -770,6 +770,31 @@ function setupEventListeners() {
         });
     });
     
+    // Demo section buttons
+    const demoButtons = document.querySelectorAll('.demo-card .try-chatbot');
+    demoButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const language = this.getAttribute('data-language');
+            
+            if (auth.currentUser) {
+                if (language === 'speech') {
+                    // Handle voice recognition demo
+                    alert('Voice recognition feature coming soon!');
+                } else if (language === 'progress') {
+                    // Handle progress tracking demo
+                    alert('Progress tracking demo coming soon!');
+                } else {
+                    // Default action - start session
+                    startNewSession(language || 'all');
+                }
+            } else {
+                // Show login modal for non-authenticated users
+                document.getElementById('login-modal').style.display = 'flex';
+            }
+        });
+    });
+    
     // Mobile menu
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const closeMenuBtn = document.getElementById('close-menu');
@@ -953,4 +978,702 @@ function setupEventListeners() {
     
     // Initialize theme
     updateThemeIcon();
+}
+
+// Close promotional banner
+function closePromoBanner() {
+    const banner = document.getElementById('promo-banner');
+    if (banner) {
+        banner.style.display = 'none';
+        localStorage.setItem('promoBannerClosed', 'true');
+    }
+}
+
+// Check if promo banner should be shown
+function checkPromoBanner() {
+    const bannerClosed = localStorage.getItem('promoBannerClosed');
+    const banner = document.getElementById('promo-banner');
+    
+    if (banner && !bannerClosed) {
+        banner.style.display = 'block';
+    }
+}
+
+// Toggle theme (light/dark)
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update theme icon
+    updateThemeIcon();
+}
+
+// Toggle language selector
+function toggleLanguage() {
+    toggleLanguageSelector();
+}
+
+// Update theme icon
+function updateThemeIcon() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = themeToggle.querySelector('i');
+        if (icon) {
+            icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    }
+}
+
+// Update language flags
+function updateLanguageFlags() {
+    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+    const langToggle = document.getElementById('lang-toggle');
+    const mobileLangToggle = document.getElementById('mobile-lang-toggle');
+    
+    if (langToggle) {
+        const flag = langToggle.querySelector('.lang-flag');
+        if (flag) {
+            flag.textContent = getLanguageFlag(currentLang);
+        }
+    }
+    
+    if (mobileLangToggle) {
+        const flag = mobileLangToggle.querySelector('.lang-flag');
+        if (flag) {
+            flag.textContent = getLanguageFlag(currentLang);
+        }
+    }
+}
+
+// Get language flag emoji
+function getLanguageFlag(lang) {
+    const flags = {
+        'es': '🇪🇸',
+        'en': '🇺🇸',
+        'pt': '🇧🇷'
+    };
+    return flags[lang] || '🇪🇸';
+}
+
+// Initialize selectors
+function initializeSelectors() {
+    // Set initial language and currency
+    const savedLanguage = localStorage.getItem('selectedLanguage') || 'es';
+    const savedCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
+    
+    // Update selectors
+    const languageSelect = document.getElementById('language-select');
+    const currencySelect = document.getElementById('currency-select');
+    
+    if (languageSelect) {
+        languageSelect.value = savedLanguage;
+    }
+    
+    if (currencySelect) {
+        currencySelect.value = savedCurrency;
+    }
+    
+    // Update UI
+    updateLanguageUI();
+    updateCurrencyUI();
+}
+
+// Update language UI
+function updateLanguageUI() {
+    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+    document.documentElement.setAttribute('data-lang', currentLang);
+    updateLanguageFlags();
+}
+
+// Update currency UI
+function updateCurrencyUI() {
+    const currentCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
+    updatePricingDisplay();
+}
+
+// Change currency
+function changeCurrency(currency) {
+    localStorage.setItem('selectedCurrency', currency);
+    updatePricingDisplay();
+    closeLanguageSelector();
+}
+
+// Update pricing display with current currency
+function updatePricingDisplay() {
+    const currentCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
+    
+    // Update all pricing cards
+    document.querySelectorAll('.pricing-card').forEach(card => {
+        const plan = card.getAttribute('data-plan');
+        if (plan && window.PRICING_CONFIG && window.PRICING_CONFIG.plans[plan]) {
+            const planData = window.PRICING_CONFIG.plans[plan];
+            const convertedPrice = convertPrice(planData.price, currentCurrency);
+            const convertedOriginalPrice = convertPrice(planData.originalPrice, currentCurrency);
+            
+            const currentPriceEl = card.querySelector('.current-price');
+            const originalPriceEl = card.querySelector('.original-price');
+            
+            if (currentPriceEl) {
+                currentPriceEl.textContent = formatPrice(convertedPrice, currentCurrency);
+            }
+            
+            if (originalPriceEl) {
+                originalPriceEl.textContent = formatPrice(convertedOriginalPrice, currentCurrency);
+            }
+        }
+    });
+    
+    // Update PayPal forms
+    updatePayPalForms();
+}
+
+// Convert price to different currency
+function convertPrice(price, targetCurrency) {
+    if (!window.PRICING_CONFIG || !window.PRICING_CONFIG.exchangeRates) {
+        return price;
+    }
+    
+    const rates = window.PRICING_CONFIG.exchangeRates;
+    const baseCurrency = 'MXN';
+    
+    if (targetCurrency === baseCurrency) {
+        return price;
+    }
+    
+    if (rates[targetCurrency]) {
+        return Math.round(price / rates[targetCurrency]);
+    }
+    
+    return price;
+}
+
+// Format price with currency symbol
+function formatPrice(price, currency) {
+    const symbols = {
+        'MXN': '$',
+        'USD': '$',
+        'EUR': '€',
+        'BRL': 'R$'
+    };
+    
+    const symbol = symbols[currency] || '$';
+    return `${symbol}${price.toLocaleString()}`;
+}
+
+// Update PayPal forms with current currency
+function updatePayPalForms() {
+    const currentCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
+    
+    document.querySelectorAll('.paypal-form').forEach(form => {
+        const plan = form.getAttribute('data-plan');
+        if (plan && window.PRICING_CONFIG && window.PRICING_CONFIG.plans[plan]) {
+            const planData = window.PRICING_CONFIG.plans[plan];
+            const convertedPrice = convertPrice(planData.price, currentCurrency);
+            
+            // Update amount field
+            const amountField = form.querySelector('input[name="amount"]');
+            if (amountField) {
+                amountField.value = convertedPrice.toFixed(2);
+            }
+            
+            // Update a3 field (for subscriptions)
+            const a3Field = form.querySelector('input[name="a3"]');
+            if (a3Field) {
+                a3Field.value = convertedPrice.toFixed(2);
+            }
+            
+            // Update currency code
+            const currencyField = form.querySelector('input[name="currency_code"]');
+            if (currencyField) {
+                currencyField.value = currentCurrency;
+            }
+        }
+    });
+}
+
+// Update pricing section
+function updatePricingSection() {
+    if (window.PRICING_CONFIG) {
+        updatePricingDisplay();
+    }
+}
+
+// Translate element based on language
+function translateElement(element, lang) {
+    const key = element.getAttribute('data-i18n');
+    if (!key) return;
+    
+    const translations = {
+        es: {
+            // Navigation
+            'navHome': 'Inicio',
+            'navFeatures': 'Características',
+            'navPricing': 'Precios',
+            'navAbout': 'Acerca de',
+            'navLogin': 'Iniciar Sesión',
+            'navSignup': 'Registrarse',
+            
+            // Hero Section
+            'heroTitle': 'Aprende idiomas con IA personalizada',
+            'heroSubtitle': 'Domina inglés, español, portugués, italiano y francés con tu tutor de IA personalizado',
+            'startFreeTrial': 'Prueba Gratis',
+            'learnMore': 'Conoce Más',
+            
+            // Demo Section
+            'demoTitle': 'Prueba Nuestro Tutor de IA',
+            'demoSubtitle': 'Prueba nuestro tutor de IA con todos los idiomas soportados',
+            'allLanguages': 'Todos los Idiomas',
+            'allLanguagesDesc': 'Practica inglés, español, portugués, italiano y francés',
+            'tryNow': 'Probar Ahora',
+            'progressTracking': 'Seguimiento de Progreso',
+            'progressDesc': 'Rastrea tu mejora desde niveles A1 hasta C2',
+            'seeDemo': 'Ver Demo',
+            'speechRecognition': 'Reconocimiento de Voz',
+            'speechDesc': 'Practica pronunciación con retroalimentación en tiempo real',
+            'tryVoice': 'Probar Voz',
+            
+            // Features Section
+            'featuresSubtitle': 'POR QUÉ HABLAYA',
+            'featuresTitle': 'Tu Compañero de IA para Idiomas',
+            'feature1Title': 'Tutor de IA Inteligente',
+            'feature1Desc': 'IA adaptativa que aprende tu nivel y personaliza conversaciones',
+            'feature2Title': '5 Idiomas',
+            'feature2Desc': 'Inglés, español, portugués, italiano y francés de A1 a C2',
+            'feature3Title': 'Siempre Disponible',
+            'feature3Desc': 'Practica cuando te inspire, día o noche',
+            'feature4Title': 'Retroalimentación Instantánea',
+            'feature4Desc': 'Correcciones en tiempo real de pronunciación y gramática',
+            
+            // Pricing Section
+            'pricingSubtitle': 'PLANES ACCESIBLES',
+            'pricingTitle': 'Precios Simples, Máximo Valor',
+            'pricingDescription': 'Comienza con una prueba gratuita de 7 días, luego elige el plan que se ajuste a tus metas',
+            'freeTrial': 'Prueba Gratis',
+            'freeTrialPlan': 'Prueba Gratuita de 7 Días',
+            'freeTrialSubtitle': '7 días gratis • Sin tarjeta de crédito',
+            'priceFeature1': 'Todos los 5 idiomas incluidos',
+            'priceFeature2': 'Niveles A1 a C2',
+            'priceFeature3': 'Reconocimiento de voz',
+            'priceFeature4': 'Seguimiento de progreso',
+            'priceFeature5': 'Acceso completo a todas las funciones',
+            'priceFeature6': 'Analíticas avanzadas',
+            'startFreeTrial': 'Comenzar Prueba Gratis',
+            'trialNote': 'Cancela en cualquier momento durante la prueba',
+            'bestValue': 'Mejor Valor',
+            'fiveYearPlan': 'Plan de 5 Años',
+            'perFiveYears': 'por 5 años',
+            'save34': 'Ahorra 34%',
+            'popularChoice': 'Más Popular',
+            'twoYearPlan': 'Plan de 2 Años',
+            'perTwoYears': 'por 2 años',
+            'save17': 'Ahorra 17%',
+            'annualPlan': 'Plan Anual',
+            'perYear': 'por año',
+            'save11': 'Ahorra 11%',
+            'quarterlyPlan': 'Plan Trimestral',
+            'perQuarter': 'por trimestre',
+            'buyNow': 'Comprar Ahora',
+            'moneyBack': 'Garantía de devolución de 30 días',
+            
+            // Instructions Section
+            'instructionsTitle': 'Cómo Comenzar',
+            'instructionsSubtitle': 'Sigue estos pasos simples para comenzar tu viaje de aprendizaje',
+            'step1Title': 'Prueba Gratis',
+            'step1Desc': 'Regístrate gratis y obtén 7 días de acceso completo sin tarjeta de crédito',
+            'step2Title': 'Elige tu Plan',
+            'step2Desc': 'Selecciona el plan que mejor se ajuste a tus metas de aprendizaje',
+            'step3Title': 'Paga Seguro',
+            'step3Desc': 'Usa PayPal para un pago seguro y protegido',
+            'step4Title': 'Comienza a Aprender',
+            'step4Desc': 'Accede inmediatamente a todas las funciones y comienza a practicar',
+            
+            // Promotional Banner
+            'promoMessage': '¡OFERTA ESPECIAL! 50% de descuento por 90 días - ¡Precios introductorios limitados!',
+            
+            // Language/Currency Selector
+            'settingsTitle': 'Configuración',
+            'languageLabel': 'Idioma:',
+            'currencyLabel': 'Moneda:',
+            
+            // Auth Modals
+            'loginTitle': 'Iniciar Sesión',
+            'signupTitle': 'Crear Cuenta',
+            'emailLabel': 'Correo Electrónico',
+            'passwordLabel': 'Contraseña',
+            'nameLabel': 'Nombre',
+            'loginButton': 'Iniciar Sesión',
+            'signupButton': 'Registrarse',
+            'noAccount': '¿No tienes cuenta?',
+            'haveAccount': '¿Ya tienes cuenta?',
+            
+            // Dashboard
+            'dashboardTitle': 'Tu Panel de Aprendizaje',
+            'logoutButton': 'Cerrar Sesión',
+            'totalSessions': 'Sesiones Totales',
+            'currentLevel': 'Nivel Actual',
+            'subscription': 'Suscripción',
+            'trialStatus': 'Estado de Prueba',
+            'paymentManagement': 'Gestión de Pagos',
+            'currentPlan': 'Plan Actual',
+            'billingHistory': 'Historial de Facturación',
+            'upgradePlan': 'Actualizar Plan',
+            'manageSubscription': 'Gestionar',
+            'viewAllTransactions': 'Ver Todas las Transacciones',
+            'startSession': 'Iniciar Nueva Sesión',
+            'startChatbot': 'Iniciar Tutor de Idiomas',
+            
+            // Footer
+            'footerAbout': 'Acerca de',
+            'footerPrivacy': 'Privacidad',
+            'footerTerms': 'Términos',
+            'footerContact': 'Contacto',
+            'footerCopyright': '© 2024 HablaYa!. Todos los derechos reservados.'
+        },
+        en: {
+            // Navigation
+            'navHome': 'Home',
+            'navFeatures': 'Features',
+            'navPricing': 'Pricing',
+            'navAbout': 'About',
+            'navLogin': 'Login',
+            'navSignup': 'Sign Up',
+            
+            // Hero Section
+            'heroTitle': 'Learn languages with personalized AI',
+            'heroSubtitle': 'Master English, Spanish, Portuguese, Italian and French with your personalized AI tutor',
+            'startFreeTrial': 'Start Free Trial',
+            'learnMore': 'Learn More',
+            
+            // Demo Section
+            'demoTitle': 'Try Our AI Tutor',
+            'demoSubtitle': 'Try our AI tutor with all supported languages',
+            'allLanguages': 'All Languages',
+            'allLanguagesDesc': 'Practice English, Spanish, Portuguese, Italian and French',
+            'tryNow': 'Try Now',
+            'progressTracking': 'Progress Tracking',
+            'progressDesc': 'Track your improvement from A1 to C2 levels',
+            'seeDemo': 'See Demo',
+            'speechRecognition': 'Speech Recognition',
+            'speechDesc': 'Practice pronunciation with real-time feedback',
+            'tryVoice': 'Try Voice',
+            
+            // Features Section
+            'featuresSubtitle': 'WHY HABLAYA',
+            'featuresTitle': 'Your Personal AI Language Partner',
+            'feature1Title': 'Smart AI Tutor',
+            'feature1Desc': 'Adaptive AI that learns your level and personalizes conversations',
+            'feature2Title': '5 Languages',
+            'feature2Desc': 'English, Spanish, Portuguese, Italian and French from A1 to C2',
+            'feature3Title': 'Always Available',
+            'feature3Desc': 'Practice whenever inspiration strikes, day or night',
+            'feature4Title': 'Instant Feedback',
+            'feature4Desc': 'Real-time corrections on pronunciation and grammar',
+            
+            // Pricing Section
+            'pricingSubtitle': 'AFFORDABLE PLANS',
+            'pricingTitle': 'Simple Pricing, Maximum Value',
+            'pricingDescription': 'Start with a 7-day free trial, then choose the plan that fits your goals',
+            'freeTrial': 'Free Trial',
+            'freeTrialPlan': '7-Day Free Trial',
+            'freeTrialSubtitle': '7 days free • No credit card required',
+            'priceFeature1': 'All 5 languages included',
+            'priceFeature2': 'A1 to C2 levels',
+            'priceFeature3': 'Speech recognition',
+            'priceFeature4': 'Progress tracking',
+            'priceFeature5': 'Full access to all features',
+            'priceFeature6': 'Advanced analytics',
+            'startFreeTrial': 'Start Free Trial',
+            'trialNote': 'Cancel anytime during trial',
+            'bestValue': 'Best Value',
+            'fiveYearPlan': '5-Year Plan',
+            'perFiveYears': 'for 5 years',
+            'save34': 'Save 34%',
+            'popularChoice': 'Most Popular',
+            'twoYearPlan': '2-Year Plan',
+            'perTwoYears': 'for 2 years',
+            'save17': 'Save 17%',
+            'annualPlan': 'Annual Plan',
+            'perYear': 'per year',
+            'save11': 'Save 11%',
+            'quarterlyPlan': 'Quarterly Plan',
+            'perQuarter': 'per quarter',
+            'buyNow': 'Buy Now',
+            'moneyBack': '30-day money back guarantee',
+            
+            // Instructions Section
+            'instructionsTitle': 'How to Get Started',
+            'instructionsSubtitle': 'Follow these simple steps to begin your learning journey',
+            'step1Title': 'Free Trial',
+            'step1Desc': 'Sign up for free and get 7 days of full access without credit card',
+            'step2Title': 'Choose Your Plan',
+            'step2Desc': 'Select the plan that best fits your learning goals',
+            'step3Title': 'Pay Securely',
+            'step3Desc': 'Use PayPal for secure and protected payment',
+            'step4Title': 'Start Learning',
+            'step4Desc': 'Access all features immediately and start practicing',
+            
+            // Promotional Banner
+            'promoMessage': 'SPECIAL OFFER! 50% discount for 90 days - Limited introductory pricing!',
+            
+            // Language/Currency Selector
+            'settingsTitle': 'Settings',
+            'languageLabel': 'Language:',
+            'currencyLabel': 'Currency:',
+            
+            // Auth Modals
+            'loginTitle': 'Log In',
+            'signupTitle': 'Create Account',
+            'emailLabel': 'Email',
+            'passwordLabel': 'Password',
+            'nameLabel': 'Name',
+            'loginButton': 'Log In',
+            'signupButton': 'Sign Up',
+            'noAccount': "Don't have an account?",
+            'haveAccount': 'Already have an account?',
+            
+            // Dashboard
+            'dashboardTitle': 'Your Learning Dashboard',
+            'logoutButton': 'Log Out',
+            'totalSessions': 'Total Sessions',
+            'currentLevel': 'Current Level',
+            'subscription': 'Subscription',
+            'trialStatus': 'Trial Status',
+            'paymentManagement': 'Payment Management',
+            'currentPlan': 'Current Plan',
+            'billingHistory': 'Billing History',
+            'upgradePlan': 'Upgrade Plan',
+            'manageSubscription': 'Manage',
+            'viewAllTransactions': 'View All Transactions',
+            'startSession': 'Start a New Session',
+            'startChatbot': 'Start Language Tutor',
+            
+            // Footer
+            'footerAbout': 'About',
+            'footerPrivacy': 'Privacy',
+            'footerTerms': 'Terms',
+            'footerContact': 'Contact',
+            'footerCopyright': '© 2024 HablaYa!. All rights reserved.'
+        },
+        pt: {
+            // Navigation
+            'navHome': 'Início',
+            'navFeatures': 'Recursos',
+            'navPricing': 'Preços',
+            'navAbout': 'Sobre',
+            'navLogin': 'Entrar',
+            'navSignup': 'Cadastrar',
+            
+            // Hero Section
+            'heroTitle': 'Aprenda idiomas com IA personalizada',
+            'heroSubtitle': 'Domine inglês, espanhol, português, italiano e francês com seu tutor de IA personalizado',
+            'startFreeTrial': 'Começar Teste Grátis',
+            'learnMore': 'Saiba Mais',
+            
+            // Demo Section
+            'demoTitle': 'Experimente Nosso Tutor de IA',
+            'demoSubtitle': 'Experimente nosso tutor de IA com todos os idiomas suportados',
+            'allLanguages': 'Todos os Idiomas',
+            'allLanguagesDesc': 'Pratique inglês, espanhol, português, italiano e francês',
+            'tryNow': 'Experimentar Agora',
+            'progressTracking': 'Acompanhamento de Progresso',
+            'progressDesc': 'Acompanhe sua melhoria dos níveis A1 ao C2',
+            'seeDemo': 'Ver Demo',
+            'speechRecognition': 'Reconhecimento de Voz',
+            'speechDesc': 'Pratique pronúncia com feedback em tempo real',
+            'tryVoice': 'Experimentar Voz',
+            
+            // Features Section
+            'featuresSubtitle': 'POR QUE HABLAYA',
+            'featuresTitle': 'Seu Parceiro de IA para Idiomas',
+            'feature1Title': 'Tutor de IA Inteligente',
+            'feature1Desc': 'IA adaptativa que aprende seu nível e personaliza conversas',
+            'feature2Title': '5 Idiomas',
+            'feature2Desc': 'Inglês, espanhol, português, italiano e francês de A1 a C2',
+            'feature3Title': 'Sempre Disponível',
+            'feature3Desc': 'Pratique quando a inspiração surgir, dia ou noite',
+            'feature4Title': 'Feedback Instantâneo',
+            'feature4Desc': 'Correções em tempo real de pronúncia e gramática',
+            
+            // Pricing Section
+            'pricingSubtitle': 'PLANOS ACESSÍVEIS',
+            'pricingTitle': 'Preços Simples, Máximo Valor',
+            'pricingDescription': 'Comece com um teste gratuito de 7 dias, depois escolha o plano que se adapta aos seus objetivos',
+            'freeTrial': 'Teste Grátis',
+            'freeTrialPlan': 'Teste Gratuito de 7 Dias',
+            'freeTrialSubtitle': '7 dias grátis • Sem cartão de crédito necessário',
+            'priceFeature1': 'Todos os 5 idiomas incluídos',
+            'priceFeature2': 'Níveis A1 a C2',
+            'priceFeature3': 'Reconhecimento de voz',
+            'priceFeature4': 'Acompanhamento de progresso',
+            'priceFeature5': 'Acesso completo a todos os recursos',
+            'priceFeature6': 'Análises avançadas',
+            'startFreeTrial': 'Começar Teste Grátis',
+            'trialNote': 'Cancele a qualquer momento durante o teste',
+            'bestValue': 'Melhor Valor',
+            'fiveYearPlan': 'Plano de 5 Anos',
+            'perFiveYears': 'por 5 anos',
+            'save34': 'Economize 34%',
+            'popularChoice': 'Mais Popular',
+            'twoYearPlan': 'Plano de 2 Anos',
+            'perTwoYears': 'por 2 anos',
+            'save17': 'Economize 17%',
+            'annualPlan': 'Plano Anual',
+            'perYear': 'por ano',
+            'save11': 'Economize 11%',
+            'quarterlyPlan': 'Plano Trimestral',
+            'perQuarter': 'por trimestre',
+            'buyNow': 'Comprar Agora',
+            'moneyBack': 'Garantia de devolução de 30 dias',
+            
+            // Instructions Section
+            'instructionsTitle': 'Como Começar',
+            'instructionsSubtitle': 'Siga estes passos simples para começar sua jornada de aprendizado',
+            'step1Title': 'Teste Grátis',
+            'step1Desc': 'Cadastre-se gratuitamente e obtenha 7 dias de acesso completo sem cartão de crédito',
+            'step2Title': 'Escolha Seu Plano',
+            'step2Desc': 'Selecione o plano que melhor se adapta aos seus objetivos de aprendizado',
+            'step3Title': 'Pague com Segurança',
+            'step3Desc': 'Use PayPal para pagamento seguro e protegido',
+            'step4Title': 'Comece a Aprender',
+            'step4Desc': 'Acesse todos os recursos imediatamente e comece a praticar',
+            
+            // Promotional Banner
+            'promoMessage': 'OFERTA ESPECIAL! 50% de desconto por 90 dias - Preços introdutórios limitados!',
+            
+            // Language/Currency Selector
+            'settingsTitle': 'Configurações',
+            'languageLabel': 'Idioma:',
+            'currencyLabel': 'Moeda:',
+            
+            // Auth Modals
+            'loginTitle': 'Entrar',
+            'signupTitle': 'Criar Conta',
+            'emailLabel': 'Email',
+            'passwordLabel': 'Senha',
+            'nameLabel': 'Nome',
+            'loginButton': 'Entrar',
+            'signupButton': 'Cadastrar',
+            'noAccount': 'Não tem uma conta?',
+            'haveAccount': 'Já tem uma conta?',
+            
+            // Dashboard
+            'dashboardTitle': 'Seu Painel de Aprendizado',
+            'logoutButton': 'Sair',
+            'totalSessions': 'Sessões Totais',
+            'currentLevel': 'Nível Atual',
+            'subscription': 'Assinatura',
+            'trialStatus': 'Status do Teste',
+            'paymentManagement': 'Gerenciamento de Pagamentos',
+            'currentPlan': 'Plano Atual',
+            'billingHistory': 'Histórico de Cobrança',
+            'upgradePlan': 'Atualizar Plano',
+            'manageSubscription': 'Gerenciar',
+            'viewAllTransactions': 'Ver Todas as Transações',
+            'startSession': 'Iniciar Nova Sessão',
+            'startChatbot': 'Iniciar Tutor de Idiomas',
+            
+            // Footer
+            'footerAbout': 'Sobre',
+            'footerPrivacy': 'Privacidade',
+            'footerTerms': 'Termos',
+            'footerContact': 'Contato',
+            'footerCopyright': '© 2024 HablaYa!. Todos os direitos reservados.'
+        }
+    };
+    
+    const translation = translations[lang] && translations[lang][key];
+    if (translation) {
+        element.textContent = translation;
+    }
+}
+
+// Show dashboard
+function showDashboard(user) {
+    document.getElementById('main-app').style.display = 'none';
+    document.getElementById('intro-page').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    
+    // Load user data
+    loadUserData();
+}
+
+// Hide dashboard
+function hideDashboard() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('intro-page').style.display = 'flex';
+}
+
+// Load user data for dashboard
+function loadUserData() {
+    if (!auth.currentUser) return;
+    
+    const userId = auth.currentUser.uid;
+    
+    db.collection('users').doc(userId).get()
+        .then(doc => {
+            if (doc.exists) {
+                const userData = doc.data();
+                
+                // Update user info
+                document.getElementById('user-name').textContent = userData.name || 'User';
+                document.getElementById('user-email').textContent = userData.email || '';
+                
+                // Update stats
+                const totalSessions = (userData.englishSessions || 0) + 
+                                    (userData.spanishSessions || 0) + 
+                                    (userData.portugueseSessions || 0);
+                document.getElementById('total-count').textContent = totalSessions;
+                
+                // Update subscription info
+                const subscriptionType = userData.subscription || 'trial';
+                document.getElementById('subscription-type').textContent = 
+                    subscriptionType === 'trial' ? 'Free Trial' : 'Premium';
+                
+                // Update trial status
+                if (userData.trialActive && userData.trialEnd) {
+                    const trialEnd = userData.trialEnd.toDate();
+                    const now = new Date();
+                    const daysLeft = Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysLeft > 0) {
+                        document.getElementById('trial-status').textContent = `${daysLeft} days left`;
+                        document.getElementById('trial-expiry').textContent = trialEnd.toLocaleDateString();
+                    } else {
+                        document.getElementById('trial-status').textContent = 'Expired';
+                        document.getElementById('trial-expiry').textContent = 'Trial ended';
+                    }
+                } else {
+                    document.getElementById('trial-status').textContent = 'Active';
+                    document.getElementById('trial-expiry').textContent = 'Loading...';
+                }
+                
+                // Update plan details
+                document.getElementById('plan-details').textContent = 
+                    subscriptionType === 'trial' ? '7-day free trial active' : 'Premium subscription active';
+                
+            }
+        })
+        .catch(error => {
+            console.error('Error loading user data:', error);
+        });
+}
+
+// Update user last login
+function updateUserLastLogin(userId) {
+    db.collection('users').doc(userId).update({
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(error => {
+        console.error('Error updating last login:', error);
+    });
+}
+
+// Set PayPal user ID
+function setPayPalUserId(user) {
+    document.querySelectorAll('#paypal-custom-userid').forEach(field => {
+        field.value = user.uid;
+    });
 }
