@@ -3452,6 +3452,29 @@ section {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
+.intro-login-btn {
+    font-size: 1rem;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.intro-login-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
 .intro-note {
     color: rgba(255, 255, 255, 0.8);
     font-size: 1rem;
