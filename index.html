@@ -321,6 +321,95 @@ document.head.appendChild(o)}initApollo();</script>
             </div>
         </div>
 
+        <!-- Upgrade Plan Modal -->
+        <div id="upgrade-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-i18n="upgradePlanTitle">Upgrade Your Plan</h3>
+                    <button class="close-modal" onclick="closeUpgradeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="upgrade-options">
+                        <div class="upgrade-option">
+                            <div class="upgrade-header">
+                                <h4 data-i18n="monthlyPlan">Monthly Plan</h4>
+                                <div class="upgrade-price">
+                                    <span class="current-price">$499</span>
+                                    <span class="price-period" data-i18n="perMonth">per month</span>
+                                </div>
+                            </div>
+                            <ul class="upgrade-features">
+                                <li data-i18n="priceFeature1"><i class="fas fa-check"></i> All 5 languages included</li>
+                                <li data-i18n="priceFeature2"><i class="fas fa-check"></i> A1 to C2 levels</li>
+                                <li data-i18n="priceFeature3"><i class="fas fa-check"></i> Speech recognition</li>
+                                <li data-i18n="priceFeature4"><i class="fas fa-check"></i> Standard support</li>
+                            </ul>
+                            <button class="btn primary" onclick="upgradeToPlan('monthly')" data-i18n="upgradeNow">Upgrade Now</button>
+                        </div>
+                        
+                        <div class="upgrade-option popular">
+                            <div class="upgrade-badge" data-i18n="bestValue">Best Value</div>
+                            <div class="upgrade-header">
+                                <h4 data-i18n="annualPlan">Annual Plan</h4>
+                                <div class="upgrade-price">
+                                    <span class="current-price">$4,990</span>
+                                    <span class="original-price">$5,988</span>
+                                    <span class="price-period" data-i18n="perYear">per year</span>
+                                </div>
+                                <div class="upgrade-savings" data-i18n="save17">Save 17%</div>
+                            </div>
+                            <ul class="upgrade-features">
+                                <li data-i18n="priceFeature1"><i class="fas fa-check"></i> All 5 languages included</li>
+                                <li data-i18n="priceFeature2"><i class="fas fa-check"></i> A1 to C2 levels</li>
+                                <li data-i18n="priceFeature3"><i class="fas fa-check"></i> Speech recognition</li>
+                                <li data-i18n="priceFeature5"><i class="fas fa-check"></i> Advanced progress tracking</li>
+                                <li data-i18n="priceFeature6"><i class="fas fa-check"></i> Priority support</li>
+                            </ul>
+                            <button class="btn primary" onclick="upgradeToPlan('annual')" data-i18n="upgradeNow">Upgrade Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Subscription Modal -->
+        <div id="manage-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-i18n="manageSubscriptionTitle">Manage Subscription</h3>
+                    <button class="close-modal" onclick="closeManageModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="subscription-info">
+                        <div class="current-plan-info">
+                            <h4 data-i18n="currentPlan">Current Plan</h4>
+                            <div class="plan-details">
+                                <span class="plan-name" id="modal-plan-name">Free Trial</span>
+                                <span class="plan-status" id="modal-plan-status">Active</span>
+                            </div>
+                            <p class="plan-description" id="modal-plan-description">7-day free trial active</p>
+                        </div>
+                        
+                        <div class="subscription-actions">
+                            <button class="btn primary" onclick="showUpgradeModal()" data-i18n="upgradePlan">Upgrade Plan</button>
+                            <button class="btn secondary" onclick="cancelSubscription()" data-i18n="cancelSubscription">Cancel Subscription</button>
+                            <button class="btn secondary" onclick="downloadInvoice()" data-i18n="downloadInvoice">Download Invoice</button>
+                        </div>
+                        
+                        <div class="billing-history">
+                            <h4 data-i18n="billingHistory">Billing History</h4>
+                            <div class="billing-list" id="modal-billing-list">
+                                <div class="billing-item">
+                                    <span class="billing-date">No transactions yet</span>
+                                    <span class="billing-amount">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main App Container -->
         <div class="app-container" id="app-container">
             <!-- Navigation -->
