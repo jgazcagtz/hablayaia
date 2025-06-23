@@ -901,6 +901,23 @@ function setupEventListeners() {
         logoutBtn.addEventListener('click', handleLogout);
     }
     
+    // Dashboard start chatbot
+    const startChatbotBtn = document.getElementById('start-chatbot');
+    if (startChatbotBtn) {
+        startChatbotBtn.addEventListener('click', function() {
+            // Launch the chatbot
+            const chatbot = document.getElementById('chatbot');
+            if (chatbot) {
+                chatbot.style.display = 'flex';
+                // Focus on the chatbot input
+                const chatbotInput = chatbot.querySelector('.chatbot-input input');
+                if (chatbotInput) {
+                    setTimeout(() => chatbotInput.focus(), 100);
+                }
+            }
+        });
+    }
+    
     // Dashboard actions
     const startSessionBtn = document.getElementById('start-session-btn');
     if (startSessionBtn) {
