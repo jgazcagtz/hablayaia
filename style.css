@@ -3654,3 +3654,293 @@ section {
         padding: var(--space-md);
     }
 }
+
+/* Dashboard Container - Independent Display */
+.dashboard-container {
+    min-height: 100vh;
+    background: var(--bg);
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-family);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.dashboard-container .dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.dashboard-container .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-container .dashboard-header h2 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.dashboard-container .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.dashboard-container .user-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.dashboard-container .user-details h3 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text);
+    font-size: 1.25rem;
+}
+
+.dashboard-container .user-details p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.dashboard-container .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-container .stat-card {
+    background: var(--card);
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.dashboard-container .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.dashboard-container .stat-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.dashboard-container .stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.dashboard-container .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.dashboard-container .payment-section {
+    margin-bottom: 2rem;
+}
+
+.dashboard-container .payment-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.dashboard-container .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.dashboard-container .payment-card {
+    background: var(--card);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.dashboard-container .payment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.dashboard-container .payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.dashboard-container .payment-header h4 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.dashboard-container .payment-header i {
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+
+.dashboard-container .plan-badge {
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.dashboard-container .plan-details p {
+    margin: 0.5rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.dashboard-container .plan-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.dashboard-container .plan-actions .btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+.dashboard-container .billing-list {
+    margin-bottom: 1rem;
+}
+
+.dashboard-container .billing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-container .billing-item:last-child {
+    border-bottom: none;
+}
+
+.dashboard-container .billing-date {
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.dashboard-container .billing-amount {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.dashboard-container .dashboard-actions {
+    margin-bottom: 2rem;
+}
+
+.dashboard-container .dashboard-actions h3 {
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.dashboard-container .action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.dashboard-container .action-buttons .btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.dashboard-container .session-history {
+    background: var(--card);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.dashboard-container .session-history h3 {
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.dashboard-container .session-list {
+    min-height: 100px;
+}
+
+/* Responsive Dashboard */
+@media (max-width: 768px) {
+    .dashboard-container .dashboard-content {
+        padding: 1rem;
+    }
+    
+    .dashboard-container .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .dashboard-container .dashboard-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .dashboard-container .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .dashboard-container .payment-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .dashboard-container .action-buttons {
+        flex-direction: column;
+    }
+    
+    .dashboard-container .plan-actions {
+        flex-direction: column;
+    }
+}
