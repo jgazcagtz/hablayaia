@@ -140,7 +140,8 @@ const translations = {
         trialExpired: "Prueba Expirada",
         trialActive: "Prueba Activa",
         daysLeft: "días restantes",
-        upgradeNow: "Actualizar Ahora"
+        upgradeNow: "Actualizar Ahora",
+        selectLanguage: "Seleccionar Idioma para Praticar"
     },
     en: {
         // Promotional banner
@@ -278,7 +279,8 @@ const translations = {
         trialExpired: "Trial Expired",
         trialActive: "Trial Active",
         daysLeft: "days left",
-        upgradeNow: "Upgrade Now"
+        upgradeNow: "Upgrade Now",
+        selectLanguage: "Select Language to Practice"
     },
     pt: {
         // Promotional banner
@@ -416,7 +418,8 @@ const translations = {
         trialExpired: "Teste Expirado",
         trialActive: "Teste Ativo",
         daysLeft: "dias restantes",
-        upgradeNow: "Atualizar Agora"
+        upgradeNow: "Atualizar Agora",
+        selectLanguage: "Selecionar Idioma para Praticar"
     }
 };
 
@@ -631,6 +634,9 @@ window.startApp = startApp;
 window.closePromoBanner = closePromoBanner;
 window.showLoginFromIntro = showLoginFromIntro;
 window.testDashboard = testDashboard;
+window.startNewSession = startNewSession;
+window.showLanguageSelection = showLanguageSelection;
+window.closeLanguageModal = closeLanguageModal;
 
 // Auth functions
 function handleLogin(e) {
@@ -687,14 +693,7 @@ function handleLogout() {
     auth.signOut();
 }
 
-function showLanguageSelection() {
-    // Show language selection modal or dropdown
-    const languages = ['English', 'Spanish', 'Portuguese', 'French', 'Italian'];
-    const language = prompt('Select a language to practice:\n' + languages.join('\n'));
-    if (language && languages.includes(language)) {
-        startNewSession(language.toLowerCase());
-    }
-}
+// showLanguageSelection function is defined later in the file
 
 // Show login from intro page
 function showLoginFromIntro() {
@@ -906,16 +905,8 @@ function setupEventListeners() {
     const startChatbotBtn = document.getElementById('start-chatbot');
     if (startChatbotBtn) {
         startChatbotBtn.addEventListener('click', function() {
-            // Launch the chatbot
-            const chatbot = document.getElementById('chatbot');
-            if (chatbot) {
-                chatbot.style.display = 'flex';
-                // Focus on the chatbot input
-                const chatbotInput = chatbot.querySelector('.chatbot-input input');
-                if (chatbotInput) {
-                    setTimeout(() => chatbotInput.focus(), 100);
-                }
-            }
+            // Direct redirect to the Vercel app
+            window.open('https://hablayalanguagetutor.vercel.app/', '_blank');
         });
     }
     
@@ -975,19 +966,12 @@ function setupEventListeners() {
     
     // Auth state observer
     auth.onAuthStateChanged(user => {
-        console.log('Auth state changed:', user ? 'User logged in' : 'No user');
         if (user) {
-            console.log('User details:', {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName
-            });
             // User is signed in
             showDashboard(user);
             updateUserLastLogin(user.uid);
             setPayPalUserId(user);
         } else {
-            console.log('User signed out, hiding dashboard');
             // User is signed out
             hideDashboard();
         }
@@ -1350,6 +1334,7 @@ function translateElement(element, lang) {
             'viewAllTransactions': 'Ver Todas las Transacciones',
             'startSession': 'Iniciar Nueva Sesión',
             'startChatbot': 'Iniciar Tutor de Idiomas',
+            'selectLanguage': 'Seleccionar Idioma para Praticar',
             
             // Footer
             'footerAbout': 'Acerca de',
@@ -1475,6 +1460,7 @@ function translateElement(element, lang) {
             'viewAllTransactions': 'View All Transactions',
             'startSession': 'Start a New Session',
             'startChatbot': 'Start Language Tutor',
+            'selectLanguage': 'Select Language to Practice',
             
             // Footer
             'footerAbout': 'About',
@@ -1600,6 +1586,7 @@ function translateElement(element, lang) {
             'viewAllTransactions': 'Ver Todas as Transações',
             'startSession': 'Iniciar Nova Sessão',
             'startChatbot': 'Iniciar Tutor de Idiomas',
+            'selectLanguage': 'Selecionar Idioma para Praticar',
             
             // Footer
             'footerAbout': 'Sobre',
@@ -1618,40 +1605,14 @@ function translateElement(element, lang) {
 
 // Show dashboard
 function showDashboard(user) {
-    console.log('showDashboard called with user:', user);
-    
     const mainApp = document.getElementById('main-app');
     const introPage = document.getElementById('intro-page');
     const dashboard = document.getElementById('dashboard');
     
-    console.log('Elements found:', {
-        mainApp: !!mainApp,
-        introPage: !!introPage,
-        dashboard: !!dashboard
-    });
-    
-    if (mainApp) {
-        mainApp.style.display = 'none';
-        console.log('Main app hidden');
-    }
-    if (introPage) {
-        introPage.style.display = 'none';
-        console.log('Intro page hidden');
-    }
+    if (mainApp) mainApp.style.display = 'none';
+    if (introPage) introPage.style.display = 'none';
     if (dashboard) {
         dashboard.style.display = 'block';
-        console.log('Dashboard shown');
-        
-        // Force a repaint
-        dashboard.offsetHeight;
-        
-        // Add a temporary visible background to debug
-        dashboard.style.backgroundColor = '#f0f0f0';
-        setTimeout(() => {
-            dashboard.style.backgroundColor = '';
-        }, 1000);
-    } else {
-        console.error('Dashboard element not found!');
     }
     
     // Load user data
@@ -1779,4 +1740,109 @@ function testDashboard() {
         displayName: 'Test User'
     };
     showDashboard(mockUser);
+}
+
+// Start new session function
+function startNewSession(language) {
+    console.log('Starting new session for language:', language);
+    
+    if (!auth.currentUser) {
+        alert('Please log in to start a session');
+        return;
+    }
+    
+    // Create session record in Firestore
+    const userId = auth.currentUser.uid;
+    db.collection('users').doc(userId).collection('sessions').add({
+        language: language,
+        startTime: firebase.firestore.FieldValue.serverTimestamp(),
+        status: 'active'
+    })
+    .then(docRef => {
+        // Open practice window
+        const url = 'https://hablayalanguagetutor.vercel.app/';
+        const newWindow = window.open(url, '_blank');
+        
+        if (newWindow) {
+            // Track if window is closed to mark session as completed
+            const checkWindowClosed = setInterval(() => {
+                if (newWindow.closed) {
+                    clearInterval(checkWindowClosed);
+                    db.collection('users').doc(userId)
+                        .collection('sessions').doc(docRef.id).update({
+                            endTime: firebase.firestore.FieldValue.serverTimestamp(),
+                            status: 'completed'
+                        });
+                }
+            }, 1000);
+        }
+    })
+    .catch(error => {
+        console.error('Error starting session:', error);
+        alert('Error starting session. Please try again.');
+    });
+}
+
+// Show language selection modal
+function showLanguageSelection() {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('language-selection-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'language-selection-modal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-i18n="selectLanguage">Select Language to Practice</h3>
+                    <button class="close-modal" onclick="closeLanguageModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="language-grid">
+                        <button class="language-option" onclick="startNewSession('english')">
+                            <span class="flag">🇺🇸</span>
+                            <span class="lang-name">English</span>
+                        </button>
+                        <button class="language-option" onclick="startNewSession('spanish')">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-name">Español</span>
+                        </button>
+                        <button class="language-option" onclick="startNewSession('portuguese')">
+                            <span class="flag">🇧🇷</span>
+                            <span class="lang-name">Português</span>
+                        </button>
+                        <button class="language-option" onclick="startNewSession('french')">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-name">Français</span>
+                        </button>
+                        <button class="language-option" onclick="startNewSession('italian')">
+                            <span class="flag">🇮🇹</span>
+                            <span class="lang-name">Italiano</span>
+                        </button>
+                        <button class="language-option all-languages" onclick="startNewSession('all')">
+                            <span class="flag">🌍</span>
+                            <span class="lang-name">All Languages</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Apply translations to the modal
+        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+        modal.querySelectorAll('[data-i18n]').forEach(element => {
+            translateElement(element, currentLang);
+        });
+    }
+    
+    modal.style.display = 'flex';
+}
+
+// Close language selection modal
+function closeLanguageModal() {
+    const modal = document.getElementById('language-selection-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
