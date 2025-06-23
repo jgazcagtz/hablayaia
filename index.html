@@ -98,6 +98,103 @@ document.head.appendChild(o)}initApollo();</script>
         </div>
     </div>
 
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="dashboard-container" style="display: none;">
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h2 data-i18n="dashboardTitle">Your Learning Dashboard</h2>
+                <button id="logout-btn" class="btn secondary" data-i18n="logoutButton">Log Out</button>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="user-name"></h3>
+                    <p id="user-email"></p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h3 data-i18n="totalSessions">Total Sessions</h3>
+                    <div class="stat-value" id="total-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <h3 data-i18n="currentLevel">Current Level</h3>
+                    <div class="stat-value" id="current-level">A1</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                    <h3 data-i18n="subscription">Subscription</h3>
+                    <div class="stat-value" id="subscription-type">Free</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <h3 data-i18n="trialStatus">Trial Status</h3>
+                    <div class="stat-value" id="trial-status">Active</div>
+                </div>
+            </div>
+            
+            <!-- Payment Management Section -->
+            <div class="payment-section">
+                <h3 data-i18n="paymentManagement">Payment Management</h3>
+                <div class="payment-grid">
+                    <div class="payment-card">
+                        <div class="payment-header">
+                            <h4 data-i18n="currentPlan">Current Plan</h4>
+                            <span class="plan-badge" id="plan-badge">Free Trial</span>
+                        </div>
+                        <div class="plan-details">
+                            <p id="plan-details">7-day free trial active</p>
+                            <p id="plan-expiry">Expires: <span id="trial-expiry">Loading...</span></p>
+                        </div>
+                        <div class="plan-actions">
+                            <button class="btn primary upgrade-btn" data-i18n="upgradePlan">Upgrade Plan</button>
+                            <button class="btn secondary manage-btn" data-i18n="manageSubscription">Manage</button>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-card">
+                        <div class="payment-header">
+                            <h4 data-i18n="billingHistory">Billing History</h4>
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="billing-list" id="billing-list">
+                            <div class="billing-item">
+                                <span class="billing-date">No transactions yet</span>
+                                <span class="billing-amount">-</span>
+                            </div>
+                        </div>
+                        <div class="billing-actions">
+                            <button class="btn secondary" data-i18n="viewAllTransactions">View All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <h3 data-i18n="startSession">Start a New Session</h3>
+                <div class="action-buttons">
+                    <button id="start-chatbot" class="btn primary">
+                        <i class="fas fa-robot"></i> <span data-i18n="startChatbot">Start Language Tutor</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Session History -->
+            <div class="session-history">
+                <h3>Your Recent Sessions</h3>
+                <div id="session-list" class="session-list">
+                    <!-- Sessions will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main App Container -->
     <div id="main-app" class="app-container" style="display: none;">
         <!-- Promotional Banner -->
@@ -221,103 +318,6 @@ document.head.appendChild(o)}initApollo();</script>
                     </div>
                     <div id="signup-error" class="auth-error"></div>
                 </form>
-            </div>
-        </div>
-
-        <!-- Dashboard Section -->
-        <div id="dashboard" class="dashboard-container" style="display: none;">
-            <div class="dashboard-content">
-                <div class="dashboard-header">
-                    <h2 data-i18n="dashboardTitle">Your Learning Dashboard</h2>
-                    <button id="logout-btn" class="btn secondary" data-i18n="logoutButton">Log Out</button>
-                </div>
-                
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="user-details">
-                        <h3 id="user-name"></h3>
-                        <p id="user-email"></p>
-                    </div>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-comment-dots"></i></div>
-                        <h3 data-i18n="totalSessions">Total Sessions</h3>
-                        <div class="stat-value" id="total-count">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-star"></i></div>
-                        <h3 data-i18n="currentLevel">Current Level</h3>
-                        <div class="stat-value" id="current-level">A1</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
-                        <h3 data-i18n="subscription">Subscription</h3>
-                        <div class="stat-value" id="subscription-type">Free</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                        <h3 data-i18n="trialStatus">Trial Status</h3>
-                        <div class="stat-value" id="trial-status">Active</div>
-                    </div>
-                </div>
-                
-                <!-- Payment Management Section -->
-                <div class="payment-section">
-                    <h3 data-i18n="paymentManagement">Payment Management</h3>
-                    <div class="payment-grid">
-                        <div class="payment-card">
-                            <div class="payment-header">
-                                <h4 data-i18n="currentPlan">Current Plan</h4>
-                                <span class="plan-badge" id="plan-badge">Free Trial</span>
-                            </div>
-                            <div class="plan-details">
-                                <p id="plan-details">7-day free trial active</p>
-                                <p id="plan-expiry">Expires: <span id="trial-expiry">Loading...</span></p>
-                            </div>
-                            <div class="plan-actions">
-                                <button class="btn primary upgrade-btn" data-i18n="upgradePlan">Upgrade Plan</button>
-                                <button class="btn secondary manage-btn" data-i18n="manageSubscription">Manage</button>
-                            </div>
-                        </div>
-                        
-                        <div class="payment-card">
-                            <div class="payment-header">
-                                <h4 data-i18n="billingHistory">Billing History</h4>
-                                <i class="fas fa-receipt"></i>
-                            </div>
-                            <div class="billing-list" id="billing-list">
-                                <div class="billing-item">
-                                    <span class="billing-date">No transactions yet</span>
-                                    <span class="billing-amount">-</span>
-                                </div>
-                            </div>
-                            <div class="billing-actions">
-                                <button class="btn secondary" data-i18n="viewAllTransactions">View All</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-actions">
-                    <h3 data-i18n="startSession">Start a New Session</h3>
-                    <div class="action-buttons">
-                        <button id="start-chatbot" class="btn primary">
-                            <i class="fas fa-robot"></i> <span data-i18n="startChatbot">Start Language Tutor</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Session History -->
-                <div class="session-history">
-                    <h3>Your Recent Sessions</h3>
-                    <div id="session-list" class="session-list">
-                        <!-- Sessions will be added here dynamically -->
-                    </div>
-                </div>
             </div>
         </div>
 
