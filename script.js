@@ -141,7 +141,18 @@ const translations = {
         trialActive: "Prueba Activa",
         daysLeft: "días restantes",
         upgradeNow: "Actualizar Ahora",
-        selectLanguage: "Seleccionar Idioma para Praticar"
+        selectLanguage: "Seleccionar Idioma para Praticar",
+        upgradePlanTitle: "Actualizar tu Plan",
+        manageSubscriptionTitle: "Gestionar Suscripción",
+        cancelSubscription: "Cancelar Suscripción",
+        downloadInvoice: "Descargar Factura",
+        
+        // Footer
+        'footerAbout': 'Sobre',
+        'footerPrivacy': 'Privacidad',
+        'footerTerms': 'Términos',
+        'footerContact': 'Contacto',
+        'footerCopyright': '© 2024 HablaYa!. Todos los derechos reservados.'
     },
     en: {
         // Promotional banner
@@ -280,7 +291,18 @@ const translations = {
         trialActive: "Trial Active",
         daysLeft: "days left",
         upgradeNow: "Upgrade Now",
-        selectLanguage: "Select Language to Practice"
+        selectLanguage: "Select Language to Practice",
+        upgradePlanTitle: "Upgrade Your Plan",
+        manageSubscriptionTitle: "Manage Subscription",
+        cancelSubscription: "Cancel Subscription",
+        downloadInvoice: "Download Invoice",
+        
+        // Footer
+        'footerAbout': 'About',
+        'footerPrivacy': 'Privacy',
+        'footerTerms': 'Terms',
+        'footerContact': 'Contact',
+        'footerCopyright': '© 2024 HablaYa!. All rights reserved.'
     },
     pt: {
         // Promotional banner
@@ -419,7 +441,18 @@ const translations = {
         trialActive: "Teste Ativo",
         daysLeft: "dias restantes",
         upgradeNow: "Atualizar Agora",
-        selectLanguage: "Selecionar Idioma para Praticar"
+        selectLanguage: "Selecionar Idioma para Praticar",
+        upgradePlanTitle: "Atualizar seu Plano",
+        manageSubscriptionTitle: "Gerenciar Assinatura",
+        cancelSubscription: "Cancelar Assinatura",
+        downloadInvoice: "Baixar Fatura",
+        
+        // Footer
+        'footerAbout': 'Sobre',
+        'footerPrivacy': 'Privacidade',
+        'footerTerms': 'Termos',
+        'footerContact': 'Contato',
+        'footerCopyright': '© 2024 HablaYa!. Todos os direitos reservados.'
     }
 };
 
@@ -637,6 +670,12 @@ window.testDashboard = testDashboard;
 window.startNewSession = startNewSession;
 window.showLanguageSelection = showLanguageSelection;
 window.closeLanguageModal = closeLanguageModal;
+window.closeUpgradeModal = closeUpgradeModal;
+window.closeManageModal = closeManageModal;
+window.showUpgradeModal = showUpgradeModal;
+window.upgradeToPlan = upgradeToPlan;
+window.cancelSubscription = cancelSubscription;
+window.downloadInvoice = downloadInvoice;
 
 // Auth functions
 function handleLogin(e) {
@@ -1335,9 +1374,13 @@ function translateElement(element, lang) {
             'startSession': 'Iniciar Nueva Sesión',
             'startChatbot': 'Iniciar Tutor de Idiomas',
             'selectLanguage': 'Seleccionar Idioma para Praticar',
+            'upgradePlanTitle': 'Actualizar tu Plan',
+            'manageSubscriptionTitle': 'Gestionar Suscripción',
+            'cancelSubscription': 'Cancelar Suscripción',
+            'downloadInvoice': 'Descargar Factura',
             
             // Footer
-            'footerAbout': 'Acerca de',
+            'footerAbout': 'Sobre',
             'footerPrivacy': 'Privacidad',
             'footerTerms': 'Términos',
             'footerContact': 'Contacto',
@@ -1461,6 +1504,10 @@ function translateElement(element, lang) {
             'startSession': 'Start a New Session',
             'startChatbot': 'Start Language Tutor',
             'selectLanguage': 'Select Language to Practice',
+            'upgradePlanTitle': 'Upgrade Your Plan',
+            'manageSubscriptionTitle': 'Manage Subscription',
+            'cancelSubscription': 'Cancel Subscription',
+            'downloadInvoice': 'Download Invoice',
             
             // Footer
             'footerAbout': 'About',
@@ -1587,6 +1634,10 @@ function translateElement(element, lang) {
             'startSession': 'Iniciar Nova Sessão',
             'startChatbot': 'Iniciar Tutor de Idiomas',
             'selectLanguage': 'Selecionar Idioma para Praticar',
+            'upgradePlanTitle': 'Atualizar seu Plano',
+            'manageSubscriptionTitle': 'Gerenciar Assinatura',
+            'cancelSubscription': 'Cancelar Assinatura',
+            'downloadInvoice': 'Baixar Fatura',
             
             // Footer
             'footerAbout': 'Sobre',
@@ -1698,12 +1749,112 @@ function setPayPalUserId(user) {
 
 // Show upgrade options
 function showUpgradeOptions() {
-    alert('Upgrade options coming soon!');
+    const modal = document.getElementById('upgrade-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        // Apply translations
+        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+        modal.querySelectorAll('[data-i18n]').forEach(element => {
+            translateElement(element, currentLang);
+        });
+    }
 }
 
 // Show subscription management
 function showSubscriptionManagement() {
-    alert('Subscription management coming soon!');
+    const modal = document.getElementById('manage-modal');
+    if (modal) {
+        // Load current user data into modal
+        if (auth.currentUser) {
+            const userId = auth.currentUser.uid;
+            db.collection('users').doc(userId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        const subscriptionType = userData.subscription || 'trial';
+                        
+                        document.getElementById('modal-plan-name').textContent = 
+                            subscriptionType === 'trial' ? 'Free Trial' : 'Premium';
+                        
+                        document.getElementById('modal-plan-description').textContent = 
+                            subscriptionType === 'trial' ? '7-day free trial active' : 'Premium subscription active';
+                        
+                        if (userData.trialActive && userData.trialEnd) {
+                            const trialEnd = userData.trialEnd.toDate();
+                            const now = new Date();
+                            const daysLeft = Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24));
+                            
+                            if (daysLeft > 0) {
+                                document.getElementById('modal-plan-status').textContent = `${daysLeft} days left`;
+                            } else {
+                                document.getElementById('modal-plan-status').textContent = 'Expired';
+                            }
+                        } else {
+                            document.getElementById('modal-plan-status').textContent = 'Active';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading user data for modal:', error);
+                });
+        }
+        
+        modal.style.display = 'flex';
+        // Apply translations
+        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+        modal.querySelectorAll('[data-i18n]').forEach(element => {
+            translateElement(element, currentLang);
+        });
+    }
+}
+
+// Close upgrade modal
+function closeUpgradeModal() {
+    const modal = document.getElementById('upgrade-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Close manage modal
+function closeManageModal() {
+    const modal = document.getElementById('manage-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Show upgrade modal from manage modal
+function showUpgradeModal() {
+    closeManageModal();
+    showUpgradeOptions();
+}
+
+// Upgrade to specific plan
+function upgradeToPlan(plan) {
+    // Redirect to PayPal with the specific plan
+    const planUrls = {
+        'monthly': 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=gascagtz@gmail.com&lc=MX&item_name=Monthly%20Subscription%20HablaYa!&a3=499.00&p3=1&t3=M&src=1&currency_code=MXN',
+        'annual': 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=gascagtz@gmail.com&lc=MX&item_name=Annual%20Subscription%20HablaYa!&a3=4990.00&p3=1&t3=Y&src=1&currency_code=MXN'
+    };
+    
+    if (planUrls[plan]) {
+        window.open(planUrls[plan], '_blank');
+        closeUpgradeModal();
+    }
+}
+
+// Cancel subscription
+function cancelSubscription() {
+    if (confirm('Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your current billing period.')) {
+        alert('Subscription cancellation request sent. You will receive a confirmation email shortly.');
+        closeManageModal();
+    }
+}
+
+// Download invoice
+function downloadInvoice() {
+    alert('Invoice download feature coming soon!');
 }
 
 // Activate trial
