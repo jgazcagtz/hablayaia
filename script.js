@@ -466,1187 +466,28 @@ function initializeFirebase() {
 }
 
 // Initialize the app
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Firebase
-    initializeFirebase();
+function initializeApp() {
+    // Check if user has seen intro page
+    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
     
-    // Set up event listeners
-    setupEventListeners();
-    
-    // Update pricing section with centralized configuration
-    updatePricingSection();
-    
-    // Check for saved theme and language (default to Spanish)
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    const savedLang = localStorage.getItem('language') || 'es';
-    
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateLanguage(savedLang);
-    
-    // Check for saved currency
-    const savedCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
-    updateCurrency(savedCurrency);
-    
-    // Update theme icon
-    updateThemeIcon();
-    
-    // Initialize language and currency selectors
-    initializeSelectors();
-    
-    // Check and show promotional banner
-    checkPromoBanner();
-});
-
-// Initialize language and currency selectors
-function initializeSelectors() {
-    const languageSelect = document.getElementById('language-select');
-    const currencySelect = document.getElementById('currency-select');
-    
-    if (languageSelect) {
-        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-        languageSelect.value = currentLang;
-    }
-    
-    if (currencySelect) {
-        const currentCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
-        currencySelect.value = currentCurrency;
-    }
-}
-
-// Language switching function
-function changeLanguage(lang) {
-    updateLanguage(lang);
-    localStorage.setItem('language', lang);
-    
-    // Update selector if it exists
-    const languageSelect = document.getElementById('language-select');
-    if (languageSelect) {
-        languageSelect.value = lang;
-    }
-}
-
-// Currency switching function
-function changeCurrency(currency) {
-    updateCurrency(currency);
-    localStorage.setItem('selectedCurrency', currency);
-    
-    // Update selector if it exists
-    const currencySelect = document.getElementById('currency-select');
-    if (currencySelect) {
-        currencySelect.value = currency;
-    }
-    
-    // Update pricing section with new currency
-    if (window.PRICING_CONFIG) {
-        updatePricingSection();
-    }
-}
-
-// Update currency display
-function updateCurrency(currency) {
-    // Update currency symbol in pricing config
-    if (window.PRICING_CONFIG) {
-        PRICING_CONFIG.currency = currency;
-    }
-    
-    // Update all price displays
-    updateAllPriceDisplays();
-}
-
-// Update all price displays with current currency
-function updateAllPriceDisplays() {
-    if (!window.PRICING_CONFIG) return;
-    
-    // Update pricing cards
-    document.querySelectorAll('.pricing-card').forEach(card => {
-        const planKey = card.getAttribute('data-plan');
-        if (planKey && PRICING_CONFIG.plans[planKey]) {
-            const plan = PRICING_CONFIG.plans[planKey];
-            const currentPrice = card.querySelector('.current-price');
-            const originalPrice = card.querySelector('.original-price');
-            
-            if (currentPrice) {
-                currentPrice.textContent = PRICING_CONFIG.formatPrice(plan.price);
-            }
-            
-            if (originalPrice && plan.originalPrice) {
-                originalPrice.textContent = PRICING_CONFIG.formatPrice(plan.originalPrice);
-            }
-        }
-    });
-    
-    // Update upgrade plans
-    document.querySelectorAll('.upgrade-plan').forEach(plan => {
-        const planKey = plan.getAttribute('data-plan');
-        if (planKey && PRICING_CONFIG.plans[planKey]) {
-            const planData = PRICING_CONFIG.plans[planKey];
-            const priceElement = plan.querySelector('.price');
-            
-            if (priceElement) {
-                priceElement.textContent = PRICING_CONFIG.formatPrice(planData.price);
-            }
-        }
-    });
-}
-
-// Close promotional banner
-function closePromoBanner() {
-    const banner = document.getElementById('promo-banner');
-    if (banner) {
-        banner.style.display = 'none';
-        localStorage.setItem('promoBannerClosed', 'true');
-    }
-}
-
-// Check if promo banner should be shown
-function checkPromoBanner() {
-    const bannerClosed = localStorage.getItem('promoBannerClosed');
-    const banner = document.getElementById('promo-banner');
-    
-    if (banner && !bannerClosed) {
-        banner.style.display = 'block';
-    }
-}
-
-// Theme toggle function
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon();
-}
-
-// Language toggle function
-function toggleLanguage() {
-    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-    const newLang = currentLang === 'es' ? 'en' : (currentLang === 'en' ? 'pt' : 'es');
-    updateLanguage(newLang);
-}
-
-// Update theme icon
-function updateThemeIcon() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const isDark = document.documentElement.classList.contains('dark-theme');
-    themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-}
-
-function updateLanguage(lang) {
-    document.documentElement.setAttribute('data-lang', lang);
-    
-    // Update all elements with data-i18n attribute
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        translateElement(element, lang);
-    });
-    
-    // Update language flags
-    updateLanguageFlags();
-    
-    // Update pricing section with new language
-    if (window.PRICING_CONFIG) {
-        updatePricingSection();
-    }
-    
-    // Update chatbot language if available
-    if (window.chatbotConfig) {
-        chatbotConfig.currentLanguage = lang;
-    }
-}
-
-function translateElement(element, lang) {
-    const key = element.getAttribute('data-i18n');
-    if (translations[lang] && translations[lang][key]) {
-        if (element.tagName === 'INPUT' && element.type === 'submit') {
-            element.value = translations[lang][key];
-        } else {
-            element.textContent = translations[lang][key];
-        }
-    }
-}
-
-// Update language flags
-function updateLanguageFlags() {
-    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-    const langFlags = {
-        es: '🇲🇽',
-        en: '🇺🇸',
-        pt: '🇧🇷'
-    };
-    const langTexts = {
-        es: 'ES',
-        en: 'EN',
-        pt: 'PT'
-    };
-    
-    const flags = document.querySelectorAll('.lang-flag');
-    const texts = document.querySelectorAll('.lang-text');
-    
-    flags.forEach(flag => {
-        flag.textContent = langFlags[currentLang] || langFlags.es;
-    });
-    
-    texts.forEach(text => {
-        text.textContent = langTexts[currentLang] || langTexts.es;
-    });
-}
-
-function showDashboard(user) {
-    // Hide main content and show dashboard
-    document.querySelector('.app-container').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    
-    // Update user info
-    document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
-    document.getElementById('user-email').textContent = user.email;
-    
-    // Load user data from Firestore
-    db.collection('users').doc(user.uid).get()
-        .then(doc => {
-            if (doc.exists) {
-                const userData = doc.data();
-                
-                // Update session counts
-                updateSessionCounts(user.uid);
-                
-                // Update trial status
-                updateTrialUI(userData);
-                
-                // Load session history
-                loadSessionHistory(user.uid);
-                
-                // Load billing history
-                loadBillingHistory(user.uid);
-                
-                // Update last login
-                updateUserLastLogin(user.uid);
-                
-                // Auto-activate trial if user hasn't used it yet
-                if (!userData.trialUsed && !userData.trialActive) {
-                    activateTrial();
-                }
-            } else {
-                // Create new user document
-                db.collection('users').doc(user.uid).set({
-                    email: user.email,
-                    name: user.displayName || user.email.split('@')[0],
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                    subscription: 'free',
-                    trialActive: false,
-                    trialUsed: false,
-                    englishSessions: 0,
-                    spanishSessions: 0,
-                    portugueseSessions: 0,
-                    totalSessions: 0,
-                    currentLevel: 'A1'
-                })
-                .then(() => {
-                    // Auto-activate trial for new users
-                    activateTrial();
-                })
-                .catch(error => {
-                    console.error('Error creating user document:', error);
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error loading user data:', error);
-        });
-}
-
-function hideDashboard() {
-    // Show main app and hide dashboard
-    document.getElementById('app-container').style.display = 'block';
-    document.getElementById('dashboard').style.display = 'none';
-    
-    // Close all modals
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.style.display = 'none';
-    });
-}
-
-function startNewSession(language) {
-    const user = auth.currentUser;
-    if (!user) {
-        alert('Please log in to start a session.');
-        return;
-    }
-
-    // Check user access before starting session
-    checkUserAccess(user.uid).then(accessResult => {
-        if (!accessResult.canAccess) {
-            // Show upgrade modal if user doesn't have access
-            showUpgradeOptions();
-            return;
-        }
-
-        // User has access, proceed with session
-        const sessionBtn = document.getElementById('start-chatbot');
-        const originalText = sessionBtn.innerHTML;
-        sessionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
-        sessionBtn.disabled = true;
-
-        // Record the session start
-        const sessionData = {
-            language: 'all',
-            startTime: firebase.firestore.FieldValue.serverTimestamp(),
-            status: 'active'
-        };
+    if (!hasSeenIntro) {
+        // Show intro page first
+        document.getElementById('intro-page').style.display = 'flex';
+        document.getElementById('main-app').style.display = 'none';
         
-        db.collection('users').doc(user.uid).collection('sessions').add(sessionData)
-            .then(docRef => {
-                // Open the chatbot in a new tab
-                const url = 'https://hablayalanguagetutor.vercel.app/';
-                const newWindow = window.open(url, '_blank');
-                
-                // Check if the window was successfully opened
-                if (newWindow) {
-                    // Listen for window closing to record session end
-                    const checkWindowClosed = setInterval(() => {
-                        if (newWindow.closed) {
-                            clearInterval(checkWindowClosed);
-                            endSession(user.uid, docRef.id);
-                        }
-                    }, 1000);
-                } else {
-                    // If popup was blocked, end the session immediately
-                    endSession(user.uid, docRef.id);
-                    alert('Please allow popups to track your session duration.');
-                }
-            })
-            .catch(error => {
-                console.error('Error starting session:', error);
-                alert('Error starting session. Please try again.');
-            })
-            .finally(() => {
-                // Restore button state
-                sessionBtn.innerHTML = originalText;
-                sessionBtn.disabled = false;
-            });
-    }).catch(error => {
-        console.error('Error checking user access:', error);
-        alert('Error checking access. Please try again.');
-    });
-}
-
-// Function to check user access using Firebase Functions
-async function checkUserAccess(userId) {
-    try {
-        // Call the Firebase Function to check user access
-        const checkUserAccessFunction = firebase.functions().httpsCallable('checkUserAccess');
-        const result = await checkUserAccessFunction();
-        return result.data;
-    } catch (error) {
-        console.error('Error calling checkUserAccess function:', error);
-        // Fallback: check locally
-        const userDoc = await db.collection('users').doc(userId).get();
-        if (userDoc.exists) {
-            const userData = userDoc.data();
-            const hasActiveSubscription = userData.subscription && userData.subscription !== 'expired';
-            const hasActiveTrial = userData.trialActive && userData.trialEnd && 
-                                  userData.trialEnd.toDate() > new Date();
-            const canAccess = userData.canAccessTutor || hasActiveSubscription || hasActiveTrial;
-            
-            return {
-                canAccess,
-                subscription: userData.subscription,
-                trialActive: hasActiveTrial,
-                trialEnd: userData.trialEnd,
-                subscriptionEnd: userData.subscriptionEnd
-            };
-        }
-        return { canAccess: false };
-    }
-}
-
-function endSession(userId, sessionId) {
-    db.collection('users').doc(userId).collection('sessions').doc(sessionId).update({
-        endTime: firebase.firestore.FieldValue.serverTimestamp(),
-        status: 'completed'
-    })
-    .then(() => {
-        // Update session counts
-        updateSessionCounts(userId);
-        // Refresh session history
-        loadSessionHistory(userId);
-    })
-    .catch(error => {
-        console.error('Error ending session:', error);
-    });
-}
-
-function updateSessionCounts(userId) {
-    // Increment the appropriate session counter
-    const userRef = db.collection('users').doc(userId);
-    
-    // For simplicity, we'll increment the counter without checking which language
-    // In a real app, you'd want to track which language was used
-    userRef.update({
-        englishSessions: firebase.firestore.FieldValue.increment(1),
-        lastSession: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-        // Update the UI
-        const englishCount = document.getElementById('english-count');
-        englishCount.textContent = parseInt(englishCount.textContent) + 1;
-        
-        const totalCount = document.getElementById('total-count');
-        totalCount.textContent = parseInt(totalCount.textContent) + 1;
-    });
-}
-
-function loadSessionHistory(userId) {
-    const sessionList = document.getElementById('session-list');
-    sessionList.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
-    
-    db.collection('users').doc(userId).collection('sessions')
-        .orderBy('startTime', 'desc')
-        .limit(10)
-        .get()
-        .then(querySnapshot => {
-            sessionList.innerHTML = '';
-            
-            if (querySnapshot.empty) {
-                sessionList.innerHTML = '<div class="empty-sessions">No sessions yet. Start your first session!</div>';
-                return;
-            }
-            
-            querySnapshot.forEach(doc => {
-                const sessionData = doc.data();
-                const sessionItem = document.createElement('div');
-                sessionItem.className = 'session-item';
-                
-                // Calculate duration if session is completed
-                let durationText = 'In progress';
-                if (sessionData.endTime && sessionData.startTime) {
-                    const duration = (sessionData.endTime.toDate() - sessionData.startTime.toDate()) / 1000 / 60; // in minutes
-                    durationText = `${Math.round(duration)} min`;
-                }
-                
-                // Format date
-                const sessionDate = sessionData.startTime ? 
-                    sessionData.startTime.toDate().toLocaleString() : 'Just now';
-                
-                // Determine language display text
-                let languageText = 'Language Practice';
-                
-                sessionItem.innerHTML = `
-                    <div class="session-info">
-                        <span class="session-language">${languageText}</span>
-                        <span class="session-date">${sessionDate}</span>
-                    </div>
-                    <div class="session-duration">${durationText}</div>
-                `;
-                
-                sessionList.appendChild(sessionItem);
-            });
-        })
-        .catch(error => {
-            console.error('Error loading session history:', error);
-            sessionList.innerHTML = '<div class="empty-sessions">Error loading sessions. Please try again.</div>';
-        });
-}
-
-function updateUserLastLogin(userId) {
-    db.collection('users').doc(userId).update({
-        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-    });
-}
-
-// Check for saved theme preference
-const savedTheme = localStorage.getItem('hablaya-theme');
-if (savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    const themeIcon = document.querySelector('.theme-icon');
-    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-}
-
-// Check for saved language preference
-const savedLang = localStorage.getItem('hablaya-lang');
-if (savedLang) {
-    document.documentElement.setAttribute('data-lang', savedLang);
-    updateLanguage(savedLang);
-    updateLanguageFlags();
-}
-
-// Trial system functions
-function activateTrial() {
-    const user = auth.currentUser;
-    if (!user) return;
-    
-    const trialEnd = new Date();
-    trialEnd.setDate(trialEnd.getDate() + 7);
-    
-    // Show loading state
-    const trialStatus = document.getElementById('trial-status');
-    const originalText = trialStatus.textContent;
-    trialStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Activating...';
-    
-    db.collection('users').doc(user.uid).update({
-        trialActive: true,
-        trialEnd: firebase.firestore.Timestamp.fromDate(trialEnd),
-        trialUsed: true,
-        subscription: 'trial'
-    })
-    .then(() => {
-        // Show success message
-        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-        const isSpanish = currentLang === 'es';
-        
-        // Create success notification
-        const notification = document.createElement('div');
-        notification.className = 'trial-notification success';
-        notification.innerHTML = `
-            <div style="position: fixed; top: 20px; right: 20px; background: var(--success-bg); color: var(--success-color); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 10001; display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--success-color);">
-                <i class="fas fa-check-circle"></i>
-                <span>${isSpanish ? '¡Prueba gratis activada! 7 días de acceso completo.' : 'Free trial activated! 7 days of full access.'}</span>
-            </div>
-        `;
-        document.body.appendChild(notification);
-        
-        // Remove notification after 5 seconds
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-        
-        // Refresh dashboard to show updated trial status
-        showDashboard(user);
-    })
-    .catch(error => {
-        console.error('Error activating trial:', error);
-        
-        // Show error message
-        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-        const isSpanish = currentLang === 'es';
-        
-        const notification = document.createElement('div');
-        notification.className = 'trial-notification error';
-        notification.innerHTML = `
-            <div style="position: fixed; top: 20px; right: 20px; background: var(--error-bg); color: var(--error-color); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 10001; display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--error-color);">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>${isSpanish ? 'Error al activar la prueba. Inténtalo de nuevo.' : 'Error activating trial. Please try again.'}</span>
-            </div>
-        `;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-        
-        // Restore original text
-        trialStatus.textContent = originalText;
-    });
-}
-
-function checkTrialStatus(userData) {
-    if (!userData.trialActive || !userData.trialEnd) return 'no-trial';
-    
-    const now = new Date();
-    const trialEnd = userData.trialEnd.toDate();
-    
-    if (now > trialEnd) {
-        return 'expired';
+        // Initialize intro page functionality
+        initializeIntroPage();
     } else {
-        const daysLeft = Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24));
-        return { status: 'active', daysLeft };
+        // Show main app directly
+        document.getElementById('intro-page').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        initializeMainApp();
     }
 }
 
-function showUpgradeOptions() {
-    // Create and show upgrade modal
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.id = 'upgrade-modal';
-    
-    const currentLang = PRICING_CONFIG.getCurrentLanguage();
-    const isSpanish = currentLang === 'es';
-    const isPortuguese = currentLang === 'pt';
-    
-    modal.innerHTML = `
-        <div class="modal-content upgrade-modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-icon"><i class="fas fa-crown"></i></div>
-            <h3>${PRICING_CONFIG.getText({
-                en: 'Upgrade to Premium',
-                es: 'Actualizar a Premium',
-                pt: 'Atualizar para Premium'
-            })}</h3>
-            <p>${PRICING_CONFIG.getText({
-                en: 'Choose the plan that best fits your needs',
-                es: 'Elige el plan que mejor se adapte a tus necesidades',
-                pt: 'Escolha o plano que melhor atende às suas necessidades'
-            })}</p>
-            
-            <div class="upgrade-plans">
-                <div class="upgrade-plan">
-                    <div class="plan-header">
-                        <h4>${PRICING_CONFIG.getText(PRICING_CONFIG.plans.monthly.name)}</h4>
-                        <div class="plan-price">
-                            <span class="price">${PRICING_CONFIG.formatPrice(PRICING_CONFIG.plans.monthly.price)}</span>
-                            <span class="period">${PRICING_CONFIG.getText(PRICING_CONFIG.plans.monthly.period)}</span>
-                        </div>
-                    </div>
-                    <ul class="plan-features">
-                        ${PRICING_CONFIG.plans.monthly.features.map(feature => 
-                            `<li><i class="fas fa-check"></i> ${PRICING_CONFIG.getText(feature)}</li>`
-                        ).join('')}
-                    </ul>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" class="paypal-form">
-                        <input type="hidden" name="cmd" value="${PRICING_CONFIG.plans.monthly.paypalCmd}">
-                        <input type="hidden" name="business" value="${PRICING_CONFIG.paypalBusiness}">
-                        <input type="hidden" name="lc" value="MX">
-                        <input type="hidden" name="item_name" value="${PRICING_CONFIG.plans.monthly.paypalItemName}">
-                        <input type="hidden" name="a3" value="${PRICING_CONFIG.plans.monthly.price.toFixed(2)}">
-                        <input type="hidden" name="p3" value="${PRICING_CONFIG.plans.monthly.paypalParams.p3}">
-                        <input type="hidden" name="t3" value="${PRICING_CONFIG.plans.monthly.paypalParams.t3}">
-                        <input type="hidden" name="src" value="${PRICING_CONFIG.plans.monthly.paypalParams.src}">
-                        <input type="hidden" name="currency_code" value="${PRICING_CONFIG.currency}">
-                        <input type="hidden" name="custom" value="${auth.currentUser ? auth.currentUser.uid : ''}">
-                        <button type="submit" class="btn primary">${PRICING_CONFIG.getText({
-                            en: 'Get Monthly Plan',
-                            es: 'Obtener Plan Mensual',
-                            pt: 'Obter Plano Mensal'
-                        })}</button>
-                    </form>
-                </div>
-                
-                <div class="upgrade-plan popular">
-                    <div class="popular-badge">${PRICING_CONFIG.getText({
-                        en: 'Most Popular',
-                        es: 'Más Popular',
-                        pt: 'Mais Popular'
-                    })}</div>
-                    <div class="plan-header">
-                        <h4>${PRICING_CONFIG.getText(PRICING_CONFIG.plans.annual.name)}</h4>
-                        <div class="plan-price">
-                            <span class="price">${PRICING_CONFIG.formatPrice(PRICING_CONFIG.plans.annual.price)}</span>
-                            <span class="period">${PRICING_CONFIG.getText({
-                                en: '/year',
-                                es: '/año',
-                                pt: '/ano'
-                            })}</span>
-                        </div>
-                        <div class="save-badge">${PRICING_CONFIG.getText(PRICING_CONFIG.plans.annual.discount)}</div>
-                    </div>
-                    <ul class="plan-features">
-                        ${PRICING_CONFIG.plans.annual.features.map(feature => 
-                            `<li><i class="fas fa-check"></i> ${PRICING_CONFIG.getText(feature)}</li>`
-                        ).join('')}
-                    </ul>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" class="paypal-form">
-                        <input type="hidden" name="cmd" value="${PRICING_CONFIG.plans.annual.paypalCmd}">
-                        <input type="hidden" name="business" value="${PRICING_CONFIG.paypalBusiness}">
-                        <input type="hidden" name="lc" value="MX">
-                        <input type="hidden" name="item_name" value="${PRICING_CONFIG.plans.annual.paypalItemName}">
-                        <input type="hidden" name="a3" value="${PRICING_CONFIG.plans.annual.price.toFixed(2)}">
-                        <input type="hidden" name="p3" value="${PRICING_CONFIG.plans.annual.paypalParams.p3}">
-                        <input type="hidden" name="t3" value="${PRICING_CONFIG.plans.annual.paypalParams.t3}">
-                        <input type="hidden" name="src" value="${PRICING_CONFIG.plans.annual.paypalParams.src}">
-                        <input type="hidden" name="currency_code" value="${PRICING_CONFIG.currency}">
-                        <input type="hidden" name="custom" value="${auth.currentUser ? auth.currentUser.uid : ''}">
-                        <button type="submit" class="btn primary">${PRICING_CONFIG.getText({
-                            en: 'Get Annual Plan',
-                            es: 'Obtener Plan Anual',
-                            pt: 'Obter Plano Anual'
-                        })}</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="upgrade-footer">
-                <p><i class="fas fa-shield-alt"></i> ${PRICING_CONFIG.getText(PRICING_CONFIG.securePayment)}</p>
-                <p><i class="fas fa-undo"></i> ${PRICING_CONFIG.getText(PRICING_CONFIG.moneyBackGuarantee)}</p>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    modal.style.display = 'flex';
-    
-    // Close modal functionality
-    const closeBtn = modal.querySelector('.close-modal');
-    closeBtn.onclick = () => {
-        modal.remove();
-    };
-    
-    modal.onclick = (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    };
-}
-
-function showSubscriptionManagement() {
-    // Create and show subscription management modal
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.id = 'subscription-modal';
-    
-    const currentLang = PRICING_CONFIG.getCurrentLanguage();
-    const isSpanish = currentLang === 'es';
-    const isPortuguese = currentLang === 'pt';
-    
-    modal.innerHTML = `
-        <div class="modal-content subscription-modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-icon"><i class="fas fa-credit-card"></i></div>
-            <h3>${PRICING_CONFIG.getText({
-                en: 'Subscription Management',
-                es: 'Gestión de Suscripción',
-                pt: 'Gerenciamento de Assinatura'
-            })}</h3>
-            
-            <div class="subscription-info">
-                <div class="current-subscription">
-                    <h4>${PRICING_CONFIG.getText({
-                        en: 'Current Subscription',
-                        es: 'Suscripción Actual',
-                        pt: 'Assinatura Atual'
-                    })}</h4>
-                    <div class="subscription-details" id="current-subscription-details">
-                        <div class="loading">${PRICING_CONFIG.getText({
-                            en: 'Loading...',
-                            es: 'Cargando...',
-                            pt: 'Carregando...'
-                        })}</div>
-                    </div>
-                </div>
-                
-                <div class="subscription-actions">
-                    <h4>${PRICING_CONFIG.getText({
-                        en: 'Actions',
-                        es: 'Acciones',
-                        pt: 'Ações'
-                    })}</h4>
-                    <div class="action-buttons">
-                        <button class="btn primary" onclick="showUpgradeOptions()">
-                            <i class="fas fa-arrow-up"></i> ${PRICING_CONFIG.getText({
-                                en: 'Upgrade Plan',
-                                es: 'Actualizar Plan',
-                                pt: 'Atualizar Plano'
-                            })}
-                        </button>
-                        <button class="btn secondary" onclick="cancelSubscription()">
-                            <i class="fas fa-times"></i> ${PRICING_CONFIG.getText({
-                                en: 'Cancel Subscription',
-                                es: 'Cancelar Suscripción',
-                                pt: 'Cancelar Assinatura'
-                            })}
-                        </button>
-                        <button class="btn secondary" onclick="downloadInvoice()">
-                            <i class="fas fa-download"></i> ${PRICING_CONFIG.getText({
-                                en: 'Download Invoice',
-                                es: 'Descargar Factura',
-                                pt: 'Baixar Fatura'
-                            })}
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="billing-history">
-                    <h4>${PRICING_CONFIG.getText({
-                        en: 'Billing History',
-                        es: 'Historial de Facturación',
-                        pt: 'Histórico de Cobrança'
-                    })}</h4>
-                    <div class="billing-list" id="modal-billing-list">
-                        <div class="loading">${PRICING_CONFIG.getText({
-                            en: 'Loading...',
-                            es: 'Cargando...',
-                            pt: 'Carregando...'
-                        })}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    modal.style.display = 'flex';
-    
-    // Load subscription data
-    loadSubscriptionData();
-    
-    // Close modal functionality
-    const closeBtn = modal.querySelector('.close-modal');
-    closeBtn.onclick = () => {
-        modal.remove();
-    };
-    
-    modal.onclick = (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    };
-}
-
-function loadSubscriptionData() {
-    const user = auth.currentUser;
-    if (!user) return;
-    
-    // Load current subscription details
-    db.collection('users').doc(user.uid).get()
-        .then(doc => {
-            if (doc.exists) {
-                const userData = doc.data();
-                const subscriptionDetails = document.getElementById('current-subscription-details');
-                
-                let subscriptionText = '';
-                if (userData.subscription === 'trial') {
-                    const trialInfo = checkTrialStatus(userData);
-                    if (trialInfo === 'expired') {
-                        subscriptionText = `<div class="subscription-status expired">
-                            <i class="fas fa-times-circle"></i>
-                            <span>${document.documentElement.getAttribute('data-lang') === 'es' ? 'Prueba Expirada' : 'Trial Expired'}</span>
-                        </div>`;
-                    } else if (trialInfo.status === 'active') {
-                        subscriptionText = `<div class="subscription-status active">
-                            <i class="fas fa-clock"></i>
-                            <span>${document.documentElement.getAttribute('data-lang') === 'es' ? 'Prueba Gratis' : 'Free Trial'} - ${trialInfo.daysLeft} ${document.documentElement.getAttribute('data-lang') === 'es' ? 'días restantes' : 'days left'}</span>
-                        </div>`;
-                    }
-                } else if (userData.subscription === 'premium') {
-                    subscriptionText = `<div class="subscription-status premium">
-                        <i class="fas fa-crown"></i>
-                        <span>${document.documentElement.getAttribute('data-lang') === 'es' ? 'Plan Premium Activo' : 'Premium Plan Active'}</span>
-                    </div>`;
-                } else {
-                    subscriptionText = `<div class="subscription-status free">
-                        <i class="fas fa-user"></i>
-                        <span>${document.documentElement.getAttribute('data-lang') === 'es' ? 'Plan Gratis' : 'Free Plan'}</span>
-                    </div>`;
-                }
-                
-                subscriptionDetails.innerHTML = subscriptionText;
-            }
-        })
-        .catch(error => {
-            console.error('Error loading subscription data:', error);
-        });
-    
-    // Load billing history
-    loadModalBillingHistory(user.uid);
-}
-
-function loadModalBillingHistory(userId) {
-    const billingList = document.getElementById('modal-billing-list');
-    
-    db.collection('users').doc(userId).collection('transactions')
-        .orderBy('date', 'desc')
-        .limit(10)
-        .get()
-        .then(querySnapshot => {
-            billingList.innerHTML = '';
-            
-            if (querySnapshot.empty) {
-                billingList.innerHTML = `
-                    <div class="billing-item empty">
-                        <i class="fas fa-receipt"></i>
-                        <span>${document.documentElement.getAttribute('data-lang') === 'es' ? 'No hay transacciones aún' : 'No transactions yet'}</span>
-                    </div>
-                `;
-                return;
-            }
-            
-            querySnapshot.forEach(doc => {
-                const transaction = doc.data();
-                const billingItem = document.createElement('div');
-                billingItem.className = 'billing-item';
-                
-                const date = transaction.date ? transaction.date.toDate().toLocaleDateString() : 'Unknown';
-                const amount = transaction.amount ? `$${transaction.amount} MXN` : '-';
-                const status = transaction.status || 'completed';
-                
-                billingItem.innerHTML = `
-                    <div class="billing-info">
-                        <span class="billing-description">${transaction.description || 'Subscription'}</span>
-                        <span class="billing-date">${date}</span>
-                    </div>
-                    <div class="billing-amount">
-                        <span class="amount">${amount}</span>
-                        <span class="status ${status}">${status}</span>
-                    </div>
-                `;
-                
-                billingList.appendChild(billingItem);
-            });
-        })
-        .catch(error => {
-            console.error('Error loading billing history:', error);
-            billingList.innerHTML = `
-                <div class="billing-item error">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>${document.documentElement.getAttribute('data-lang') === 'es' ? 'Error al cargar transacciones' : 'Error loading transactions'}</span>
-                </div>
-            `;
-        });
-}
-
-function cancelSubscription() {
-    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-    const isSpanish = currentLang === 'es';
-    
-    if (confirm(isSpanish ? 
-        '¿Estás seguro de que quieres cancelar tu suscripción? Esto entrará en efecto al final del período de facturación actual.' :
-        'Are you sure you want to cancel your subscription? This will take effect at the end of your current billing period.')) {
-        
-        // Here you would typically call PayPal's subscription cancellation API
-        // For now, we'll just show a message
-        alert(isSpanish ? 
-            'Para cancelar tu suscripción, por favor contacta a soporte@hablaya.com o cancela directamente desde tu cuenta de PayPal.' :
-            'To cancel your subscription, please contact support@hablaya.com or cancel directly from your PayPal account.');
-    }
-}
-
-function downloadInvoice() {
-    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
-    const isSpanish = currentLang === 'es';
-    
-    alert(isSpanish ? 
-        'Las facturas están disponibles en tu cuenta de PayPal. También puedes contactar a soporte@hablaya.com para obtener una copia.' :
-        'Invoices are available in your PayPal account. You can also contact support@hablaya.com to get a copy.');
-}
-
-function updateTrialUI(userData) {
-    const trialStatus = document.getElementById('trial-status');
-    const planBadge = document.getElementById('plan-badge');
-    const planDetails = document.getElementById('plan-details');
-    const trialExpiry = document.getElementById('trial-expiry');
-    const upgradeBtn = document.querySelector('.upgrade-btn');
-    
-    const trialInfo = checkTrialStatus(userData);
-    
-    if (trialInfo === 'no-trial') {
-        trialStatus.textContent = 'No Trial';
-        planBadge.textContent = 'Free';
-        planBadge.className = 'plan-badge';
-        planDetails.textContent = 'No active trial';
-        trialExpiry.textContent = 'N/A';
-        upgradeBtn.textContent = 'Start Trial';
-    } else if (trialInfo === 'expired') {
-        trialStatus.textContent = 'Expired';
-        planBadge.textContent = 'Trial Expired';
-        planBadge.className = 'plan-badge trial';
-        planDetails.textContent = 'Your trial has expired';
-        trialExpiry.textContent = 'Expired';
-        upgradeBtn.textContent = 'Upgrade Now';
-    } else {
-        trialStatus.textContent = `${trialInfo.daysLeft} days left`;
-        planBadge.textContent = 'Free Trial';
-        planBadge.className = 'plan-badge trial';
-        planDetails.textContent = '7-day free trial active';
-        
-        const expiryDate = userData.trialEnd.toDate().toLocaleDateString();
-        trialExpiry.textContent = expiryDate;
-        upgradeBtn.textContent = 'Upgrade Now';
-    }
-}
-
-function loadBillingHistory(userId) {
-    const billingList = document.getElementById('billing-list');
-    
-    db.collection('users').doc(userId).collection('transactions')
-        .orderBy('date', 'desc')
-        .limit(5)
-        .get()
-        .then(querySnapshot => {
-            billingList.innerHTML = '';
-            
-            if (querySnapshot.empty) {
-                billingList.innerHTML = `
-                    <div class="billing-item">
-                        <span class="billing-date">No transactions yet</span>
-                        <span class="billing-amount">-</span>
-                    </div>
-                `;
-                return;
-            }
-            
-            querySnapshot.forEach(doc => {
-                const transaction = doc.data();
-                const billingItem = document.createElement('div');
-                billingItem.className = 'billing-item';
-                
-                const date = transaction.date ? transaction.date.toDate().toLocaleDateString() : 'Unknown';
-                const amount = transaction.amount ? `$${transaction.amount} MXN` : '-';
-                
-                billingItem.innerHTML = `
-                    <span class="billing-date">${transaction.description || 'Subscription'}</span>
-                    <span class="billing-amount">${amount}</span>
-                `;
-                
-                billingList.appendChild(billingItem);
-            });
-        })
-        .catch(error => {
-            console.error('Error loading billing history:', error);
-            billingList.innerHTML = `
-                <div class="billing-item">
-                    <span class="billing-date">Error loading transactions</span>
-                    <span class="billing-amount">-</span>
-                </div>
-            `;
-        });
-}
-
-function setPayPalUserId(user) {
-    document.querySelectorAll('#paypal-custom-userid').forEach(input => {
-        input.value = user.uid;
-    });
-}
-
-// Function to update pricing section with centralized configuration
-function updatePricingSection() {
-    // Update pricing cards with centralized config
-    const pricingCards = document.querySelectorAll('.pricing-card');
-    
-    pricingCards.forEach(card => {
-        const planKey = card.getAttribute('data-plan');
-        if (!planKey || !PRICING_CONFIG.plans[planKey]) return;
-        
-        const plan = PRICING_CONFIG.plans[planKey];
-        const currentLang = PRICING_CONFIG.getCurrentLanguage();
-        const currentCurrency = PRICING_CONFIG.getCurrentCurrency();
-        
-        // Update plan name
-        const planName = card.querySelector('h3');
-        if (planName) {
-            planName.textContent = PRICING_CONFIG.getText(plan.name);
-        }
-        
-        // Update pricing with currency conversion
-        const currentPrice = card.querySelector('.current-price');
-        const originalPrice = card.querySelector('.original-price');
-        const priceSubtitle = card.querySelector('.price-subtitle');
-        
-        if (currentPrice) {
-            currentPrice.textContent = PRICING_CONFIG.formatPrice(plan.price, currentCurrency);
-        }
-        
-        if (originalPrice && plan.originalPrice) {
-            originalPrice.textContent = PRICING_CONFIG.formatPrice(plan.originalPrice, currentCurrency);
-        }
-        
-        if (priceSubtitle) {
-            const periodText = PRICING_CONFIG.getText(plan.period);
-            const discountText = plan.discount ? PRICING_CONFIG.getText(plan.discount) : '';
-            priceSubtitle.innerHTML = `${periodText} ${discountText ? `<span class="discount">${discountText}</span>` : ''}`;
-        }
-        
-        // Update features
-        const featuresList = card.querySelector('.price-features');
-        if (featuresList && plan.features) {
-            featuresList.innerHTML = plan.features.map(feature => 
-                `<li><i class="fas fa-check"></i> ${PRICING_CONFIG.getText(feature)}</li>`
-            ).join('');
-        }
-        
-        // Update badge
-        const badge = card.querySelector('.pricing-badge');
-        if (badge && plan.badge) {
-            badge.textContent = PRICING_CONFIG.getText(plan.badge);
-        }
-        
-        // Update PayPal form
-        const paypalForm = card.querySelector('.paypal-form');
-        if (paypalForm) {
-            updatePayPalForm(paypalForm, planKey);
-        }
-    });
-    
-    // Update trial card
-    const trialCard = document.querySelector('.trial-card');
-    if (trialCard) {
-        const trialPrice = trialCard.querySelector('.current-price');
-        const trialOriginalPrice = trialCard.querySelector('.original-price');
-        
-        if (trialPrice) {
-            trialPrice.textContent = PRICING_CONFIG.formatPrice(0, currentCurrency);
-        }
-        
-        if (trialOriginalPrice) {
-            trialOriginalPrice.textContent = PRICING_CONFIG.formatPrice(99, currentCurrency);
-        }
-    }
-}
-
-function updatePayPalForm(form, planKey) {
-    const plan = PRICING_CONFIG.plans[planKey];
-    if (!plan) return;
-    
-    const currentCurrency = PRICING_CONFIG.getCurrentCurrency();
-    const convertedPrice = PRICING_CONFIG.convertPrice(plan.price, 'MXN', currentCurrency);
-    
-    // Clear existing inputs
-    const existingInputs = form.querySelectorAll('input[type="hidden"]');
-    existingInputs.forEach(input => {
-        if (input.name !== 'custom') {
-            input.remove();
-        }
-    });
-    
-    // Add new inputs based on centralized config
-    const inputs = [
-        { name: 'cmd', value: plan.paypalCmd || '_xclick' },
-        { name: 'business', value: PRICING_CONFIG.paypalBusiness },
-        { name: 'lc', value: currentCurrency === 'MXN' ? 'MX' : 'US' },
-        { name: 'item_name', value: plan.paypalItemName },
-        { name: 'currency_code', value: currentCurrency }
-    ];
-    
-    // Add amount based on command type
-    if (plan.paypalCmd === '_xclick-subscriptions') {
-        inputs.push({ name: 'a3', value: convertedPrice.toFixed(2) });
-        if (plan.paypalParams) {
-            Object.entries(plan.paypalParams).forEach(([key, value]) => {
-                if (key === 'a3') {
-                    inputs.push({ name: key, value: convertedPrice.toFixed(2) });
-                } else {
-                    inputs.push({ name: key, value });
-                }
-            });
-        }
-    } else {
-        inputs.push({ name: 'amount', value: convertedPrice.toFixed(2) });
-    }
-    
-    // Add additional PayPal parameters
-    inputs.push(
-        { name: 'button_subtype', value: 'services' },
-        { name: 'no_note', value: '0' },
-        { name: 'bn', value: 'PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest' }
-    );
-    
-    // Create and append input elements
-    inputs.forEach(input => {
-        const inputElement = document.createElement('input');
-        inputElement.type = 'hidden';
-        inputElement.name = input.name;
-        inputElement.value = input.value;
-        form.appendChild(inputElement);
-    });
-}
-
-// Set up all event listeners
-function setupEventListeners() {
-    // Theme toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
-    
-    // Language toggle
-    const langToggle = document.getElementById('lang-toggle');
-    const mobileLangToggle = document.getElementById('mobile-lang-toggle');
-    if (langToggle) {
-        langToggle.addEventListener('click', toggleLanguage);
-    }
-    if (mobileLangToggle) {
-        mobileLangToggle.addEventListener('click', toggleLanguage);
-    }
-    
-    // Intro page language buttons
+// Initialize intro page functionality
+function initializeIntroPage() {
+    // Set up intro page language buttons
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const langButtons = document.querySelectorAll('.lang-btn');
@@ -1656,155 +497,9 @@ function setupEventListeners() {
         });
     });
     
-    // Language selector toggle button (if exists)
-    const langSelectorToggle = document.getElementById('lang-selector-toggle');
-    if (langSelectorToggle) {
-        langSelectorToggle.addEventListener('click', toggleLanguageSelector);
-    }
-    
-    // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const closeMenuBtn = document.getElementById('close-menu');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.add('active');
-            mobileMenuBtn.setAttribute('aria-expanded', 'true');
-            document.body.style.overflow = 'hidden';
-        });
-    }
-    
-    if (closeMenuBtn) {
-        closeMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.remove('active');
-            mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
-        });
-    }
-    
-    // Modal functionality
-    const modalTriggers = document.querySelectorAll('.modal-trigger');
-    const closeButtons = document.querySelectorAll('.close-modal');
-    
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function(e) {
-            e.preventDefault();
-            const modalId = this.getAttribute('data-modal');
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        });
-    });
-    
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            this.closest('.modal').style.display = 'none';
-            document.body.style.overflow = '';
-        });
-    });
-    
-    window.addEventListener('click', function(e) {
-        if (e.target.classList.contains('modal')) {
-            e.target.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-    });
-    
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            if (this.classList.contains('modal-trigger')) return;
-            
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-    
-    // Auth forms
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-    
-    if (signupForm) {
-        signupForm.addEventListener('submit', handleSignup);
-    }
-    
-    // Auth modal switching
-    document.querySelectorAll('.switch-auth').forEach(button => {
-        button.addEventListener('click', function() {
-            const targetModal = this.getAttribute('data-target');
-            const currentModal = this.closest('.modal');
-            
-            currentModal.style.display = 'none';
-            document.getElementById(targetModal).style.display = 'flex';
-        });
-    });
-    
-    // Dashboard logout
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-    
-    // Dashboard actions
-    const startSessionBtn = document.getElementById('start-session-btn');
-    if (startSessionBtn) {
-        startSessionBtn.addEventListener('click', function() {
-            showLanguageSelection();
-        });
-    }
-    
-    const upgradeBtn = document.querySelector('.upgrade-btn');
-    if (upgradeBtn) {
-        upgradeBtn.addEventListener('click', showUpgradeOptions);
-    }
-    
-    const manageBtn = document.querySelector('.manage-btn');
-    if (manageBtn) {
-        manageBtn.addEventListener('click', showSubscriptionManagement);
-    }
-    
-    // Close language selector when clicking outside
-    document.addEventListener('click', function(e) {
-        const selector = document.getElementById('language-currency-selector');
-        const langToggle = document.getElementById('lang-selector-toggle');
-        
-        if (selector && selector.style.display === 'block') {
-            if (!selector.contains(e.target) && !langToggle?.contains(e.target)) {
-                closeLanguageSelector();
-            }
-        }
-    });
-}
-
-// Initialize the app
-function initializeApp() {
-    // Check if user has seen intro page
-    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
-    
-    if (!hasSeenIntro) {
-        // Show intro page first
-        document.getElementById('intro-page').style.display = 'flex';
-        document.getElementById('main-app').style.display = 'none';
-    } else {
-        // Show main app directly
-        document.getElementById('intro-page').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
-        initializeMainApp();
-    }
+    // Update intro page language
+    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+    updateIntroLanguage(currentLang);
 }
 
 // Start the main app
@@ -1934,3 +629,328 @@ window.toggleLanguageSelector = toggleLanguageSelector;
 window.closeLanguageSelector = closeLanguageSelector;
 window.startApp = startApp;
 window.closePromoBanner = closePromoBanner;
+window.showLoginFromIntro = showLoginFromIntro;
+
+// Auth functions
+function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    
+    auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+            document.getElementById('login-modal').style.display = 'none';
+            // Success - modal will close via auth state change handler
+        })
+        .catch(error => {
+            document.getElementById('login-error').textContent = error.message;
+        });
+}
+
+function handleSignup(e) {
+    e.preventDefault();
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Create user document in Firestore with trial data
+            const trialEnd = new Date();
+            trialEnd.setDate(trialEnd.getDate() + 7); // 7-day trial
+            
+            return db.collection('users').doc(userCredential.user.uid).set({
+                name: name,
+                email: email,
+                englishSessions: 0,
+                spanishSessions: 0,
+                portugueseSessions: 0,
+                trialActive: true,
+                trialEnd: firebase.firestore.Timestamp.fromDate(trialEnd),
+                trialUsed: false,
+                subscription: 'trial',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        })
+        .then(() => {
+            document.getElementById('signup-modal').style.display = 'none';
+            // Success - modal will close via auth state change handler
+        })
+        .catch(error => {
+            document.getElementById('signup-error').textContent = error.message;
+        });
+}
+
+function handleLogout() {
+    auth.signOut();
+}
+
+function showLanguageSelection() {
+    // Show language selection modal or dropdown
+    const languages = ['English', 'Spanish', 'Portuguese', 'French', 'Italian'];
+    const language = prompt('Select a language to practice:\n' + languages.join('\n'));
+    if (language && languages.includes(language)) {
+        startNewSession(language.toLowerCase());
+    }
+}
+
+// Show login from intro page
+function showLoginFromIntro() {
+    // Show main app temporarily to access login modal
+    document.getElementById('main-app').style.display = 'block';
+    document.getElementById('login-modal').style.display = 'flex';
+    
+    // Hide intro page
+    document.getElementById('intro-page').style.display = 'none';
+}
+
+// Set up all event listeners
+function setupEventListeners() {
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+    
+    // Language toggle
+    const langToggle = document.getElementById('lang-toggle');
+    const mobileLangToggle = document.getElementById('mobile-lang-toggle');
+    if (langToggle) {
+        langToggle.addEventListener('click', toggleLanguage);
+    }
+    if (mobileLangToggle) {
+        mobileLangToggle.addEventListener('click', toggleLanguage);
+    }
+    
+    // Language selector toggle button (if exists)
+    const langSelectorToggle = document.getElementById('lang-selector-toggle');
+    if (langSelectorToggle) {
+        langSelectorToggle.addEventListener('click', toggleLanguageSelector);
+    }
+    
+    // Auth button event listeners
+    const authBtn = document.getElementById('auth-btn');
+    const mobileAuthBtn = document.getElementById('mobile-auth-btn');
+    const tryFreeBtn = document.getElementById('try-free-btn');
+    const tryChatbotBtns = document.querySelectorAll('.try-chatbot');
+    
+    if (authBtn) {
+        authBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('login-modal').style.display = 'flex';
+        });
+    }
+    
+    if (mobileAuthBtn) {
+        mobileAuthBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('login-modal').style.display = 'flex';
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    }
+    
+    if (tryFreeBtn) {
+        tryFreeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('signup-modal').style.display = 'flex';
+        });
+    }
+    
+    tryChatbotBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (auth.currentUser) {
+                startNewSession('all');
+            } else {
+                document.getElementById('login-modal').style.display = 'flex';
+            }
+        });
+    });
+    
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    if (closeMenuBtn) {
+        closeMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    // Modal functionality
+    const modalTriggers = document.querySelectorAll('.modal-trigger');
+    const closeButtons = document.querySelectorAll('.close-modal');
+    
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            const modalId = this.getAttribute('data-modal');
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    });
+    
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            if (this.classList.contains('modal-trigger')) return;
+            
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Close mobile menu if open
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                }
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                }
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Auth forms
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+    
+    if (signupForm) {
+        signupForm.addEventListener('submit', handleSignup);
+    }
+    
+    // Auth modal switching
+    document.querySelectorAll('.switch-auth').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetModal = this.getAttribute('data-target');
+            const currentModal = this.closest('.modal');
+            
+            currentModal.style.display = 'none';
+            document.getElementById(targetModal).style.display = 'flex';
+        });
+    });
+    
+    // Dashboard logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    // Dashboard actions
+    const startSessionBtn = document.getElementById('start-session-btn');
+    if (startSessionBtn) {
+        startSessionBtn.addEventListener('click', function() {
+            showLanguageSelection();
+        });
+    }
+    
+    const upgradeBtn = document.querySelector('.upgrade-btn');
+    if (upgradeBtn) {
+        upgradeBtn.addEventListener('click', showUpgradeOptions);
+    }
+    
+    const manageBtn = document.querySelector('.manage-btn');
+    if (manageBtn) {
+        manageBtn.addEventListener('click', showSubscriptionManagement);
+    }
+    
+    // Trial button event listener
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('trial-btn')) {
+            e.preventDefault();
+            if (auth.currentUser) {
+                activateTrial();
+            } else {
+                document.getElementById('signup-modal').style.display = 'flex';
+            }
+        }
+        
+        // Upgrade plan button
+        if (e.target.classList.contains('upgrade-btn')) {
+            e.preventDefault();
+            showUpgradeOptions();
+        }
+        
+        // Manage subscription button
+        if (e.target.classList.contains('manage-btn')) {
+            e.preventDefault();
+            showSubscriptionManagement();
+        }
+    });
+    
+    // Close language selector when clicking outside
+    document.addEventListener('click', function(e) {
+        const selector = document.getElementById('language-currency-selector');
+        const langToggle = document.getElementById('lang-selector-toggle');
+        
+        if (selector && selector.style.display === 'block') {
+            if (!selector.contains(e.target) && !langToggle?.contains(e.target)) {
+                closeLanguageSelector();
+            }
+        }
+    });
+    
+    // Auth state observer
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // User is signed in
+            showDashboard(user);
+            updateUserLastLogin(user.uid);
+            setPayPalUserId(user);
+        } else {
+            // User is signed out
+            hideDashboard();
+        }
+    });
+    
+    // Update flag based on language
+    updateLanguageFlags();
+    
+    // Initialize pricing section with centralized config
+    if (window.PRICING_CONFIG) {
+        updatePricingSection();
+    }
+    
+    // Initialize theme
+    updateThemeIcon();
+}
