@@ -540,10 +540,38 @@ function initializeIntroPage() {
 
 // Start the main app
 function startApp() {
-    localStorage.setItem('hasSeenIntro', 'true');
-    document.getElementById('intro-page').style.display = 'none';
-    document.getElementById('main-app').style.display = 'block';
-    initializeMainApp();
+    console.log('startApp() called - hiding intro page and showing main app');
+    
+    try {
+        localStorage.setItem('hasSeenIntro', 'true');
+        
+        const introPage = document.getElementById('intro-page');
+        const mainApp = document.getElementById('main-app');
+        
+        if (introPage) {
+            introPage.style.display = 'none';
+            introPage.style.visibility = 'hidden';
+            console.log('Intro page hidden');
+        } else {
+            console.error('Intro page element not found!');
+        }
+        
+        if (mainApp) {
+            mainApp.style.display = 'block';
+            mainApp.style.visibility = 'visible';
+            console.log('Main app shown');
+        } else {
+            console.error('Main app element not found!');
+        }
+        
+        // Small delay to ensure DOM updates
+        setTimeout(() => {
+            initializeMainApp();
+        }, 100);
+        
+    } catch (error) {
+        console.error('Error in startApp:', error);
+    }
 }
 
 // Initialize main app functionality
@@ -1832,7 +1860,7 @@ function showUpgradeModal() {
 
 // Upgrade to specific plan
 function upgradeToPlan(plan) {
-    // Redirect to PayPal with the specific plan
+    // Redirect to PayPal with the specific plan (prices in Mexican Pesos)
     const planUrls = {
         'monthly': 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=gascagtz@gmail.com&lc=MX&item_name=Monthly%20Subscription%20HablaYa!&a3=499.00&p3=1&t3=M&src=1&currency_code=MXN',
         'annual': 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=gascagtz@gmail.com&lc=MX&item_name=Annual%20Subscription%20HablaYa!&a3=4990.00&p3=1&t3=Y&src=1&currency_code=MXN'
