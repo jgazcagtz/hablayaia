@@ -2790,3 +2790,121 @@ section {
         right: 10px;
     }
 }
+
+/* Language Selection Modal */
+.language-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.language-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--card);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-family);
+}
+
+.language-option:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
+    background: var(--primary-light);
+}
+
+.language-option.all-languages {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-color: var(--primary);
+}
+
+.language-option.all-languages:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    transform: translateY(-4px) scale(1.02);
+}
+
+.language-option .flag {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.language-option .lang-name {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.language-option.all-languages .flag {
+    font-size: 3rem;
+}
+
+.language-option.all-languages .lang-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Modal header styles */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    flex: 1;
+}
+
+/* Responsive design for language modal */
+@media (max-width: 768px) {
+    .language-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .language-option {
+        padding: 1rem;
+    }
+    
+    .language-option .flag {
+        font-size: 2rem;
+    }
+    
+    .language-option .lang-name {
+        font-size: 0.9rem;
+    }
+    
+    .language-option.all-languages .flag {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .language-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .language-option.all-languages {
+        grid-column: 1;
+    }
+}
