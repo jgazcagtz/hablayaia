@@ -10,6 +10,19 @@ const translations = {
         languageLabel: "Idioma:",
         currencyLabel: "Moneda:",
         
+        // Intro page
+        introTitle: "Domina idiomas conversando con IA",
+        introSubtitle: "Practica inglés, español, portugués, francés e italiano 24/7 con nuestro chatbot inteligente",
+        introFeature1: "IA Adaptativa",
+        introFeature2: "24/7 Disponible", 
+        introFeature3: "Reconocimiento de Voz",
+        introChat1: "¡Hola! ¿Cómo estás hoy?",
+        introChat2: "¡Muy bien! Quiero practicar inglés",
+        introChat3: "¡Perfecto! Empecemos con una conversación básica...",
+        introStartBtn: "Comenzar Ahora",
+        introNote: "Prueba gratis de 7 días • Sin tarjeta de crédito",
+        settingsTitle: "Configuración",
+        
         // Instructions
         instructionsTitle: "Cómo Comprar y Acceder",
         instructionsSubtitle: "Sigue estos pasos simples para comenzar tu viaje de aprendizaje",
@@ -135,6 +148,19 @@ const translations = {
         languageLabel: "Language:",
         currencyLabel: "Currency:",
         
+        // Intro page
+        introTitle: "Master languages by conversing with AI",
+        introSubtitle: "Practice English, Spanish, Portuguese, French, or Italian 24/7 with our intelligent chatbot",
+        introFeature1: "Adaptive AI",
+        introFeature2: "Always Available", 
+        introFeature3: "Speech Recognition",
+        introChat1: "Hi! How are you today?",
+        introChat2: "Great! I want to practice English",
+        introChat3: "Perfect! Let's start with a basic conversation...",
+        introStartBtn: "Get Started",
+        introNote: "7-day free trial • No credit card required",
+        settingsTitle: "Settings",
+        
         // Instructions
         instructionsTitle: "How to Buy and Access",
         instructionsSubtitle: "Follow these simple steps to start your learning journey",
@@ -259,6 +285,19 @@ const translations = {
         promoMessage: "OFERTA ESPECIAL! 50% de desconto por 90 dias - Preços introdutórios limitados!",
         languageLabel: "Idioma:",
         currencyLabel: "Moeda:",
+        
+        // Intro page
+        introTitle: "Domine idiomas conversando com IA",
+        introSubtitle: "Pratique inglês, espanhol, português, francês ou italiano 24/7 com nosso chatbot inteligente",
+        introFeature1: "IA Adaptativa",
+        introFeature2: "24/7 Disponível", 
+        introFeature3: "Reconhecimento de Voz",
+        introChat1: "Olá! Como você está hoje?",
+        introChat2: "Muito bem! Eu quero praticar inglês",
+        introChat3: "Perfeito! Vamos começar com uma conversação básica...",
+        introStartBtn: "Começar Agora",
+        introNote: "Teste grátis de 7 dias • Sem cartão de crédito",
+        settingsTitle: "Configurações",
         
         // Instructions
         instructionsTitle: "Como Comprar e Acessar",
@@ -1593,30 +1632,56 @@ function updatePayPalForm(form, planKey) {
 function setupEventListeners() {
     // Theme toggle
     const themeToggle = document.getElementById('theme-toggle');
-    themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
     
     // Language toggle
     const langToggle = document.getElementById('lang-toggle');
     const mobileLangToggle = document.getElementById('mobile-lang-toggle');
-    langToggle.addEventListener('click', toggleLanguage);
-    mobileLangToggle.addEventListener('click', toggleLanguage);
+    if (langToggle) {
+        langToggle.addEventListener('click', toggleLanguage);
+    }
+    if (mobileLangToggle) {
+        mobileLangToggle.addEventListener('click', toggleLanguage);
+    }
+    
+    // Intro page language buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const index = Array.from(langButtons).indexOf(this);
+            const lang = ['es', 'en', 'pt'][index];
+            changeLanguage(lang);
+        });
+    });
+    
+    // Language selector toggle button (if exists)
+    const langSelectorToggle = document.getElementById('lang-selector-toggle');
+    if (langSelectorToggle) {
+        langSelectorToggle.addEventListener('click', toggleLanguageSelector);
+    }
     
     // Mobile menu
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const closeMenuBtn = document.getElementById('close-menu');
     const mobileMenu = document.getElementById('mobile-menu');
     
-    mobileMenuBtn.addEventListener('click', function() {
-        mobileMenu.classList.add('active');
-        mobileMenuBtn.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-    });
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        });
+    }
     
-    closeMenuBtn.addEventListener('click', function() {
-        mobileMenu.classList.remove('active');
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-    });
+    if (closeMenuBtn) {
+        closeMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+    }
     
     // Modal functionality
     const modalTriggers = document.querySelectorAll('.modal-trigger');
@@ -1658,171 +1723,214 @@ function setupEventListeners() {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 targetElement.scrollIntoView({
-                    behavior: 'smooth'
+                    behavior: 'smooth',
+                    block: 'start'
                 });
-                
-                // Close mobile menu if open
-                mobileMenu.classList.remove('active');
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
             }
         });
     });
     
-    // Auth button event listeners
-    const authBtn = document.getElementById('auth-btn');
-    const mobileAuthBtn = document.getElementById('mobile-auth-btn');
-    const tryFreeBtn = document.getElementById('try-free-btn');
-    const tryChatbotBtns = document.querySelectorAll('.try-chatbot');
+    // Auth forms
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
     
-    authBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('login-modal').style.display = 'flex';
-    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
     
-    mobileAuthBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('login-modal').style.display = 'flex';
-        mobileMenu.classList.remove('active');
-    });
+    if (signupForm) {
+        signupForm.addEventListener('submit', handleSignup);
+    }
     
-    tryFreeBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('login-modal').style.display = 'flex';
-    });
-    
-    tryChatbotBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (auth.currentUser) {
-                startNewSession('all');
-            } else {
-                document.getElementById('login-modal').style.display = 'flex';
-            }
-        });
-    });
-    
-    // Switch between login and signup forms
+    // Auth modal switching
     document.querySelectorAll('.switch-auth').forEach(button => {
         button.addEventListener('click', function() {
-            const targetModal = this.dataset.target;
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.style.display = 'none';
-            });
+            const targetModal = this.getAttribute('data-target');
+            const currentModal = this.closest('.modal');
+            
+            currentModal.style.display = 'none';
             document.getElementById(targetModal).style.display = 'flex';
         });
     });
     
-    // Login form submission
-    const loginForm = document.getElementById('login-form');
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                document.getElementById('login-modal').style.display = 'none';
-                // Success - modal will close via auth state change handler
-            })
-            .catch(error => {
-                document.getElementById('login-error').textContent = error.message;
-            });
-    });
-    
-    // Signup form submission
-    const signupForm = document.getElementById('signup-form');
-    signupForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = document.getElementById('signup-name').value;
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-        
-        auth.createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Create user document in Firestore with trial data
-                const trialEnd = new Date();
-                trialEnd.setDate(trialEnd.getDate() + 7); // 7-day trial
-                
-                return db.collection('users').doc(userCredential.user.uid).set({
-                    name: name,
-                    email: email,
-                    englishSessions: 0,
-                    spanishSessions: 0,
-                    portugueseSessions: 0,
-                    trialActive: true,
-                    trialEnd: firebase.firestore.Timestamp.fromDate(trialEnd),
-                    trialUsed: false,
-                    subscription: 'trial',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            })
-            .then(() => {
-                document.getElementById('signup-form').style.display = 'none';
-                // Success - modal will close via auth state change handler
-            })
-            .catch(error => {
-                document.getElementById('signup-error').textContent = error.message;
-            });
-    });
-    
-    // Logout button
+    // Dashboard logout
     const logoutBtn = document.getElementById('logout-btn');
-    logoutBtn.addEventListener('click', function() {
-        auth.signOut();
-    });
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
     
-    // Dashboard button
-    const startChatbotBtn = document.getElementById('start-chatbot');
-    startChatbotBtn.addEventListener('click', function() {
-        startNewSession('all');
-    });
+    // Dashboard actions
+    const startSessionBtn = document.getElementById('start-session-btn');
+    if (startSessionBtn) {
+        startSessionBtn.addEventListener('click', function() {
+            showLanguageSelection();
+        });
+    }
     
-    // Trial button event listener
+    const upgradeBtn = document.querySelector('.upgrade-btn');
+    if (upgradeBtn) {
+        upgradeBtn.addEventListener('click', showUpgradeOptions);
+    }
+    
+    const manageBtn = document.querySelector('.manage-btn');
+    if (manageBtn) {
+        manageBtn.addEventListener('click', showSubscriptionManagement);
+    }
+    
+    // Close language selector when clicking outside
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('trial-btn')) {
-            e.preventDefault();
-            if (auth.currentUser) {
-                activateTrial();
-            } else {
-                document.getElementById('signup-modal').style.display = 'flex';
+        const selector = document.getElementById('language-currency-selector');
+        const langToggle = document.getElementById('lang-selector-toggle');
+        
+        if (selector && selector.style.display === 'block') {
+            if (!selector.contains(e.target) && !langToggle?.contains(e.target)) {
+                closeLanguageSelector();
             }
         }
-        
-        // Upgrade plan button
-        if (e.target.classList.contains('upgrade-btn')) {
-            e.preventDefault();
-            showUpgradeOptions();
-        }
-        
-        // Manage subscription button
-        if (e.target.classList.contains('manage-btn')) {
-            e.preventDefault();
-            showSubscriptionManagement();
-        }
     });
+}
+
+// Initialize the app
+function initializeApp() {
+    // Check if user has seen intro page
+    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
     
-    // Auth state observer
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // User is signed in
-            showDashboard(user);
-            updateUserLastLogin(user.uid);
-            setPayPalUserId(user);
-        } else {
-            // User is signed out
-            hideDashboard();
-        }
-    });
+    if (!hasSeenIntro) {
+        // Show intro page first
+        document.getElementById('intro-page').style.display = 'flex';
+        document.getElementById('main-app').style.display = 'none';
+    } else {
+        // Show main app directly
+        document.getElementById('intro-page').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        initializeMainApp();
+    }
+}
+
+// Start the main app
+function startApp() {
+    localStorage.setItem('hasSeenIntro', 'true');
+    document.getElementById('intro-page').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    initializeMainApp();
+}
+
+// Initialize main app functionality
+function initializeMainApp() {
+    // Initialize Firebase
+    initializeFirebase();
     
-    // Update flag based on language
-    updateLanguageFlags();
+    // Initialize selectors
+    initializeSelectors();
     
-    // Initialize pricing section with centralized config
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Check promo banner
+    checkPromoBanner();
+    
+    // Update pricing section
     if (window.PRICING_CONFIG) {
         updatePricingSection();
     }
     
-    // Initialize theme
-    updateThemeIcon();
+    // Initialize chatbot
+    if (typeof initializeChatbot === 'function') {
+        initializeChatbot();
+    }
 }
+
+// Toggle language/currency selector
+function toggleLanguageSelector() {
+    const selector = document.getElementById('language-currency-selector');
+    if (selector.style.display === 'none' || selector.style.display === '') {
+        selector.style.display = 'block';
+    } else {
+        selector.style.display = 'none';
+    }
+}
+
+// Close language/currency selector
+function closeLanguageSelector() {
+    const selector = document.getElementById('language-currency-selector');
+    selector.style.display = 'none';
+}
+
+// Update intro page language
+function updateIntroLanguage(lang) {
+    const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+    
+    // Update intro page elements
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        translateElement(element, lang);
+    });
+    
+    // Update language buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Find and activate current language button
+    const langButtons = document.querySelectorAll('.lang-btn');
+    langButtons.forEach((btn, index) => {
+        const langValue = ['es', 'en', 'pt'][index];
+        if (langValue === lang) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// Enhanced language change function
+function changeLanguage(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    localStorage.setItem('selectedLanguage', lang);
+    
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        translateElement(element, lang);
+    });
+    
+    // Update language flags
+    updateLanguageFlags();
+    
+    // Update intro page if visible
+    if (document.getElementById('intro-page').style.display !== 'none') {
+        updateIntroLanguage(lang);
+    }
+    
+    // Update pricing section with new language
+    if (window.PRICING_CONFIG) {
+        updatePricingSection();
+    }
+    
+    // Update chatbot language if available
+    if (window.chatbotConfig) {
+        chatbotConfig.currentLanguage = lang;
+    }
+    
+    // Close selector if open
+    closeLanguageSelector();
+}
+
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Load saved preferences
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedLanguage = localStorage.getItem('selectedLanguage') || 'es';
+    const savedCurrency = localStorage.getItem('selectedCurrency') || 'MXN';
+    
+    // Apply saved preferences
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-lang', savedLanguage);
+    
+    // Initialize the app
+    initializeApp();
+});
+
+// Export functions for global access
+window.changeLanguage = changeLanguage;
+window.changeCurrency = changeCurrency;
+window.toggleLanguageSelector = toggleLanguageSelector;
+window.closeLanguageSelector = closeLanguageSelector;
+window.startApp = startApp;
+window.closePromoBanner = closePromoBanner;
