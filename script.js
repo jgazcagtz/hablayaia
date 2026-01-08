@@ -147,6 +147,24 @@ const translations = {
         cancelSubscription: "Cancelar Suscripción",
         downloadInvoice: "Descargar Factura",
         
+        // Voice Agent Section
+        voiceAgentFree: "GRATIS (Actualmente)",
+        voiceAgentTitle: "Conoce a Sophie (Sofía) - Tu Tutora de Inglés con IA",
+        voiceAgentSubtitle: "Practica inglés con un agente de voz completamente bilingüe. ¡Llama en cualquier momento para sesiones de tutoría personalizadas!",
+        voiceFeature1: "Detección de nivel adaptativa (A1-C2)",
+        voiceFeature2: "Coaching de pronunciación y retroalimentación",
+        voiceFeature3: "Práctica de conversación del mundo real",
+        voiceFeature4: "Soporte bilingüe (Inglés y Español)",
+        phoneNumber: "+1 (419) 894-3252",
+        callSophie: "Llamar a Sophie Ahora",
+        voiceAgentNote: "Disponible 24/7 • Gratis para llamar • No se requiere registro",
+        statusOnline: "En Línea",
+        voiceAgentRole: "Tutora Profesional de Inglés",
+        capability1: "Gramática",
+        capability2: "Pronunciación",
+        capability3: "Conversación",
+        capability4: "Comprensión Auditiva",
+        
         // Footer
         'footerAbout': 'Sobre',
         'footerPrivacy': 'Privacidad',
@@ -297,6 +315,24 @@ const translations = {
         cancelSubscription: "Cancel Subscription",
         downloadInvoice: "Download Invoice",
         
+        // Voice Agent Section
+        voiceAgentFree: "FREE (Currently)",
+        voiceAgentTitle: "Meet Sophie (Sofía) - Your AI English Tutor",
+        voiceAgentSubtitle: "Practice English with a fully bilingual voice agent. Call anytime for personalized tutoring sessions!",
+        voiceFeature1: "Adaptive level detection (A1-C2)",
+        voiceFeature2: "Pronunciation coaching & feedback",
+        voiceFeature3: "Real-world conversation practice",
+        voiceFeature4: "Bilingual support (English & Spanish)",
+        phoneNumber: "+1 (419) 894-3252",
+        callSophie: "Call Sophie Now",
+        voiceAgentNote: "Available 24/7 • Free to call • No registration required",
+        statusOnline: "Online",
+        voiceAgentRole: "Professional English Language Tutor",
+        capability1: "Grammar",
+        capability2: "Pronunciation",
+        capability3: "Conversation",
+        capability4: "Listening",
+        
         // Footer
         'footerAbout': 'About',
         'footerPrivacy': 'Privacy',
@@ -446,6 +482,24 @@ const translations = {
         manageSubscriptionTitle: "Gerenciar Assinatura",
         cancelSubscription: "Cancelar Assinatura",
         downloadInvoice: "Baixar Fatura",
+        
+        // Voice Agent Section
+        voiceAgentFree: "GRÁTIS (Atualmente)",
+        voiceAgentTitle: "Conheça Sophie (Sofía) - Sua Tutora de Inglês com IA",
+        voiceAgentSubtitle: "Pratique inglês com um agente de voz totalmente bilíngue. Ligue a qualquer momento para sessões de tutoria personalizadas!",
+        voiceFeature1: "Detecção de nível adaptativa (A1-C2)",
+        voiceFeature2: "Coaching de pronúncia e feedback",
+        voiceFeature3: "Prática de conversação do mundo real",
+        voiceFeature4: "Suporte bilíngue (Inglês e Espanhol)",
+        phoneNumber: "+1 (419) 894-3252",
+        callSophie: "Ligar para Sophie Agora",
+        voiceAgentNote: "Disponível 24/7 • Grátis para ligar • Não requer registro",
+        statusOnline: "Online",
+        voiceAgentRole: "Tutora Profissional de Inglês",
+        capability1: "Gramática",
+        capability2: "Pronúncia",
+        capability3: "Conversação",
+        capability4: "Compreensão Auditiva",
         
         // Footer
         'footerAbout': 'Sobre',
@@ -921,6 +975,33 @@ function setupEventListeners() {
             e.target.style.display = 'none';
             document.body.style.overflow = '';
         }
+    });
+    
+    // Voice agent call button enhancement
+    const voiceCallButtons = document.querySelectorAll('.voice-call-btn, .phone-link');
+    voiceCallButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Track call button click (optional analytics)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'call_sophie', {
+                    'event_category': 'Voice Agent',
+                    'event_label': 'Call Sophie Button Clicked'
+                });
+            }
+            
+            // Add visual feedback
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            // For mobile devices, the tel: link will automatically open the dialer
+            // For desktop, show a helpful message
+            if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // Desktop - show phone number prominently
+                console.log('Call Sophie at: +1 (419) 894-3252');
+            }
+        });
     });
     
     // Smooth scrolling for anchor links

@@ -900,6 +900,324 @@ section {
     margin: 0 auto var(--space-xl);
 }
 
+/* Voice Agent Section */
+.voice-agent-section {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    color: white;
+    padding: var(--space-xxl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.voice-agent-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    z-index: 0;
+}
+
+.voice-agent-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    position: relative;
+    z-index: 1;
+}
+
+.voice-agent-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xxl);
+    align-items: center;
+}
+
+.voice-agent-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.voice-agent-header {
+    text-align: left;
+}
+
+.voice-agent-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+    color: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.voice-agent-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+    line-height: 1.2;
+    color: white;
+}
+
+.voice-agent-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-xl);
+    line-height: 1.6;
+}
+
+.voice-agent-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.voice-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+}
+
+.voice-feature i {
+    color: var(--success);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.voice-agent-cta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.phone-number-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.phone-number-display i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.phone-link {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    transition: var(--transition);
+    font-family: 'Inter', sans-serif;
+}
+
+.phone-link:hover {
+    color: var(--success);
+    transform: scale(1.05);
+}
+
+.voice-call-btn {
+    background: white;
+    color: var(--primary);
+    font-size: 1.2rem;
+    padding: var(--space-lg) var(--space-xxl);
+    font-weight: 700;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    transition: var(--transition);
+}
+
+.voice-call-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    background: var(--success);
+    color: white;
+}
+
+.voice-call-btn i {
+    font-size: 1.3rem;
+}
+
+.voice-agent-note {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.voice-agent-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.voice-agent-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.voice-agent-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.voice-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+}
+
+.voice-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.voice-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: rgba(74, 222, 128, 0.2);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+}
+
+.voice-card-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: var(--space-xs);
+    color: white;
+}
+
+.voice-card-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-md);
+    font-size: 1rem;
+}
+
+.voice-capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+}
+
+.capability-tag {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design for Voice Agent Section */
+@media (max-width: 968px) {
+    .voice-agent-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+        text-align: center;
+    }
+    
+    .voice-agent-header {
+        text-align: center;
+    }
+    
+    .voice-agent-header h2 {
+        font-size: 2rem;
+    }
+    
+    .voice-agent-features {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+    
+    .voice-agent-visual {
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .voice-agent-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .voice-agent-subtitle {
+        font-size: 1rem;
+    }
+    
+    .phone-link {
+        font-size: 1.25rem;
+    }
+    
+    .voice-call-btn {
+        font-size: 1rem;
+        padding: var(--space-md) var(--space-xl);
+    }
+}
+
 /* Demo Section */
 .demo {
     background: linear-gradient(135deg, rgba(var(--primary), 0.03) 0%, transparent 100%);
