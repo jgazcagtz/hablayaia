@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light" data-lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophie (Sofía) - Tu Tutora de Inglés con IA | AI English Tutor</title>
+    <meta name="description" content="Practica inglés con Sophie (Sofía), tu tutora de inglés con IA. Llama gratis al +1 (419) 894-3252 para sesiones personalizadas 24/7.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sophie Landing Page Specific Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .sophie-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-logo i {
+            font-size: 2rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #667eea;
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .lang-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .lang-btn.active:hover {
+            background: #5568d3;
+        }
+
+        /* Hero Section */
+        .sophie-hero {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .free-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-name {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        /* Main Content */
+        .sophie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .card-description {
+            color: #64748b;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            color: #475569;
+            font-size: 1.05rem;
+        }
+
+        .features-list li i {
+            color: #22c55e;
+            font-size: 1.2rem;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background: white;
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            margin-bottom: 4rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .cta-subtitle {
+            font-size: 1.25rem;
+            color: #64748b;
+            margin-bottom: 2.5rem;
+        }
+
+        .phone-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .phone-display i {
+            font-size: 2rem;
+        }
+
+        .phone-link {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .phone-link:hover {
+            opacity: 0.9;
+        }
+
+        .call-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            padding: 1.25rem 3rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .call-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(74, 222, 128, 0.5);
+        }
+
+        .call-button i {
+            font-size: 1.5rem;
+        }
+
+        .cta-note {
+            margin-top: 1.5rem;
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+        }
+
+        .step-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Capabilities */
+        .capabilities {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .capability-item:hover {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+
+        .capability-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .capability-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .capability-content p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .sophie-footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-copyright {
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .phone-display {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .call-button {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sophie-hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .sophie-content {
+                padding: 1rem;
+            }
+
+            .info-card,
+            .cta-section,
+            .how-it-works,
+            .capabilities {
+                padding: 2rem 1.5rem;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+        }
+
+        /* Hidden class for language switching */
+        .lang-hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="sophie-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Sophie / Sofía</span>
+            </a>
+            <div class="nav-actions">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="es" onclick="switchLanguage('es')">
+                        <span>🇲🇽</span> ES
+                    </button>
+                    <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">
+                        <span>🇺🇸</span> EN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="sophie-hero">
+        <div class="free-badge">
+            <i class="fas fa-gift"></i>
+            <span data-i18n="freeBadge">GRATIS (Actualmente)</span>
+        </div>
+        <h1 class="hero-title">
+            <span data-i18n="heroTitle1">Conoce a</span> 
+            <span class="hero-name">Sophie</span> 
+            <span data-i18n="heroTitle2">(Sofía)</span>
+        </h1>
+        <p class="hero-subtitle" data-i18n="heroSubtitle">
+            Tu tutora profesional de inglés con IA. Practica inglés conversando con un agente de voz completamente bilingüe. ¡Llama en cualquier momento para sesiones personalizadas!
+        </p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="sophie-content">
+        <!-- About Section -->
+        <div class="content-grid">
+            <div class="info-card">
+                <div class="card-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 class="card-title" data-i18n="aboutTitle">Sobre Sophie</h2>
+                <p class="card-description" data-i18n="aboutDescription">
+                    Sophie (también conocida como Sofía) es un agente de voz completamente bilingüe en español mexicano e inglés, y tutora profesional de inglés. Su propósito principal es ayudar a estudiantes de habla hispana a mejorar su fluidez en inglés, pronunciación, comprensión auditiva, uso de gramática y confianza comunicativa en escenarios del mundo real.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2 class="card-title" data-i18n="featuresTitle">Características Principales</h2>
+                <ul class="features-list">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="feature1">Detección adaptativa de nivel (A1-C2)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="feature2">Coaching de pronunciación y retroalimentación</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="feature3">Práctica de conversación del mundo real</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="feature4">Soporte bilingüe (Inglés y Español)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="feature5">Simulaciones profesionales de inglés</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="feature6">Comprensión auditiva mejorada</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2 class="cta-title" data-i18n="ctaTitle">¡Comienza a Practicar Ahora!</h2>
+            <p class="cta-subtitle" data-i18n="ctaSubtitle">Llama gratis a Sophie para una sesión de tutoría personalizada</p>
+            <div class="phone-display">
+                <i class="fas fa-phone"></i>
+                <a href="tel:+14198943252" class="phone-link">+1 (419) 894-3252</a>
+            </div>
+            <a href="tel:+14198943252" class="call-button">
+                <i class="fas fa-phone-alt"></i>
+                <span data-i18n="callButton">Llamar a Sophie Ahora</span>
+            </a>
+            <p class="cta-note" data-i18n="ctaNote">Disponible 24/7 • Gratis para llamar • No se requiere registro</p>
+        </div>
+
+        <!-- How It Works -->
+        <div class="how-it-works">
+            <h2 class="section-title" data-i18n="howItWorksTitle">Cómo Funciona</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title" data-i18n="step1Title">Llama</h3>
+                    <p class="step-description" data-i18n="step1Desc">Marca el número +1 (419) 894-3252 desde cualquier teléfono</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title" data-i18n="step2Title">Conecta</h3>
+                    <p class="step-description" data-i18n="step2Desc">Sophie evaluará tu nivel de inglés con preguntas simples</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title" data-i18n="step3Title">Practica</h3>
+                    <p class="step-description" data-i18n="step3Desc">Ten conversaciones reales y recibe retroalimentación instantánea</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title" data-i18n="step4Title">Mejora</h3>
+                    <p class="step-description" data-i18n="step4Desc">Progresa de A1 a C2 con sesiones adaptativas y personalizadas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Capabilities -->
+        <div class="capabilities">
+            <h2 class="section-title" data-i18n="capabilitiesTitle">Lo Que Puedes Aprender</h2>
+            <div class="capabilities-grid">
+                <div class="capability-item">
+                    <div class="capability-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="capability-content">
+                        <h4 data-i18n="capability1Title">Gramática y Vocabulario</h4>
+                        <p data-i18n="capability1Desc">Explicaciones claras de reglas gramaticales con ejemplos prácticos y vocabulario contextual</p>
+                    </div>
+                </div>
+                <div class="capability-item">
+                    <div class="capability-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="capability-content">
+                        <h4 data-i18n="capability2Title">Pronunciación</h4>
+                        <p data-i18n="capability2Desc">Retroalimentación fonética y modelado, incluyendo ejercicios de repetición para mejorar la claridad</p>
+                    </div>
+                </div>
+                <div class="capability-item">
+                    <div class="capability-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="capability-content">
+                        <h4 data-i18n="capability3Title">Conversación</h4>
+                        <p data-i18n="capability3Desc">Diálogos situacionales en escenarios reales como viajes, trabajo, entrevistas y servicio al cliente</p>
+                    </div>
+                </div>
+                <div class="capability-item">
+                    <div class="capability-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="capability-content">
+                        <h4 data-i18n="capability4Title">Comprensión Auditiva</h4>
+                        <p data-i18n="capability4Desc">Preguntas y ejercicios de audio que desafían y apoyan tus habilidades auditivas</p>
+                    </div>
+                </div>
+                <div class="capability-item">
+                    <div class="capability-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="capability-content">
+                        <h4 data-i18n="capability5Title">Inglés Profesional</h4>
+                        <p data-i18n="capability5Desc">Simulaciones de presentaciones, reuniones, entrevistas y intercambios de servicio al cliente</p>
+                    </div>
+                </div>
+                <div class="capability-item">
+                    <div class="capability-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="capability-content">
+                        <h4 data-i18n="capability6Title">Progreso Adaptativo</h4>
+                        <p data-i18n="capability6Desc">Técnicas adaptativas que aumentan gradualmente la complejidad y construyen confianza</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="sophie-footer">
+        <div class="footer-links">
+            <a href="index.html" data-i18n="backToHome">Volver a HablaYa!</a>
+            <a href="tel:+14198943252" data-i18n="callNow">Llamar Ahora</a>
+        </div>
+        <div class="footer-copyright" data-i18n="copyright">
+            © 2025 HablaYa! / LearnWG. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            es: {
+                freeBadge: "GRATIS (Actualmente)",
+                heroTitle1: "Conoce a",
+                heroTitle2: "(Sofía)",
+                heroSubtitle: "Tu tutora profesional de inglés con IA. Practica inglés conversando con un agente de voz completamente bilingüe. ¡Llama en cualquier momento para sesiones personalizadas!",
+                aboutTitle: "Sobre Sophie",
+                aboutDescription: "Sophie (también conocida como Sofía) es un agente de voz completamente bilingüe en español mexicano e inglés, y tutora profesional de inglés. Su propósito principal es ayudar a estudiantes de habla hispana a mejorar su fluidez en inglés, pronunciación, comprensión auditiva, uso de gramática y confianza comunicativa en escenarios del mundo real.",
+                featuresTitle: "Características Principales",
+                feature1: "Detección adaptativa de nivel (A1-C2)",
+                feature2: "Coaching de pronunciación y retroalimentación",
+                feature3: "Práctica de conversación del mundo real",
+                feature4: "Soporte bilingüe (Inglés y Español)",
+                feature5: "Simulaciones profesionales de inglés",
+                feature6: "Comprensión auditiva mejorada",
+                ctaTitle: "¡Comienza a Practicar Ahora!",
+                ctaSubtitle: "Llama gratis a Sophie para una sesión de tutoría personalizada",
+                callButton: "Llamar a Sophie Ahora",
+                ctaNote: "Disponible 24/7 • Gratis para llamar • No se requiere registro",
+                howItWorksTitle: "Cómo Funciona",
+                step1Title: "Llama",
+                step1Desc: "Marca el número +1 (419) 894-3252 desde cualquier teléfono",
+                step2Title: "Conecta",
+                step2Desc: "Sophie evaluará tu nivel de inglés con preguntas simples",
+                step3Title: "Practica",
+                step3Desc: "Ten conversaciones reales y recibe retroalimentación instantánea",
+                step4Title: "Mejora",
+                step4Desc: "Progresa de A1 a C2 con sesiones adaptativas y personalizadas",
+                capabilitiesTitle: "Lo Que Puedes Aprender",
+                capability1Title: "Gramática y Vocabulario",
+                capability1Desc: "Explicaciones claras de reglas gramaticales con ejemplos prácticos y vocabulario contextual",
+                capability2Title: "Pronunciación",
+                capability2Desc: "Retroalimentación fonética y modelado, incluyendo ejercicios de repetición para mejorar la claridad",
+                capability3Title: "Conversación",
+                capability3Desc: "Diálogos situacionales en escenarios reales como viajes, trabajo, entrevistas y servicio al cliente",
+                capability4Title: "Comprensión Auditiva",
+                capability4Desc: "Preguntas y ejercicios de audio que desafían y apoyan tus habilidades auditivas",
+                capability5Title: "Inglés Profesional",
+                capability5Desc: "Simulaciones de presentaciones, reuniones, entrevistas y intercambios de servicio al cliente",
+                capability6Title: "Progreso Adaptativo",
+                capability6Desc: "Técnicas adaptativas que aumentan gradualmente la complejidad y construyen confianza",
+                backToHome: "Volver a HablaYa!",
+                callNow: "Llamar Ahora",
+                copyright: "© 2025 HablaYa! / LearnWG. Todos los derechos reservados."
+            },
+            en: {
+                freeBadge: "FREE (Currently)",
+                heroTitle1: "Meet",
+                heroTitle2: "(Sofía)",
+                heroSubtitle: "Your professional AI English tutor. Practice English by conversing with a fully bilingual voice agent. Call anytime for personalized tutoring sessions!",
+                aboutTitle: "About Sophie",
+                aboutDescription: "Sophie (also known as Sofía) is a fully bilingual Mexican Spanish and English voice agent and professional English language tutor. Her primary purpose is to help Spanish-speaking learners improve their English fluency, pronunciation, listening comprehension, grammar usage, and communicative confidence in real-world scenarios.",
+                featuresTitle: "Key Features",
+                feature1: "Adaptive level detection (A1-C2)",
+                feature2: "Pronunciation coaching & feedback",
+                feature3: "Real-world conversation practice",
+                feature4: "Bilingual support (English & Spanish)",
+                feature5: "Professional English simulations",
+                feature6: "Enhanced listening comprehension",
+                ctaTitle: "Start Practicing Now!",
+                ctaSubtitle: "Call Sophie for free for a personalized tutoring session",
+                callButton: "Call Sophie Now",
+                ctaNote: "Available 24/7 • Free to call • No registration required",
+                howItWorksTitle: "How It Works",
+                step1Title: "Call",
+                step1Desc: "Dial +1 (419) 894-3252 from any phone",
+                step2Title: "Connect",
+                step2Desc: "Sophie will assess your English level with simple questions",
+                step3Title: "Practice",
+                step3Desc: "Have real conversations and receive instant feedback",
+                step4Title: "Improve",
+                step4Desc: "Progress from A1 to C2 with adaptive and personalized sessions",
+                capabilitiesTitle: "What You Can Learn",
+                capability1Title: "Grammar & Vocabulary",
+                capability1Desc: "Clear explanations of grammar rules with practical examples and contextual vocabulary",
+                capability2Title: "Pronunciation",
+                capability2Desc: "Phonetic feedback and modeling, including repetition drills to improve clarity",
+                capability3Title: "Conversation",
+                capability3Desc: "Situational dialogues in real-world scenarios like travel, work, interviews, and customer service",
+                capability4Title: "Listening Comprehension",
+                capability4Desc: "Audio prompts and exercises that challenge and support your listening skills",
+                capability5Title: "Professional English",
+                capability5Desc: "Simulations of presentations, meetings, interviews, and customer service exchanges",
+                capability6Title: "Adaptive Progress",
+                capability6Desc: "Adaptive techniques that gradually increase complexity and build confidence",
+                backToHome: "Back to HablaYa!",
+                callNow: "Call Now",
+                copyright: "© 2025 HablaYa! / LearnWG. All rights reserved."
+            }
+        };
+
+        // Language switching
+        function switchLanguage(lang) {
+            document.documentElement.setAttribute('data-lang', lang);
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('sophieLanguage', lang);
+
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update all text elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Update page title
+            if (lang === 'es') {
+                document.title = 'Sophie (Sofía) - Tu Tutora de Inglés con IA | AI English Tutor';
+            } else {
+                document.title = 'Sophie (Sofía) - Your AI English Tutor | Tutora de Inglés con IA';
+            }
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('sophieLanguage') || 'es';
+            switchLanguage(savedLang);
+        });
+
+        // Track call button clicks
+        document.querySelectorAll('.call-button, .phone-link').forEach(button => {
+            button.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'call_sophie', {
+                        'event_category': 'Voice Agent',
+                        'event_label': 'Call Sophie Button Clicked'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
