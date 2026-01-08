@@ -555,6 +555,55 @@ section {
     width: 100%;
 }
 
+.sophie-nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    transition: var(--transition);
+}
+
+.sophie-nav-link:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    border-color: rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.sophie-nav-link::after {
+    display: none;
+}
+
+.sophie-nav-link i {
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.sophie-hero-btn {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    transition: var(--transition);
+}
+
+.sophie-hero-btn:hover {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.sophie-hero-btn i {
+    font-size: 1.1rem;
+}
+
 .lang-toggle, .theme-toggle {
     background: none;
     border: none;
@@ -1009,6 +1058,47 @@ section {
     gap: var(--space-md);
 }
 
+.voice-agent-buttons {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sophie-page-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+    padding: var(--space-md) var(--space-xl);
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.sophie-page-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.sophie-page-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.sophie-page-btn:hover i {
+    transform: translateX(5px);
+}
+
 .phone-number-display {
     display: flex;
     align-items: center;
@@ -1053,6 +1143,9 @@ section {
     justify-content: center;
     gap: var(--space-sm);
     transition: var(--transition);
+    text-decoration: none;
+    flex: 1;
+    min-width: 200px;
 }
 
 .voice-call-btn:hover {
@@ -1215,6 +1308,14 @@ section {
     .voice-call-btn {
         font-size: 1rem;
         padding: var(--space-md) var(--space-xl);
+    }
+
+    .voice-agent-buttons {
+        flex-direction: column;
+    }
+
+    .sophie-page-btn {
+        width: 100%;
     }
 }
 
