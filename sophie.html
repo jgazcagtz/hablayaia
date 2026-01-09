@@ -2,13 +2,19 @@
 <html lang="es" data-theme="light" data-lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sophie (Sofía) - Tu Tutora de Inglés con IA | AI English Tutor</title>
-    <meta name="description" content="Practica inglés con Sophie (Sofía), tu tutora de inglés con IA. Llama gratis al +1 (419) 894-3252 para sesiones personalizadas 24/7.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Sophie - Tu Tutora de Inglés con IA | AI English Tutor</title>
+    <meta name="description" content="Practica inglés con Sophie, tu tutora de inglés con IA. Llama gratis al +1 (419) 894-3252 para sesiones personalizadas 24/7.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
     <style>
         * {
@@ -45,12 +51,23 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0e27;
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             color: var(--text-dark);
             overflow-x: hidden;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
-        /* Modern Gradient Mesh Background */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* Modern Gradient Mesh Background - Optimized */
         .gradient-mesh {
             position: fixed;
             top: 0;
@@ -60,6 +77,8 @@
             z-index: 0;
             overflow: hidden;
             pointer-events: none;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .gradient-mesh::before {
@@ -92,13 +111,21 @@
             66% { transform: translate(-5%, -5%) scale(0.9); }
         }
 
-        /* Organic Blob Shapes */
+        /* Organic Blob Shapes - Optimized */
         .blob-shape {
             position: absolute;
             border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             filter: blur(60px);
             opacity: 0.3;
             animation: blobFloat 25s ease-in-out infinite;
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .blob-shape {
+                animation: none;
+            }
         }
 
         .blob-1 {
@@ -159,12 +186,16 @@
             -webkit-backdrop-filter: blur(30px) saturate(180%);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             padding: 1.5rem 2rem;
+            padding-top: max(1.5rem, env(safe-area-inset-top));
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            will-change: transform, background-color;
+            transform: translateZ(0);
         }
 
         .sophie-nav.scrolled {
             padding: 1rem 2rem;
+            padding-top: max(1rem, env(safe-area-inset-top));
             background: rgba(255, 255, 255, 0.85);
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
         }
@@ -632,6 +663,7 @@
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -1114,8 +1146,8 @@
         /* Floating Action Button - Enhanced */
         .fab {
             position: fixed;
-            bottom: 2.5rem;
-            right: 2.5rem;
+            bottom: max(2.5rem, env(safe-area-inset-bottom));
+            right: max(2.5rem, env(safe-area-inset-right));
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, var(--success-light), var(--success));
@@ -1130,6 +1162,10 @@
             color: white;
             font-size: 2.5rem;
             animation: fabPulse 2s infinite;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         @keyframes fabPulse {
@@ -1249,10 +1285,12 @@
         @media (max-width: 640px) {
             .sophie-hero {
                 padding: 10rem 1rem 5rem;
+                padding-top: max(10rem, calc(env(safe-area-inset-top) + 8rem));
             }
 
             .sophie-content {
                 padding: 1rem;
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
             }
 
             .info-card,
@@ -1265,6 +1303,8 @@
 
             .nav-container {
                 padding: 0 1rem;
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
             }
 
             .stats-grid {
@@ -1279,8 +1319,8 @@
             .fab {
                 width: 70px;
                 height: 70px;
-                bottom: 2rem;
-                right: 2rem;
+                bottom: max(2rem, env(safe-area-inset-bottom));
+                right: max(2rem, env(safe-area-inset-right));
                 font-size: 2rem;
             }
 
@@ -1290,16 +1330,72 @@
             }
         }
 
-        /* Scroll Animations - Enhanced */
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .sophie-hero {
+                min-height: -webkit-fill-available;
+            }
+            
+            .fab {
+                position: -webkit-sticky;
+                position: sticky;
+            }
+        }
+
+        /* Android Chrome specific optimizations */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .gradient-mesh::before,
+            .blob-shape {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Performance optimizations */
+        .stat-card,
+        .info-card,
+        .capability-item,
+        .testimonial-card,
+        .step-card {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* Touch optimizations */
+        .call-button,
+        .hero-call-button,
+        .fab,
+        .lang-btn {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Scroll Animations - Enhanced with Performance */
         .fade-in {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translate3d(0, 50px, 0);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform;
         }
 
         .fade-in.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
+            will-change: auto;
         }
 
         /* Loading Animation */
@@ -1318,6 +1414,39 @@
                 scroll-behavior: smooth;
             }
         }
+
+        /* iOS safe area support */
+        @supports (padding: max(0px)) {
+            .sophie-hero {
+                padding-top: max(12rem, calc(env(safe-area-inset-top) + 10rem));
+            }
+            
+            .sophie-footer {
+                padding-bottom: max(4rem, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* Prevent text size adjustment on iOS */
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        /* Optimize font rendering */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* GPU acceleration for animations */
+        .hero-title,
+        .hero-subtitle,
+        .hero-call-button,
+        .stat-card,
+        .info-card {
+            transform: translateZ(0);
+            will-change: transform;
+        }
     </style>
 </head>
 <body>
@@ -1331,7 +1460,7 @@
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <i class="fas fa-graduation-cap"></i>
-                <span>Sophie / Sofía</span>
+                <span>Sophie</span>
             </a>
             <div class="nav-actions">
                 <div class="lang-switcher">
@@ -1354,11 +1483,10 @@
         </div>
         <h1 class="hero-title">
             <span data-i18n="heroTitle1">Conoce a</span> 
-            <span class="hero-name">Sophie</span> 
-            <span data-i18n="heroTitle2">(Sofía)</span>
+            <span class="hero-name" data-i18n="heroName">Sophie</span>
         </h1>
         <p class="hero-subtitle" data-i18n="heroSubtitle">
-            Tu tutora profesional de inglés con IA. Practica inglés conversando con un agente de voz completamente bilingüe. ¡Llama en cualquier momento para sesiones personalizadas!
+            Tu tutora profesional de inglés con IA. Practica inglés conversando con un agente de voz inteligente. ¡Llama en cualquier momento para sesiones personalizadas!
         </p>
         <div class="hero-cta">
             <div class="hero-phone-display">
@@ -1385,7 +1513,7 @@
             </div>
             <div class="stat-card fade-in">
                 <div class="stat-number" data-i18n="stat3Number">100%</div>
-                <div class="stat-label" data-i18n="stat3Label">Bilingüe</div>
+                <div class="stat-label" data-i18n="stat3Label">Personalizado</div>
             </div>
             <div class="stat-card fade-in">
                 <div class="stat-number" data-i18n="stat4Number">$0</div>
@@ -1404,7 +1532,7 @@
                 </div>
                 <h2 class="card-title" data-i18n="aboutTitle">Sobre Sophie</h2>
                 <p class="card-description" data-i18n="aboutDescription">
-                    Sophie (también conocida como Sofía) es un agente de voz completamente bilingüe en español mexicano e inglés, y tutora profesional de inglés. Su propósito principal es ayudar a estudiantes de habla hispana a mejorar su fluidez en inglés, pronunciación, comprensión auditiva, uso de gramática y confianza comunicativa en escenarios del mundo real.
+                    Sophie es un agente de voz inteligente y tutora profesional de inglés. Su propósito principal es ayudar a estudiantes a mejorar su fluidez en inglés, pronunciación, comprensión auditiva, uso de gramática y confianza comunicativa en escenarios del mundo real.
                 </p>
             </div>
 
@@ -1428,7 +1556,7 @@
                     </li>
                     <li>
                         <i class="fas fa-check-circle"></i>
-                        <span data-i18n="feature4">Soporte bilingüe (Inglés y Español)</span>
+                        <span data-i18n="feature4">Soporte adaptativo y personalizado</span>
                     </li>
                     <li>
                         <i class="fas fa-check-circle"></i>
@@ -1622,24 +1750,24 @@
             es: {
                 freeBadge: "GRATIS (Actualmente)",
                 heroTitle1: "Conoce a",
-                heroTitle2: "(Sofía)",
-                heroSubtitle: "Tu tutora profesional de inglés con IA. Practica inglés conversando con un agente de voz completamente bilingüe. ¡Llama en cualquier momento para sesiones personalizadas!",
+                heroName: "Sophie",
+                heroSubtitle: "Tu tutora profesional de inglés con IA. Practica inglés conversando con un agente de voz inteligente. ¡Llama en cualquier momento para sesiones personalizadas!",
                 callButton: "Llamar a Sophie Ahora",
                 stat1Number: "24/7",
                 stat1Label: "Disponible",
                 stat2Number: "A1-C2",
                 stat2Label: "Todos los Niveles",
                 stat3Number: "100%",
-                stat3Label: "Bilingüe",
+                stat3Label: "Personalizado",
                 stat4Number: "$0",
                 stat4Label: "Gratis",
                 aboutTitle: "Sobre Sophie",
-                aboutDescription: "Sophie (también conocida como Sofía) es un agente de voz completamente bilingüe en español mexicano e inglés, y tutora profesional de inglés. Su propósito principal es ayudar a estudiantes de habla hispana a mejorar su fluidez en inglés, pronunciación, comprensión auditiva, uso de gramática y confianza comunicativa en escenarios del mundo real.",
+                aboutDescription: "Sophie es un agente de voz inteligente y tutora profesional de inglés. Su propósito principal es ayudar a estudiantes a mejorar su fluidez en inglés, pronunciación, comprensión auditiva, uso de gramática y confianza comunicativa en escenarios del mundo real.",
                 featuresTitle: "Características Principales",
                 feature1: "Detección adaptativa de nivel (A1-C2)",
                 feature2: "Coaching de pronunciación y retroalimentación",
                 feature3: "Práctica de conversación del mundo real",
-                feature4: "Soporte bilingüe (Inglés y Español)",
+                feature4: "Soporte adaptativo y personalizado",
                 feature5: "Simulaciones profesionales de inglés",
                 feature6: "Comprensión auditiva mejorada",
                 ctaTitle: "¡Comienza a Practicar Ahora!",
@@ -1684,24 +1812,24 @@
             en: {
                 freeBadge: "FREE (Currently)",
                 heroTitle1: "Meet",
-                heroTitle2: "(Sofía)",
-                heroSubtitle: "Your professional AI English tutor. Practice English by conversing with a fully bilingual voice agent. Call anytime for personalized tutoring sessions!",
+                heroName: "Sophie",
+                heroSubtitle: "Your professional AI English tutor. Practice English by conversing with an intelligent voice agent. Call anytime for personalized tutoring sessions!",
                 callButton: "Call Sophie Now",
                 stat1Number: "24/7",
                 stat1Label: "Available",
                 stat2Number: "A1-C2",
                 stat2Label: "All Levels",
                 stat3Number: "100%",
-                stat3Label: "Bilingual",
+                stat3Label: "Personalized",
                 stat4Number: "$0",
                 stat4Label: "Free",
                 aboutTitle: "About Sophie",
-                aboutDescription: "Sophie (also known as Sofía) is a fully bilingual Mexican Spanish and English voice agent and professional English language tutor. Her primary purpose is to help Spanish-speaking learners improve their English fluency, pronunciation, listening comprehension, grammar usage, and communicative confidence in real-world scenarios.",
+                aboutDescription: "Sophie is an intelligent voice agent and professional English language tutor. Her primary purpose is to help learners improve their English fluency, pronunciation, listening comprehension, grammar usage, and communicative confidence in real-world scenarios.",
                 featuresTitle: "Key Features",
                 feature1: "Adaptive level detection (A1-C2)",
                 feature2: "Pronunciation coaching & feedback",
                 feature3: "Real-world conversation practice",
-                feature4: "Bilingual support (English & Spanish)",
+                feature4: "Adaptive and personalized support",
                 feature5: "Professional English simulations",
                 feature6: "Enhanced listening comprehension",
                 ctaTitle: "Start Practicing Now!",
@@ -1766,9 +1894,9 @@
             });
 
             if (lang === 'es') {
-                document.title = 'Sophie (Sofía) - Tu Tutora de Inglés con IA | AI English Tutor';
+                document.title = 'Sophie - Tu Tutora de Inglés con IA | AI English Tutor';
             } else {
-                document.title = 'Sophie (Sofía) - Your AI English Tutor | Tutora de Inglés con IA';
+                document.title = 'Sophie - Your AI English Tutor | Tutora de Inglés con IA';
             }
         }
 
@@ -1811,17 +1939,26 @@
                 window.requestAnimationFrame(updateNavbar);
                 ticking = true;
             }
-        });
+        }, { passive: true });
 
-        // Parallax effect for hero
-        window.addEventListener('scroll', () => {
+        // Parallax effect for hero - Optimized with requestAnimationFrame
+        let parallaxTicking = false;
+        function updateParallax() {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.sophie-hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            if (hero && scrolled < 500) {
+                hero.style.transform = `translate3d(0, ${scrolled * 0.3}px, 0)`;
                 hero.style.opacity = 1 - (scrolled / 500);
             }
-        });
+            parallaxTicking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!parallaxTicking) {
+                window.requestAnimationFrame(updateParallax);
+                parallaxTicking = true;
+            }
+        }, { passive: true });
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
