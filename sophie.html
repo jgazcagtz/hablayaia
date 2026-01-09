@@ -1146,8 +1146,8 @@
         /* Floating Action Button - Enhanced */
         .fab {
             position: fixed;
-            bottom: max(2.5rem, env(safe-area-inset-bottom));
-            right: max(2.5rem, env(safe-area-inset-right));
+            bottom: 2.5rem;
+            right: 2.5rem;
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, var(--success-light), var(--success));
@@ -1166,6 +1166,14 @@
             transform: translateZ(0);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+        }
+
+        /* Safe area support for FAB - only add inset if it exists */
+        @supports (padding: env(safe-area-inset-bottom)) {
+            .fab {
+                bottom: calc(2.5rem + env(safe-area-inset-bottom));
+                right: calc(2.5rem + env(safe-area-inset-right));
+            }
         }
 
         @keyframes fabPulse {
@@ -1319,9 +1327,16 @@
             .fab {
                 width: 70px;
                 height: 70px;
-                bottom: max(2rem, env(safe-area-inset-bottom));
-                right: max(2rem, env(safe-area-inset-right));
+                bottom: 2rem;
+                right: 2rem;
                 font-size: 2rem;
+            }
+
+            @supports (padding: env(safe-area-inset-bottom)) {
+                .fab {
+                    bottom: calc(2rem + env(safe-area-inset-bottom));
+                    right: calc(2rem + env(safe-area-inset-right));
+                }
             }
 
             .capabilities-grid,
@@ -1334,11 +1349,6 @@
         @supports (-webkit-touch-callout: none) {
             .sophie-hero {
                 min-height: -webkit-fill-available;
-            }
-            
-            .fab {
-                position: -webkit-sticky;
-                position: sticky;
             }
         }
 
